@@ -1,0 +1,44 @@
+{
+  "name": "telegram-moviebot",
+  "version": "0.0.1",
+  "description": "A moviebot for telegram",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest --config jestconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenryPenton/telegram-moviebot.git"
+  },
+  "keywords": [
+    "telegram",
+    "moviebot"
+  ],
+  "author": "Henry Penton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HenryPenton/telegram-moviebot/issues"
+  },
+  "homepage": "https://github.com/HenryPenton/telegram-moviebot#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.0",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "telegram-bot-api": "^2.0.1"
+  }
+}
