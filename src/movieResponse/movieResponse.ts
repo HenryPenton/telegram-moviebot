@@ -1,4 +1,4 @@
-import { getMovie, getTrailer } from "../fetcher/fetcher";
+import { getMovie, getTrailer } from "../fetcheROLD/fetcher";
 import { Movie } from "../types";
 import {
   getTitleAndYear,

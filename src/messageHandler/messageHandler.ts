@@ -2,6 +2,7 @@ import { IncomingMessage } from "../types";
 import * as responseGenerator from "../responseGenerator/responseGenerator";
 
 type ChatId = string | number;
+
 export enum ResponseType {
   message = "message",
 }
