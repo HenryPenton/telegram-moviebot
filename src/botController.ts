@@ -1,8 +1,6 @@
 import { generateResponse } from "./messageHandler/messageHandler";
 import { IncomingMessage } from "./types";
 
-require("dotenv").config();
-
 const TG = require("telegram-bot-api");
 
 export const init = () => {
