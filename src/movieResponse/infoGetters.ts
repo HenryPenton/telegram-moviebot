@@ -20,10 +20,12 @@ export const getTitleAndYear = (title?: string, year?: string): string => {
 
 export const getRatings = (ratings?: Rating[]): string => {
   let allRatings = "";
-  ratings?.forEach((rating, index) => {
-    allRatings = `${allRatings}${index === 0 ? "" : "\n"}${rating.Source}: ${
-      rating.Value
-    }`;
-  });
+  if (ratings) {
+    ratings.forEach((rating, index) => {
+      allRatings = `${allRatings}${index === 0 ? "" : "\n"}${rating.Source}: ${
+        rating.Value
+      }`;
+    });
+  }
   return allRatings;
 };

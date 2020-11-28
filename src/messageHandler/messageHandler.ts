@@ -22,6 +22,8 @@ export const generateResponse = async (message: IncomingMessage, api: any) => {
   const { response, type } = await responseGenerator.generate(
     message.message.text
   );
-
-  respond(response, chatId, type, api);
+  
+  if (response !== "") {
+    respond(response, chatId, type, api);
+  }
 };

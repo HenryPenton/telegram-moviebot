@@ -1,6 +1,7 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
 import * as movieResponse from "../movieResponse/movieResponse";
+
 type Response = { response: string; type: ResponseType };
 
 export const generate = async (messageText: string): Promise<Response> => {
