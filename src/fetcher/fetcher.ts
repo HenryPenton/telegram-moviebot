@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import { Failure, Trailer } from "../types";
 
 const fetcher = async (url: string) => {
   return fetch(url)
