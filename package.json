@@ -17,11 +17,6 @@
   "files": [
     "lib/**/*"
   ],
-  "jest": {
-    "setupFiles": [
-      "jestSetup.js"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HenryPenton/telegram-moviebot.git"
@@ -45,6 +40,7 @@
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "telegram-bot-api": "^2.0.1"
   }

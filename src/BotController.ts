@@ -21,6 +21,5 @@ api
   .catch((err: string) => console.error(err));
 
 api.on("update", async (update: IncomingMessage) => {
-  const Handler = new MessageHandler(update, api);
-  Handler.fire();
+
 });

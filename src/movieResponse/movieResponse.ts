@@ -1,68 +1,42 @@
-import Fetcher from "../Fetcher/Fetcher";
-import { Movie, Rating } from "../types";
+import { getMovie, getTrailer } from "../fetcher/fetcher";
+import { Movie } from "../types";
+import {
+  getTitleAndYear,
+  getRuntime,
+  getRatings,
+  getDirector,
+  getPlot,
+} from "./infoGetters";
 
-export class MovieResponse {
-  restOfString: string;
+const infoAmalgamate = (infoArray: any[]) => {
+  let info = "";
+  infoArray.forEach((element, index) => {
+    if (index === 0) {
+      if (element !== "") {
+        info = element;
+      }
+    } else if (element !== "") {
+      info = `${info}\n\n${element}`;
+    }
+  });
 
-  constructor(restOfString: string) {
-    this.restOfString = restOfString;
-  }
+  return info;
+};
 
-  _getPlot(plot?: string): string {
-    return plot ? `Plot: ${plot}` : "";
-  }
+export const generateResponse = async (queryString: string) => {
+  const movie = (await getMovie(queryString)) as Movie;
 
-  _getDirector(director?: string): string {
-    return director ? `Director: ${director}` : "";
-  }
+  if (movie.Response === "False") return "Unknown movie";
+  if (!movie.Title) return "Unknown movie";
 
-  _getPoster(poster?: string): string {
-    return poster ? `Poster: ${poster}` : "";
-  }
+  const movieDetails = [
+    getTitleAndYear(movie.Title, movie.Year),
+    getRuntime(movie.Runtime),
+    getRatings(movie.Ratings),
+    getDirector(movie.Director),
+    getPlot(movie.Plot),
+    await getTrailer(movie.Title, movie.Year),
+  ];
 
-  _getRuntime(runtime?: string): string {
-    return runtime ? `Runtime: ${runtime}` : "";
-  }
-
-  _getTitleAndYear(title?: string, year?: string): string {
-    if (!title) return "Unknown movie";
-    const movieYear = year;
-    const movieTitle = movieYear
-      ? `Movie: ${title} (${year})`
-      : `Movie: ${title}`;
-
-    return movieTitle;
-  }
-
-  _getRatings(ratings?: Rating[]): string {
-    let allRatings = "";
-    ratings?.forEach((rating, index) => {
-      allRatings = `${allRatings}${index === 0 ? "" : "\n"}${rating.Source}: ${
-        rating.Value
-      }`;
-    });
-    return allRatings;
-  }
-
-  async _getMovie() {
-    return new Fetcher(
-      `http://www.omdbapi.com/?t=${this.restOfString}&apikey=${process.env.MOVIE_DATABASE_KEY}`
-    ).call();
-  }
-
-  async generateResponse(): Promise<string | boolean> {
-    const movie = (await this._getMovie()) as Movie;
-    console.log(movie);
-    if (movie.Response === "False") return false;
-    let info = "";
-
-    const movieTitle = this._getTitleAndYear(movie.Title, movie.Year);
-    const rating = this._getRatings(movie.Ratings);
-    const movieDirector = this._getDirector(movie.Director);
-    const plot = this._getPlot(movie.Plot);
-    const movieRuntime = this._getRuntime(movie.Runtime);
-
-    info = `${movieTitle}\n\n${movieRuntime}\n\n${rating}\n\n${movieDirector}\n\n${plot}`;
-    return info;
-  }
-}
+  return infoAmalgamate(movieDetails);
+};
