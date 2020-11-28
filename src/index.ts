@@ -1,1 +1,1 @@
-export { init } from "./botControllerold";
+export { init } from "./botController";
