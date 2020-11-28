@@ -1,5 +1,5 @@
 import Fetcher from "../Fetcher/Fetcher";
-import  * as MessageHandler from "../messageHandlerold/messageHandler";
+import  * as MessageHandler from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 
 describe("the message handler", () => {
