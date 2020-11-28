@@ -1,4 +1,6 @@
 import { IncomingMessage } from "../types";
+import * as responseGenerator from "../responseGenerator/responseGenerator";
+
 
 type ChatId = string | number;
 export enum ResponseType {
@@ -15,8 +17,11 @@ export const respond = (
 };
 
 export const generateResponse = (message: IncomingMessage, api: any) => {
-  const response =
-    "Movie: Taken (2008)\n\nRuntime: 90 min\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
+  // const response =
+  //   "Movie: Taken (2008)\n\nRuntime: 90 min\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
+  const chatId = message.message.chat.id;
 
-  respond(response, "some_chat_id", ResponseType.message, api);
+  const { response, type } = responseGenerator.generate(message.message.text);
+
+  respond(response, chatId, type, api);
 };
