@@ -1,5 +1,5 @@
 {
-  "name": "telegram-moviebot",
+  "name": "moviebot-telegram",
   "version": "0.0.4",
   "description": "A moviebot for telegram",
   "main": "lib/index.js",
