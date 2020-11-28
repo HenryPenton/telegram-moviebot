@@ -1,5 +1,6 @@
 import Fetcher from "../Fetcher/Fetcher";
-import  * as MessageHandler from "../messageHandler/messageHandler";
+import * as messageHandler from "../messageHandler/messageHandler";
+import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 
 describe("the message handler", () => {
@@ -9,7 +10,6 @@ describe("the message handler", () => {
 
   describe("movie command", () => {
     test.only("should fire a message with the film plus info plus the trailer when someone queries a film", () => {
-   
       const mockIncomingMessageOne: IncomingMessage = {
         message: {
           from: { first_name: "Joe" },
@@ -18,22 +18,29 @@ describe("the message handler", () => {
         },
       };
 
+      const mockSendMessage = jest.fn();
+
+      jest
+        .spyOn(messageHandler, "respond")
+        .mockImplementation(mockSendMessage);
+
       const mockResponseOne: string =
         "Movie: Taken (2008)\n\nRuntime: 90 min\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
-      const mockSendMessage = jest.fn();
-
-      
+      messageHandler.generateResponse(mockIncomingMessageOne, "fake api");
 
       expect(mockSendMessage).toHaveBeenCalledWith(
+        mockResponseOne,
         "some_chat_id",
-        mockResponseOne
+        ResponseType.message,
+        "fake api"
       );
+      mockSendMessage.mockReset();
 
-      //I dont really care what the contents is -> a finding nemo taken crossover sounds fine to me
+      // I dont really care what the contents is -> a finding nemo taken crossover sounds fine to me
       const mockIncomingMessageTwo: IncomingMessage = {
         message: {
-          from: { first_name: "Joe" },
+          from: { first_name: "Juergen" },
           chat: { id: "some_chat_id" },
           text: "/movie finding nemo",
         },
@@ -42,13 +49,13 @@ describe("the message handler", () => {
       const mockResponseTwo: string =
         "Movie: Finding Nemo (2003)\n\nRuntime: 90 min\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
-      Handler = new MessageHandler(mockIncomingMessageTwo, jest.fn());
-      jest.spyOn(Handler, "_sendMessage").mockImplementation(mockSendMessage);
-      Handler.fire();
+      messageHandler.generateResponse(mockIncomingMessageTwo, "fake api");
 
-      expect(mockSendMessage).toHaveBeenLastCalledWith(
+      expect(mockSendMessage).toHaveBeenCalledWith(
+        mockResponseTwo,
         "some_chat_id",
-        mockResponseTwo
+        ResponseType.message,
+        "fake api"
       );
     });
   });
