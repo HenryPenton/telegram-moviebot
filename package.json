@@ -6,11 +6,9 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "prepublishOnly": "npm test",
     "version": "git add -A src",
     "postversion": "git push && git push --tags"
   },
