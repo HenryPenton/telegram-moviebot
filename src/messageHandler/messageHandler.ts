@@ -13,7 +13,7 @@ export const respond = (
   type: ResponseType,
   api: any
 ) => {
-  api.sendMessage({ chatId, text: response });
+  api.sendMessage({ chat_id: chatId, text: response });
 };
 
 export const generateResponse = async (message: IncomingMessage, api: any) => {
@@ -22,7 +22,7 @@ export const generateResponse = async (message: IncomingMessage, api: any) => {
   const { response, type } = await responseGenerator.generate(
     message.message.text
   );
-  
+
   if (response !== "") {
     respond(response, chatId, type, api);
   }
