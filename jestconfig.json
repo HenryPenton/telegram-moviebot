@@ -4,7 +4,9 @@
   },
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "ts-jest": {
-    "babelConfig": true
+  "globals": {
+    "ts-jest": {
+      "babelConfig": true
+    }
   }
 }
