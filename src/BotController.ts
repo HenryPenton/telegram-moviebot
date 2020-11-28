@@ -1,4 +1,4 @@
-import { MessageHandler } from "./MessageHandler/MessageHandler";
+import { handleMessage } from "./messageHandler/messageHandler";
 import { IncomingMessage } from "./types";
 
 require("dotenv").config();

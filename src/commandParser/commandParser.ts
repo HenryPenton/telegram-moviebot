@@ -1,6 +1,6 @@
 type Command = { command: string; restOfString: string };
 
-const commandParser = (sentence: string): Command => {
+export const commandParser = (sentence: string): Command => {
   try {
     const firstWord = sentence?.split(" ")[0];
     const restOfString = sentence.substr(firstWord.length + 1);
@@ -11,5 +11,3 @@ const commandParser = (sentence: string): Command => {
     return { command: "", restOfString: "" };
   }
 };
-
-export default commandParser;

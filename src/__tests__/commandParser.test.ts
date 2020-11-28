@@ -1,4 +1,4 @@
-import commandParser from "../commandParser/commandParser";
+import { commandParser } from "../commandParser/commandParser";
 
 describe("the command parser", () => {
   test("the command parser should return a object", () => {

@@ -1,16 +1,9 @@
 import { IncomingMessage } from "../types";
+import { commandParser } from "../commandParser/commandParser";
+import { ResponseGenerator } from "../ResponseGenerator/ResponseGenerator";
 
-export class MessageHandler {
-  message: IncomingMessage;
-  api: any;
-  constructor(message: IncomingMessage, api: any) {
-    this.message = message;
-    this.api = api;
-  }
+type ChatId = string | number;
 
-  sendMessage(message: string, chat_id: string) {}
+export const handleMessage = (message: IncomingMessage, api: any) => {};
 
-  fire() {
-    this.sendMessage("some message", "some id");
-  }
-}
+export const generateResponse = () => {};
