@@ -9,10 +9,17 @@ import nemo from "./testData/findingnemo.json";
 describe("the moviepoll command", () => {
   let state: State;
 
-  const mockSendMessage = jest.fn();
-  jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
+  const mockSendMessage = jest.fn(() => {});
+  const mockSendPoll = jest.fn(() => {});
+
+  const mockApi = {
+    sendMessage: mockSendMessage,
+    sendPoll: mockSendPoll,
+  };
+
   beforeEach(() => {
     mockSendMessage.mockReset();
+    mockSendPoll.mockReset();
   });
 
   const mockSetFirstMovieStateMessage: IncomingMessage = {
@@ -30,7 +37,7 @@ describe("the moviepoll command", () => {
     },
   };
 
-  test("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there are no movies set", async () => {
+  test.only("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there are no movies set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {
@@ -46,19 +53,17 @@ describe("the moviepoll command", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageOne,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseOne,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: "You must set at least two movies to be able to send out a poll",
+    });
   });
 
-  test("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there is one movie set", async () => {
+  test.only("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there is one movie set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {
@@ -72,26 +77,27 @@ describe("the moviepoll command", () => {
     const mockResponseOne: string =
       "You must set at least two movies to be able to send out a poll";
 
+    //set one film
     await messageHandler.generateResponse(
       mockSetFirstMovieStateMessage,
-      "fake api",
+      mockApi,
       state
     );
+
+    //ask for moviepoll
     await messageHandler.generateResponse(
       mockIncomingMessageOne,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseOne,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: "You must set at least two movies to be able to send out a poll",
+    });
   });
 
-  test("Should send a moviepoll out if there are two or more movies set", async () => {
+  test.only("Should send a moviepoll out if there are two or more movies set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {
@@ -108,27 +114,31 @@ describe("the moviepoll command", () => {
 
     await messageHandler.generateResponse(
       mockSetFirstMovieStateMessage,
-      "fake api",
+      mockApi,
       state
     );
 
     await messageHandler.generateResponse(
       mockSetSecondMovieStateMessage,
-      "fake api",
+      mockApi,
       state
     );
 
     await messageHandler.generateResponse(
       mockIncomingMessageOne,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenLastCalledWith(
-      ["Taken (IMDb Rating: 7.8/10)", "Finding Nemo (IMDb Rating: 8.1/10)"],
-      "some_chat_id",
-      ResponseType.moviePoll,
-      "fake api"
-    );
+    expect(mockSendPoll).toHaveBeenLastCalledWith({
+      allows_multiple_answers: "true",
+      chat_id: "some_chat_id",
+      is_anonymous: "false",
+      options: [
+        "Taken (IMDb Rating: 7.8/10)",
+        "Finding Nemo (IMDb Rating: 8.1/10)",
+      ],
+      question: "New week new movies",
+    });
   });
 });

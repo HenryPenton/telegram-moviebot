@@ -3,13 +3,13 @@ import { State } from "../State/State";
 import { IncomingMessage } from "../types";
 
 describe("regular messages", () => {
-  const mockSendMessage = jest.fn();
-  jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
+  const mockSendMessage = jest.fn(() => {});
+  const mockApi = { sendMessage: mockSendMessage };
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
   const state = new State();
-  
+
   test("no response should be seen if the command is invalid", async () => {
     const mockIncomingMessageTwo: IncomingMessage = {
       message: {
@@ -21,7 +21,7 @@ describe("regular messages", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,
-      "fake api",
+      mockApi,
       state
     );
 
@@ -38,7 +38,7 @@ describe("regular messages", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,
-      "fake api",
+      mockApi,
       state
     );
 

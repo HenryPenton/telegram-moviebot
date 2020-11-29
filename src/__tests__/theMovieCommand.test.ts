@@ -3,7 +3,6 @@ import * as fetcher from "../fetcher/fetcher";
 import * as movieFetcher from "../fetcher/movieFetcher";
 import * as trailerFetcher from "../fetcher/trailerFetcher";
 
-import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 
 import taken from "./testData/taken.json";
@@ -12,8 +11,8 @@ import { State } from "../State/State";
 
 describe("movie command", () => {
   const state = new State();
-  const mockSendMessage = jest.fn();
-  jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
+  const mockSendMessage = jest.fn(() => {});
+  const mockApi = { sendMessage: mockSendMessage };
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
@@ -34,16 +33,14 @@ describe("movie command", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageOne,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseOne,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: mockResponseOne,
+    });
   });
   test("should fire a message with the film plus info plus the trailer (if available) when someone queries a film", async () => {
     jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
@@ -64,16 +61,14 @@ describe("movie command", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseTwo,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: mockResponseTwo,
+    });
   });
   test("should respond with unknown movie if the call to omdb fails", async () => {
     jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
@@ -90,16 +85,14 @@ describe("movie command", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseTwo,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: mockResponseTwo,
+    });
   });
   test("should respond with the film and no trailer if the call to youtube fails", async () => {
     jest
@@ -120,15 +113,13 @@ describe("movie command", () => {
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,
-      "fake api",
+      mockApi,
       state
     );
 
-    expect(mockSendMessage).toHaveBeenCalledWith(
-      mockResponseTwo,
-      "some_chat_id",
-      ResponseType.message,
-      "fake api"
-    );
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: mockResponseTwo,
+    });
   });
 });
