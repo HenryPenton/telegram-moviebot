@@ -28,7 +28,7 @@ export class State {
         if (index === 0) {
           movies = movie;
         } else {
-          movies = `${movies}, ${movie}`;
+          movies = `${movies}\n${movie}`;
         }
       });
       return movies;

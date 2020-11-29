@@ -154,7 +154,7 @@ describe("The get and set movie commands", () => {
       state = new State();
 
       const mockResponse: string =
-        "Taken (IMDb Rating: 7.8/10), Finding Nemo (IMDb Rating: 8.1/10)";
+        "Taken (IMDb Rating: 7.8/10)\nFinding Nemo (IMDb Rating: 8.1/10)";
       await messageHandler.generateResponse(
         mockSetFirstMovieStateMessage,
         "fake api",
