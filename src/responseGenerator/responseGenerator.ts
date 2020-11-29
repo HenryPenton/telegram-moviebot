@@ -1,7 +1,7 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
 import * as movieResponse from "../movieResponse/movieResponse";
-import {  State } from "../State/State";
+import { State } from "../State/State";
 
 type Response = { response: string | string[]; type: ResponseType };
 
@@ -28,7 +28,7 @@ export const generate = async (
       break;
     case "moviepoll":
       response = state.getMoviePoll();
-      type = ResponseType.moviePoll;
+      type = state.canPoll() ? ResponseType.moviePoll : ResponseType.message;
       break;
   }
 

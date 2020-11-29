@@ -10,9 +10,13 @@ export class State {
   }
 
   getMoviePoll(): string | string[] {
-    return this.movies.length < 2
+    return !this.canPoll()
       ? "You must set at least two movies to be able to send out a poll"
       : this.movies;
+  }
+
+  canPoll() {
+    return this.movies.length >= 2;
   }
 
   getMovies(): string {

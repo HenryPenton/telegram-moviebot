@@ -11,12 +11,22 @@ export enum ResponseType {
 }
 
 export const respond = (
-  response: string,
+  response: string | string[],
   chatId: ChatId,
   type: ResponseType,
   api: any
 ) => {
-  api.sendMessage({ chat_id: chatId, text: response });
+  if (type === ResponseType.message) {
+    api.sendMessage({ chat_id: chatId, text: response });
+  } else if (type === ResponseType.moviePoll) {
+    api.sendPoll({
+      chat_id: chatId,
+      question: "New week new movies",
+      options: response as String[],
+      allows_multiple_answers: "true",
+      is_anonymous: "false",
+    });
+  }
 };
 
 export const generateResponse = async (
