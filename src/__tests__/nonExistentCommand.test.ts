@@ -1,4 +1,5 @@
 import * as messageHandler from "../messageHandler/messageHandler";
+import { State } from "../State/State";
 import { IncomingMessage } from "../types";
 
 describe("regular messages", () => {
@@ -7,6 +8,8 @@ describe("regular messages", () => {
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
+  const state = new State();
+  
   test("no response should be seen if the command is invalid", async () => {
     const mockIncomingMessageTwo: IncomingMessage = {
       message: {
@@ -16,7 +19,11 @@ describe("regular messages", () => {
       },
     };
 
-    await messageHandler.generateResponse(mockIncomingMessageTwo, "fake api");
+    await messageHandler.generateResponse(
+      mockIncomingMessageTwo,
+      "fake api",
+      state
+    );
 
     expect(mockSendMessage).not.toHaveBeenCalled();
   });
@@ -29,7 +36,11 @@ describe("regular messages", () => {
       },
     };
 
-    await messageHandler.generateResponse(mockIncomingMessageTwo, "fake api");
+    await messageHandler.generateResponse(
+      mockIncomingMessageTwo,
+      "fake api",
+      state
+    );
 
     expect(mockSendMessage).not.toHaveBeenCalled();
   });
