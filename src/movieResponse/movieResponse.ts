@@ -29,7 +29,7 @@ export const generateResponse = async (queryString: string) => {
   if (movie.Response === "False") return "Unknown movie";
   if (!movie.Title) return "Unknown movie";
 
-  const movieDetails = [
+  const movieDetails: string[] = [
     getTitleAndYear(movie.Title, movie.Year),
     getRuntime(movie.Runtime),
     getRatings(movie.Ratings),

@@ -88,8 +88,11 @@ describe("the message handler", () => {
         "fake api"
       );
     });
-    test("should respond with the film and no trailer if the call to youtube fails", async() => {
-      jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(nemo).mockRejectedValueOnce("some error");
+    test("should respond with the film and no trailer if the call to youtube fails", async () => {
+      jest
+        .spyOn(fetcher, "fetcher")
+        .mockResolvedValueOnce(nemo)
+        .mockRejectedValueOnce("some error");
 
       const mockIncomingMessageTwo: IncomingMessage = {
         message: {
@@ -110,7 +113,6 @@ describe("the message handler", () => {
         ResponseType.message,
         "fake api"
       );
-    });
     });
   });
 });
