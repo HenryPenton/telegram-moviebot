@@ -18,7 +18,7 @@ TELEGRAM_BOT_TOKEN is a bot token received by talking to the BotFather on Telegr
 
 ## Commands
 
-### movie
+## movie
 
 Running /movie _movieName_ will return you information for _movieName_, if it exists.
 
@@ -35,3 +35,4 @@ Running /getmovies will return you all of the movies set previously using the se
 ## moviepoll
 
 Running /moviepoll will return you all of the movies you set previously using the setmovie command, but in the format of a poll.
+
