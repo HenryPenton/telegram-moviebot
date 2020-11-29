@@ -2,6 +2,10 @@ import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
 import { State } from "../State/State";
+import * as movieFetcher from "../fetcher/movieFetcher";
+import taken from "./testData/taken.json";
+import nemo from "./testData/findingnemo.json";
+
 describe("the moviepoll command", () => {
   let state: State;
 
@@ -25,7 +29,7 @@ describe("the moviepoll command", () => {
       text: "/setmovie Finding nemo",
     },
   };
-  
+
   test("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there are no movies set", async () => {
     state = new State();
 
@@ -97,6 +101,10 @@ describe("the moviepoll command", () => {
         text: "/moviepoll",
       },
     };
+    jest
+      .spyOn(movieFetcher, "getMovie")
+      .mockResolvedValueOnce(taken)
+      .mockResolvedValueOnce(nemo);
 
     await messageHandler.generateResponse(
       mockSetFirstMovieStateMessage,
@@ -117,7 +125,7 @@ describe("the moviepoll command", () => {
     );
 
     expect(mockSendMessage).toHaveBeenLastCalledWith(
-      ["Taken", "Finding nemo"],
+      ["Taken (IMDb Rating: 7.8/10)", "Finding Nemo (IMDb Rating: 8.1/10)"],
       "some_chat_id",
       ResponseType.moviePoll,
       "fake api"
