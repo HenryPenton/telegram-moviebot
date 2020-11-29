@@ -10,9 +10,9 @@ import nonExistingMovie from "./testData/nonExiststentFilm.json";
 
 describe("The get and set movie commands", () => {
   let state: State;
-
-  const mockSendMessage = jest.fn();
-  jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
+  // jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
+  const mockSendMessage = jest.fn(() => {});
+  const mockApi = { sendMessage: mockSendMessage };
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
@@ -35,16 +35,14 @@ describe("The get and set movie commands", () => {
 
       await messageHandler.generateResponse(
         mockIncomingMessageOne,
-        "fake api",
+        mockApi,
         state
       );
 
-      expect(mockSendMessage).toHaveBeenCalledWith(
-        mockResponseOne,
-        "some_chat_id",
-        ResponseType.message,
-        "fake api"
-      );
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Finding Nemo added to the film selection",
+      });
     });
 
     test("should not set a movie if it doesn't exist in the database", async () => {
@@ -61,20 +59,16 @@ describe("The get and set movie commands", () => {
         },
       };
 
-      const mockResponseOne: string = "Couldn't find that film";
-
       await messageHandler.generateResponse(
         mockIncomingMessageOne,
-        "fake api",
+        mockApi,
         state
       );
 
-      expect(mockSendMessage).toHaveBeenCalledWith(
-        mockResponseOne,
-        "some_chat_id",
-        ResponseType.message,
-        "fake api"
-      );
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Couldn't find that film",
+      });
     });
   });
 
@@ -107,16 +101,14 @@ describe("The get and set movie commands", () => {
 
       await messageHandler.generateResponse(
         mockIncomingMessage,
-        "fake api",
+        mockApi,
         state
       );
 
-      expect(mockSendMessage).toHaveBeenCalledWith(
-        mockResponseOne,
-        "some_chat_id",
-        ResponseType.message,
-        "fake api"
-      );
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "No movies have been set yet",
+      });
     });
     test("Should return a single movie name if only one film has been set", async () => {
       jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(taken);
@@ -127,22 +119,20 @@ describe("The get and set movie commands", () => {
 
       await messageHandler.generateResponse(
         mockSetFirstMovieStateMessage,
-        "fake api",
+        mockApi,
         state
       );
 
       await messageHandler.generateResponse(
         mockIncomingMessage,
-        "fake api",
+        mockApi,
         state
       );
 
-      expect(mockSendMessage).toHaveBeenLastCalledWith(
-        mockResponse,
-        "some_chat_id",
-        ResponseType.message,
-        "fake api"
-      );
+      expect(mockSendMessage).toHaveBeenLastCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10)",
+      });
     });
 
     test("Should return a comma separated list of the movies that have been set if there are multiple", async () => {
@@ -157,28 +147,26 @@ describe("The get and set movie commands", () => {
         "Taken (IMDb Rating: 7.8/10)\nFinding Nemo (IMDb Rating: 8.1/10)";
       await messageHandler.generateResponse(
         mockSetFirstMovieStateMessage,
-        "fake api",
+        mockApi,
         state
       );
 
       await messageHandler.generateResponse(
         mockSetSecondMovieStateMessage,
-        "fake api",
+        mockApi,
         state
       );
 
       await messageHandler.generateResponse(
         mockIncomingMessage,
-        "fake api",
+        mockApi,
         state
       );
 
-      expect(mockSendMessage).toHaveBeenLastCalledWith(
-        mockResponse,
-        "some_chat_id",
-        ResponseType.message,
-        "fake api"
-      );
+      expect(mockSendMessage).toHaveBeenLastCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10)\nFinding Nemo (IMDb Rating: 8.1/10)",
+      });
     });
   });
 });
