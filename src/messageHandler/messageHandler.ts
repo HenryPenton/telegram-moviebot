@@ -6,6 +6,8 @@ type ChatId = string | number;
 
 export enum ResponseType {
   message = "message",
+  moviePoll = "moviePoll",
+  none = "none",
 }
 
 export const respond = (
