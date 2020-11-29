@@ -1,4 +1,3 @@
-import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
 import * as movieFetcher from "../fetcher/movieFetcher";
@@ -10,7 +9,6 @@ import nonExistingMovie from "./testData/nonExiststentFilm.json";
 
 describe("The get and set movie commands", () => {
   let state: State;
-  // jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
   const mockSendMessage = jest.fn(() => {});
   const mockApi = { sendMessage: mockSendMessage };
   beforeEach(() => {
@@ -29,9 +27,6 @@ describe("The get and set movie commands", () => {
           text: "/setmovie finding nemo",
         },
       };
-
-      const mockResponseOne: string =
-        "Finding Nemo added to the film selection";
 
       await messageHandler.generateResponse(
         mockIncomingMessageOne,
@@ -97,7 +92,6 @@ describe("The get and set movie commands", () => {
 
     test("Should return a message informing the user that no film has been set if no movies have been set", async () => {
       state = new State();
-      const mockResponseOne: string = "No movies have been set yet";
 
       await messageHandler.generateResponse(
         mockIncomingMessage,
@@ -114,8 +108,6 @@ describe("The get and set movie commands", () => {
       jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(taken);
 
       state = new State();
-
-      const mockResponse: string = "Taken (IMDb Rating: 7.8/10)";
 
       await messageHandler.generateResponse(
         mockSetFirstMovieStateMessage,
@@ -143,8 +135,6 @@ describe("The get and set movie commands", () => {
 
       state = new State();
 
-      const mockResponse: string =
-        "Taken (IMDb Rating: 7.8/10)\nFinding Nemo (IMDb Rating: 8.1/10)";
       await messageHandler.generateResponse(
         mockSetFirstMovieStateMessage,
         mockApi,
