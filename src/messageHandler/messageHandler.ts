@@ -1,6 +1,7 @@
 import { IncomingMessage } from "../types";
 import * as responseGenerator from "../responseGenerator/responseGenerator";
 import { State } from "../State/State";
+import { open } from "object_opener";
 
 type ChatId = string | number;
 
@@ -34,7 +35,7 @@ export const generateResponse = async (
   api: any,
   state: State
 ) => {
-  const chatId = message.message.chat.id;
+  const chatId = open(message, "message.chat.id");
 
   const { response, type } = await responseGenerator.generate(
     message.message.text,
