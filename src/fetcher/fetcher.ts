@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { Movie } from "../types";
 
 const fetcher = async (url: string) => {
   return fetch(url)
@@ -26,7 +27,8 @@ export const getTrailer = (movieName: string, movieYear?: string) => {
       .catch(() => "");
   }
 };
-export const getMovie = async (queryString: string) =>
-  fetcher(
+export const getMovie = async (queryString: string): Promise<Movie> => {
+  return fetcher(
     `http://www.omdbapi.com/?t=${queryString}&apikey=${process.env.MOVIE_DATABASE_KEY}`
-  );
+  ).catch(() => ({ Response: "False" } as Movie));
+};

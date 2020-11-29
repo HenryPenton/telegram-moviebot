@@ -24,7 +24,7 @@ const infoAmalgamate = (infoArray: any[]) => {
 };
 
 export const generateResponse = async (queryString: string) => {
-  const movie = (await getMovie(queryString)) as Movie;
+  const movie = await getMovie(queryString);
 
   if (movie.Response === "False") return "Unknown movie";
   if (!movie.Title) return "Unknown movie";
