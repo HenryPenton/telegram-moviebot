@@ -1,8 +1,11 @@
 import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
+import { State } from "../State/State";
 
 describe("the setmovie command", () => {
+  const state = new State();
+
   const mockSendMessage = jest.fn();
   jest.spyOn(messageHandler, "respond").mockImplementation(mockSendMessage);
   beforeEach(() => {
@@ -19,7 +22,11 @@ describe("the setmovie command", () => {
 
     const mockResponseOne: string = "Taken added to the film selection";
 
-    await messageHandler.generateResponse(mockIncomingMessageOne, "fake api");
+    await messageHandler.generateResponse(
+      mockIncomingMessageOne,
+      "fake api",
+      state
+    );
 
     expect(mockSendMessage).toHaveBeenCalledWith(
       mockResponseOne,
@@ -28,5 +35,4 @@ describe("the setmovie command", () => {
       "fake api"
     );
   });
-  
 });
