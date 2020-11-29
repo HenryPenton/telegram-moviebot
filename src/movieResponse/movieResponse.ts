@@ -1,5 +1,5 @@
-import { getMovie, getTrailer } from "../fetcher/fetcher";
-import { Movie } from "../types";
+import { getMovie } from "../fetcher/movieFetcher";
+import { getTrailer } from "../fetcher/trailerFetcher";
 import {
   getTitleAndYear,
   getRuntime,
