@@ -37,13 +37,16 @@ export const generateResponse = async (
 ) => {
   const chatId = open(message, "message.chat.id");
   if (chatId) {
-    const { response, type } = await responseGenerator.generate(
-      message.message.text,
-      state
-    );
+    const messageText = open(message, "message.text");
+    if (messageText) {
+      const { response, type } = await responseGenerator.generate(
+        messageText,
+        state
+      );
 
-    if (response !== "") {
-      respond(response, chatId, type, api);
+      if (response !== "") {
+        respond(response, chatId, type, api);
+      }
     }
   }
 };
