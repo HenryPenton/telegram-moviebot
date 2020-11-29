@@ -37,7 +37,7 @@ describe("the moviepoll command", () => {
     },
   };
 
-  test.only("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there are no movies set", async () => {
+  test("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there are no movies set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {
@@ -63,7 +63,7 @@ describe("the moviepoll command", () => {
     });
   });
 
-  test.only("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there is one movie set", async () => {
+  test("Should send a message informing users that at least two movies have to be set before a poll can be sent out IF there is one movie set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {
@@ -97,7 +97,7 @@ describe("the moviepoll command", () => {
     });
   });
 
-  test.only("Should send a moviepoll out if there are two or more movies set", async () => {
+  test("Should send a moviepoll out if there are two or more movies set", async () => {
     state = new State();
 
     const mockIncomingMessageOne: IncomingMessage = {

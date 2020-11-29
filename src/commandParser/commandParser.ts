@@ -1,16 +1,21 @@
 type Command = { command: string; restOfString: string };
 
-export const commandParser = (sentence: string): Command => {
-  try {
-    let firstWord = "";
-    if (sentence) {
-      firstWord = sentence.split(" ")[0];
-    }
-    const restOfString = sentence.substr(firstWord.length + 1);
-    const command = firstWord[0] === "/" ? firstWord.substr(1) : "";
+export const commandParser = (incomingText: string): Command => {
+  let split = incomingText.split(" ");
 
-    return { command, restOfString };
-  } catch {
-    return { command: "", restOfString: "" };
-  }
+  const command = getCommand(split);
+  const restOfString = getRestOfString(split);
+
+  return { command, restOfString };
+};
+
+const getCommand = (splitString: string[]) => {
+  const firstWord = splitString[0];
+  return firstWord[0] === "/" ? firstWord.substr(1) : "";
+};
+
+const getRestOfString = (splitString: string[]) => {
+  let restOfString = "";
+  splitString.shift();
+  return splitString.length !== 0 ? (restOfString = splitString.join(" ")) : "";
 };

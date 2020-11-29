@@ -44,4 +44,39 @@ describe("regular messages", () => {
 
     expect(mockSendMessage).not.toHaveBeenCalled();
   });
+
+  test("no response should be seen if the command is non-existent and the message is one word long", async () => {
+    const mockIncomingMessageTwo: IncomingMessage = {
+      message: {
+        from: { first_name: "Henry" },
+        chat: { id: "some_chat_id" },
+        text: "message",
+      },
+    };
+
+    await messageHandler.generateResponse(
+      mockIncomingMessageTwo,
+      mockApi,
+      state
+    );
+
+    expect(mockSendMessage).not.toHaveBeenCalled();
+  });
+  test("no response should be seen if the command is non-existent and the message empty", async () => {
+    const mockIncomingMessageTwo: IncomingMessage = {
+      message: {
+        from: { first_name: "Henry" },
+        chat: { id: "some_chat_id" },
+        text: "",
+      },
+    };
+
+    await messageHandler.generateResponse(
+      mockIncomingMessageTwo,
+      mockApi,
+      state
+    );
+
+    expect(mockSendMessage).not.toHaveBeenCalled();
+  });
 });
