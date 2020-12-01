@@ -1,11 +1,12 @@
 import { getMovie } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { Rating } from "../../../types";
+import { Response } from "../Response";
 
-export class MovieResponse {
+export class MovieResponse extends Response {
   queryString: string;
-
   constructor(queryString: string) {
+    super();
     this.queryString = queryString;
   }
 
