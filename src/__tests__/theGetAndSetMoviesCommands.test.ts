@@ -1,6 +1,6 @@
 import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
-import * as movieFetcher from "../fetcher/movieFetcher";
+import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import { State } from "../State/State";
 
 import taken from "./testData/taken.json";

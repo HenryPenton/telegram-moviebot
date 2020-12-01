@@ -1,8 +1,9 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
-import * as movieResponse from "../movieResponse/movieResponse";
-import * as setMovieResponse from "../setMovieResponse/setMovieResponse";
+import * as movieResponse from "./responses/movieResponse/movieResponse";
+import * as setMovieResponse from "./responses/setMovieResponse/setMovieResponse";
 import { State } from "../State/State";
+import { MovieResponse } from "./responses/movieResponse/movieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
 
@@ -15,7 +16,8 @@ export const generate = async (
   let type: ResponseType = ResponseType.none;
   switch (command) {
     case "movie":
-      response = await movieResponse.generateResponse(restOfString);
+      const movieResponse = new MovieResponse(restOfString)
+      response = await movieResponse.generateResponse();
       type = ResponseType.message;
       break;
     case "setmovie":

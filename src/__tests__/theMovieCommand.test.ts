@@ -1,7 +1,7 @@
 import * as messageHandler from "../messageHandler/messageHandler";
 import * as fetcher from "../fetcher/fetcher";
-import * as movieFetcher from "../fetcher/movieFetcher";
-import * as trailerFetcher from "../fetcher/trailerFetcher";
+import * as movieFetcher from "../fetcher/movie/movieFetcher";
+import * as trailerFetcher from "../fetcher/trailer/trailerFetcher";
 
 import { IncomingMessage } from "../types";
 

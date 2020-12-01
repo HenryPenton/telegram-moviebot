@@ -1,5 +1,6 @@
-import { Movie } from "../types";
-import { fetcher } from "./fetcher";
+import { Movie } from "../../types";
+import { fetcher } from "../fetcher";
+
 
 export const getMovie = async (queryString: string): Promise<Movie> => {
   const splitQuery = queryString.split(" ");

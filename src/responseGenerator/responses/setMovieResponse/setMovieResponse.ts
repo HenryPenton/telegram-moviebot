@@ -1,5 +1,4 @@
-import { getMovie } from "../fetcher/movieFetcher";
-import { Movie } from "../types";
+import { getMovie } from "../../../fetcher/movie/movieFetcher";
 
 export const generateResponse = async (movieName: string) => {
   const movie = await getMovie(movieName);
@@ -20,3 +19,9 @@ export const generateResponse = async (movieName: string) => {
 
   return { setMovieTitle, completeResponse, successfulRequest, setMovieRating };
 };
+
+export class SetMovieResponse {
+  constructor() {}
+
+  
+}
