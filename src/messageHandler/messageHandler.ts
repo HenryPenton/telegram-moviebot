@@ -8,14 +8,13 @@ type ChatId = string | number;
 export enum ResponseType {
   message = "message",
   moviePoll = "moviePoll",
-  none = "none",
 }
 
 export const respond = (
-  response: string | string[],
   chatId: ChatId,
   type: ResponseType,
-  api: any
+  api: any,
+  response?: string | string[]
 ) => {
   if (type === ResponseType.message) {
     api.sendMessage({ chat_id: chatId, text: response });
@@ -38,15 +37,14 @@ export const generateResponse = async (
   const chatId = open(message, "message.chat.id");
   if (chatId) {
     const messageText = open(message, "message.text");
+
     if (messageText) {
       const { response, type } = await responseGenerator.generate(
         messageText,
         state
       );
 
-      if (response !== "") {
-        respond(response, chatId, type, api);
-      }
+      respond(chatId, type, api, response);
     }
   }
 };
