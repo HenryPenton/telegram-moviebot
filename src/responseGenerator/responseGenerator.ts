@@ -1,8 +1,8 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
-import * as movieResponse from "./responses/MovieResponse/MovieResponse";
-import * as setMovieResponse from "./responses/SetMovieResponse/SetMovieResponse";
 import { State } from "../State/State";
+import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
+import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
@@ -29,12 +29,17 @@ export const generate = async (
 
       break;
     case "getmovies":
-      response = state.getMovies();
-      type = ResponseType.message;
+      const getMovieResponse = new GetMovieResponse(state);
+      response = getMovieResponse.generateResponse();
+
+      type = getMovieResponse.getType();
       break;
     case "moviepoll":
-      response = state.getMoviePoll();
-      type = state.canPoll() ? ResponseType.moviePoll : ResponseType.message;
+      const getMoviePollResponse = new GetMoviePollResponse(state);
+      response = getMoviePollResponse.generateResponse();
+
+      type = getMoviePollResponse.getType();
+
       break;
   }
 

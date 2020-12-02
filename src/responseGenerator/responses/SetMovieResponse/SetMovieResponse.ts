@@ -1,9 +1,10 @@
 import { getMovie } from "../../../fetcher/movie/movieFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
+import { AsyncResponse } from "../AsyncResponse";
 import { Response } from "../Response";
 
-export class SetMovieResponse extends Response {
+export class SetMovieResponse extends AsyncResponse {
   movieName: string;
   state: State;
   completeResponse: string;
