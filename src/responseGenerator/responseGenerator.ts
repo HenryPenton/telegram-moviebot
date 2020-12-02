@@ -1,10 +1,10 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
-import * as movieResponse from "./responses/movieResponse/movieResponse";
-import * as setMovieResponse from "./responses/SetMovieResponse/SetMovieResponse";
+import * as movieResponse from "./responses/MovieResponseOld/MovieResponse";
+import * as setMovieResponse from "./responses/SetMovieResponseOld/SetMovieResponse";
 import { State } from "../State/State";
-import { MovieResponse } from "./responses/movieResponse/movieResponse";
-import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
+import { MovieResponse } from "./responses/MovieResponseOld/MovieResponse";
+import { SetMovieResponse } from "./responses/SetMovieResponseOld/SetMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
 
