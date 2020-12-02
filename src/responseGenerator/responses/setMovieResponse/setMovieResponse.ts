@@ -1,27 +1,25 @@
 import { getMovie } from "../../../fetcher/movie/movieFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
-import { Movie } from "../../../types";
 import { Response } from "../Response";
 
 export class SetMovieResponse extends Response {
   movieName: string;
   state: State;
   completeResponse: string;
-  movie: Movie;
 
   constructor(queryString: string, state: State) {
-    super();
-    this.movie = {};
-    this.state = state;
-    this.movieName = queryString;
-    this.completeResponse = "";
-  }
-  getType = () => ResponseType.message;
+    super(queryString);
 
+    this.state = state;
+    this.completeResponse = "";
+    this.movieName = queryString;
+  }
   getMovie = async () => {
-    this.movie = await getMovie(this.movieName);
+    this.movie = await getMovie(this.queryString);
   };
+
+  getType = () => ResponseType.message;
 
   movieWithOrWithoutRating = () => {};
 

@@ -7,10 +7,14 @@ import { Response } from "../Response";
 export class MovieResponse extends Response {
   queryString: string;
   constructor(queryString: string) {
-    super();
+    super(queryString);
     this.queryString = queryString;
   }
-  
+
+  getMovie = async () => {
+    this.movie = await getMovie(this.queryString);
+  };
+
   getType = () => ResponseType.message;
 
   getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
@@ -59,18 +63,18 @@ export class MovieResponse extends Response {
   };
 
   generateResponse = async () => {
-    const movie = await getMovie(this.queryString);
+    await this.getMovie();
 
-    if (movie.Response === "False") return "Unknown movie";
-    if (!movie.Title) return "Unknown movie";
+    if (this.movie.Response === "False") return "Unknown movie";
+    if (!this.movie.Title) return "Unknown movie";
 
     const movieDetails: string[] = [
-      this.getTitleAndYear(movie.Title, movie.Year),
-      this.getRuntime(movie.Runtime),
-      this.getRatings(movie.Ratings),
-      this.getDirector(movie.Director),
-      this.getPlot(movie.Plot),
-      await getTrailer(movie.Title, movie.Year),
+      this.getTitleAndYear(this.movie.Title, this.movie.Year),
+      this.getRuntime(this.movie.Runtime),
+      this.getRatings(this.movie.Ratings),
+      this.getDirector(this.movie.Director),
+      this.getPlot(this.movie.Plot),
+      await getTrailer(this.movie.Title, this.movie.Year),
     ];
 
     return this.infoAmalgamate(movieDetails);
