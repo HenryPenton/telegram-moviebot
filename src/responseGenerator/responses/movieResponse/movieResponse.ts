@@ -1,5 +1,6 @@
 import { getMovie } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
+import { ResponseType } from "../../../messageHandler/messageHandler";
 import { Rating } from "../../../types";
 import { Response } from "../Response";
 
@@ -9,6 +10,8 @@ export class MovieResponse extends Response {
     super();
     this.queryString = queryString;
   }
+  
+  getType = () => ResponseType.message;
 
   getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
 

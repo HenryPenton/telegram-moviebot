@@ -5,7 +5,9 @@ import { State } from "../State/State";
 
 import taken from "./testData/taken.json";
 import nemo from "./testData/findingnemo.json";
+import submarineUnrated from "./testData/submarineUnrated.json";
 import nonExistingMovie from "./testData/nonExiststentFilm.json";
+import movieWithoutTitle from "./testData/movieWithoutTitle.json";
 
 describe("The get and set movie commands", () => {
   let state: State;
@@ -16,7 +18,7 @@ describe("The get and set movie commands", () => {
   });
 
   describe("The setmovie command", () => {
-    test("should fire a message with the film name (returned from the database) when someone sets a movie", async () => {
+    test("should fire a message with the film name with rating that is available (returned from the database) when someone sets a movie", async () => {
       jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
       state = new State();
 
@@ -36,7 +38,58 @@ describe("The get and set movie commands", () => {
 
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text: "Finding Nemo added to the film selection",
+        text: "Finding Nemo (IMDb Rating: 8.1/10) added to the film selection",
+      });
+    });
+
+    test("should fire a message with the film name and no rating if not available (returned from the database) when someone sets a movie", async () => {
+      jest
+        .spyOn(movieFetcher, "getMovie")
+        .mockResolvedValueOnce(submarineUnrated);
+      state = new State();
+
+      const mockIncomingMessageOne: IncomingMessage = {
+        message: {
+          from: { first_name: "Joe" },
+          chat: { id: "some_chat_id" },
+          text: "/setmovie submarine",
+        },
+      };
+
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Submarine added to the film selection",
+      });
+    });
+    test("should say movie is unknown if it has no title", async () => {
+      jest
+        .spyOn(movieFetcher, "getMovie")
+        .mockResolvedValueOnce(movieWithoutTitle);
+      state = new State();
+
+      const mockIncomingMessageOne: IncomingMessage = {
+        message: {
+          from: { first_name: "Joe" },
+          chat: { id: "some_chat_id" },
+          text: "/setmovie no_movie_title",
+        },
+      };
+
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Couldn't find that film",
       });
     });
 

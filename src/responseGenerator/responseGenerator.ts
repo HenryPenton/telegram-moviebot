@@ -4,6 +4,7 @@ import * as movieResponse from "./responses/movieResponse/movieResponse";
 import * as setMovieResponse from "./responses/setMovieResponse/setMovieResponse";
 import { State } from "../State/State";
 import { MovieResponse } from "./responses/movieResponse/movieResponse";
+import { SetMovieResponse } from "./responses/setMovieResponse/setMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
 
@@ -16,32 +17,16 @@ export const generate = async (
   let type: ResponseType = ResponseType.none;
   switch (command) {
     case "movie":
-      const movieResponse = new MovieResponse(restOfString)
+      const movieResponse = new MovieResponse(restOfString);
       response = await movieResponse.generateResponse();
-      type = ResponseType.message;
+      type = movieResponse.getType();
       break;
     case "setmovie":
-      const {
-        setMovieTitle,
-        completeResponse,
-        successfulRequest,
-        setMovieRating,
-      } = await setMovieResponse.generateResponse(restOfString);
-      if (successfulRequest) {
-        if (setMovieTitle) {
-          if (setMovieRating) {
-            const titleWithRating = `${setMovieTitle} ${setMovieRating}`;
-            state.setMovie(titleWithRating);
-          } else {
-            state.setMovie(setMovieTitle);
-          }
+      const setMovieResponse = new SetMovieResponse(restOfString, state);
+      response = await setMovieResponse.generateResponse();
 
-          response = completeResponse;
-        }
-      } else {
-        response = "Couldn't find that film";
-      }
-      type = ResponseType.message;
+      type = setMovieResponse.getType();
+
       break;
     case "getmovies":
       response = state.getMovies();
