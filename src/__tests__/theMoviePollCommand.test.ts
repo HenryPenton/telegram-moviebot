@@ -1,8 +1,7 @@
-import { ResponseType } from "../messageHandler/messageHandler";
 import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
 import { State } from "../State/State";
-import * as movieFetcher from "../fetcher/movieFetcher";
+import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import taken from "./testData/taken.json";
 import nemo from "./testData/findingnemo.json";
 

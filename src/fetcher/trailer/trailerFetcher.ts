@@ -1,4 +1,4 @@
-import { fetcher } from "./fetcher";
+import { fetcher } from "../fetcher";
 
 export const getTrailer = (movieName: string, movieYear?: string) => {
   if (movieYear) {
