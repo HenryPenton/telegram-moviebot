@@ -20,24 +20,23 @@ export const generate = async (
       const movieResponse = new MovieResponse(restOfString);
       response = await movieResponse.generateResponse();
       type = movieResponse.getType();
+
       break;
     case "setmovie":
       const setMovieResponse = new SetMovieResponse(restOfString, state);
       response = await setMovieResponse.generateResponse();
-
       type = setMovieResponse.getType();
 
       break;
     case "getmovies":
       const getMovieResponse = new GetMovieResponse(state);
       response = getMovieResponse.generateResponse();
-
       type = getMovieResponse.getType();
+
       break;
     case "moviepoll":
       const getMoviePollResponse = new GetMoviePollResponse(state);
       response = getMoviePollResponse.generateResponse();
-
       type = getMoviePollResponse.getType();
 
       break;
