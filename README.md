@@ -36,3 +36,10 @@ Running /getmovies will return you all of the movies set previously using the se
 
 Running /moviepoll will return you all of the movies you set previously using the setmovie command, but in the format of a poll.
 
+## removie
+
+Running /removie _movieid_ where movieid is the id returned by getmovies will remove that movie from the selection
+
+## removies
+
+Running /removies will wipe the entire movie selection
