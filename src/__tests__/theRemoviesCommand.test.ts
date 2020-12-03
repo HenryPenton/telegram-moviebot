@@ -1,13 +1,9 @@
 import { IncomingMessage } from "../types";
+import { State } from "../State/State";
 import * as messageHandler from "../messageHandler/messageHandler";
 import * as movieFetcher from "../fetcher/movie/movieFetcher";
-import { State } from "../State/State";
-
 import taken from "./testData/taken.json";
 import nemo from "./testData/findingnemo.json";
-import submarineUnrated from "./testData/submarineUnrated.json";
-import nonExistingMovie from "./testData/nonExiststentFilm.json";
-import movieWithoutTitle from "./testData/movieWithoutTitle.json";
 
 describe("The removies command", () => {
   let state: State;
@@ -69,7 +65,8 @@ describe("The removies command", () => {
 
     expect(mockSendMessage).toHaveBeenLastCalledWith({
       chat_id: "some_chat_id",
-      text: "1. Finding Nemo (IMDb Rating: 8.1/10)\n2. Taken (IMDb Rating: 7.8/10)",
+      text:
+        "1. Finding Nemo (IMDb Rating: 8.1/10)\n2. Taken (IMDb Rating: 7.8/10)",
     });
 
     await messageHandler.generateResponse(removiesMessage, mockApi, state);
