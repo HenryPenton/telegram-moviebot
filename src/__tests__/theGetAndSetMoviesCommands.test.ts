@@ -176,7 +176,7 @@ describe("The get and set movie commands", () => {
 
       expect(mockSendMessage).toHaveBeenLastCalledWith({
         chat_id: "some_chat_id",
-        text: "Taken (IMDb Rating: 7.8/10)",
+        text: "1. Taken (IMDb Rating: 7.8/10)",
       });
     });
 
@@ -208,7 +208,7 @@ describe("The get and set movie commands", () => {
 
       expect(mockSendMessage).toHaveBeenLastCalledWith({
         chat_id: "some_chat_id",
-        text: "Taken (IMDb Rating: 7.8/10)\nFinding Nemo (IMDb Rating: 8.1/10)",
+        text: "1. Taken (IMDb Rating: 7.8/10)\n2. Finding Nemo (IMDb Rating: 8.1/10)",
       });
     });
   });

@@ -14,10 +14,11 @@ export class GetMovieResponse extends LocalResponse {
     } else {
       let movies = "";
       movieSelection.forEach((movie, index) => {
+        const indexedMovie = `${index + 1}. ${movie}`;
         if (index === 0) {
-          movies = movie;
+          movies = indexedMovie;
         } else {
-          movies = `${movies}\n${movie}`;
+          movies = `${movies}\n${indexedMovie}`;
         }
       });
       return movies;

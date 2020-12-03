@@ -4,6 +4,7 @@ import { State } from "../State/State";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
+import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
@@ -15,7 +16,7 @@ export const generate = async (
   const { command, restOfString } = commandParser(messageText);
   let response: string | string[] = "";
   let type: ResponseType = ResponseType.none;
-  
+
   switch (command) {
     case "movie":
       const movieResponse = new MovieResponse(restOfString);
@@ -39,6 +40,12 @@ export const generate = async (
       const getMoviePollResponse = new GetMoviePollResponse(state);
       response = getMoviePollResponse.generateResponse();
       type = getMoviePollResponse.getType();
+
+      break;
+    case "removie":
+      const removieResponse = new RemovieResponse(state, restOfString);
+      response = removieResponse.generateResponse();
+      type = removieResponse.getType();
 
       break;
   }
