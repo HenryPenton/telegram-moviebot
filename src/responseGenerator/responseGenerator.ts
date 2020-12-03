@@ -15,6 +15,7 @@ export const generate = async (
   const { command, restOfString } = commandParser(messageText);
   let response: string | string[] = "";
   let type: ResponseType = ResponseType.none;
+  
   switch (command) {
     case "movie":
       const movieResponse = new MovieResponse(restOfString);
