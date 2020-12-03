@@ -39,6 +39,7 @@ Running /moviepoll will return you all of the movies you set previously using th
 ## removie
 
 Running /removie _movieid_ where movieid is the id returned by getmovies will remove that movie from the selection
+
 Running /removie _moviename_ will attempt to match the movie name to one of the movies in the selection and remove it. If unsuccessful nothing will be removed. If the string matches multiple items in the selection, the most recently added will be removed.
 
 ## removies
