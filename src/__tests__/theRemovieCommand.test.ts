@@ -3,21 +3,17 @@ import * as messageHandler from "../messageHandler/messageHandler";
 import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import { State } from "../State/State";
 
-import taken from "./testData/taken.json";
 import nemo from "./testData/findingnemo.json";
-import submarineUnrated from "./testData/submarineUnrated.json";
-import nonExistingMovie from "./testData/nonExiststentFilm.json";
-import movieWithoutTitle from "./testData/movieWithoutTitle.json";
 
-describe("The get and set movie commands", () => {
-  let state: State;
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-  });
 
+  
   describe("The removie command", () => {
+    let state: State;
+    const mockSendMessage = jest.fn(() => {});
+    const mockApi = { sendMessage: mockSendMessage };
+    beforeEach(() => {
+      mockSendMessage.mockReset();
+    });
     const setMovieMessage: IncomingMessage = {
       message: {
         from: { first_name: "Joe" },
@@ -155,4 +151,4 @@ describe("The get and set movie commands", () => {
       });
     });
   });
-});
+

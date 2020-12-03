@@ -5,6 +5,7 @@ import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMovieP
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
+import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
@@ -46,6 +47,12 @@ export const generate = async (
       const removieResponse = new RemovieResponse(state, restOfString);
       response = removieResponse.generateResponse();
       type = removieResponse.getType();
+
+      break;
+    case "removies":
+      const removiesResponse = new RemoviesResponse(state);
+      response = removiesResponse.generateResponse();
+      type = removiesResponse.getType();
 
       break;
   }
