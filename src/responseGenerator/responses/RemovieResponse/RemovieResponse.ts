@@ -7,20 +7,46 @@ export class RemovieResponse extends LocalResponse {
 
   constructor(state: State, movieToRemove: string) {
     super(state);
-    this.movieToRemove = movieToRemove;
+    this.movieToRemove = movieToRemove.toLowerCase();
   }
+
+  matchToName = (): string => {
+    const currentMovies = this.state.getMovies();
+    const unfoundResponse = "Couldn't find that film in the selection";
+
+    let idToRemove;
+
+    currentMovies.forEach((movie, id) => {
+      if (movie.toLowerCase().startsWith(this.movieToRemove)) {
+        idToRemove = id + 1;
+      }
+    });
+
+    if (!idToRemove) return unfoundResponse;
+
+    const removedMovie = this.state.removie(idToRemove);
+    if (removedMovie) {
+      return `${removedMovie} removed from the selection`;
+    }
+    
+    return unfoundResponse;
+  };
+
+  removeById = (movieId: number) => {
+    const removedMovie = this.state.removie(movieId);
+    if (removedMovie) {
+      return `${removedMovie} removed from the selection`;
+    }
+    return `Couldn't find that film in the selection`;
+  };
 
   generateResponse = () => {
     const movieId = parseInt(this.movieToRemove, 10);
-    const unfoundResponse = `Couldn't find that film in the selection`;
+
     if (Number.isInteger(movieId)) {
-      const removedMovie = this.state.removie(movieId);
-      if (removedMovie) {
-        return `${removedMovie} removed from the selection`;
-      }
-      return unfoundResponse;
+      return this.removeById(movieId);
     } else {
-      return unfoundResponse;
+      return this.matchToName();
     }
   };
 

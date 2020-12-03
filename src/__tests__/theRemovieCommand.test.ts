@@ -156,4 +156,38 @@ describe("The removie command", () => {
       text: "Couldn't find that film in the selection",
     });
   });
+
+  test("should be able to remove a film by name", async () => {
+    jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
+    state = new State();
+
+    const removieMessage: IncomingMessage = {
+      message: {
+        from: { first_name: "Joe" },
+        chat: { id: "some_chat_id" },
+        text: "/removie finding nemo",
+      },
+    };
+
+    await messageHandler.generateResponse(setMovieMessage, mockApi, state);
+
+    expect(mockSendMessage).toHaveBeenLastCalledWith({
+      chat_id: "some_chat_id",
+      text: "Finding Nemo (IMDb Rating: 8.1/10) added to the film selection",
+    });
+
+    await messageHandler.generateResponse(getMovieMessage, mockApi, state);
+
+    expect(mockSendMessage).toHaveBeenLastCalledWith({
+      chat_id: "some_chat_id",
+      text: "1. Finding Nemo (IMDb Rating: 8.1/10)",
+    });
+
+    await messageHandler.generateResponse(removieMessage, mockApi, state);
+
+    expect(mockSendMessage).toHaveBeenLastCalledWith({
+      chat_id: "some_chat_id",
+      text: "Finding Nemo (IMDb Rating: 8.1/10) removed from the selection",
+    });
+  });
 });
