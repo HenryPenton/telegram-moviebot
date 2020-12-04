@@ -3,7 +3,7 @@ import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { Rating } from "../../../types";
 import { AsyncResponse } from "../AsyncResponse";
-import { Response } from "../Response";
+
 
 export class MovieResponse extends AsyncResponse {
   constructor(queryString: string) {

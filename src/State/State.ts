@@ -5,22 +5,21 @@ export class State {
     this.movies = [];
   }
 
-  setMovie(movie: string): void {
-    this.movies.push(movie);
-  }
+  setMovie = (movie: string) => this.movies.push(movie);
 
-  getMovies(): string[] {
-    return this.movies;
-  }
+  getMovies = (): string[] => this.movies;
+
   removies = () => (this.movies = []);
-  removie(id: number): string {
+
+  removie = (id: number): string => {
     const zeroizedId = id - 1;
-    const movieName = this.movies[id - 1];
+    const movieName = this.movies[zeroizedId];
+
     const newMovieArray = this.movies.filter(
       (_, index) => index !== zeroizedId
     );
     this.movies = newMovieArray;
 
     return movieName;
-  }
+  };
 }
