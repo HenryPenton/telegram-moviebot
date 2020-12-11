@@ -9,6 +9,8 @@ import nemo from "./testData/findingnemo.json";
 import submarineUnrated from "./testData/submarineUnrated.json";
 import nonExistingMovie from "./testData/nonExiststentFilm.json";
 import movieWithoutTitle from "./testData/movieWithoutTitle.json";
+import takenBlankRatingsArray from "./testData/takenBlankRatingsArray.json";
+
 
 describe("The get and set movie commands", () => {
   let state: State;
@@ -143,6 +145,32 @@ describe("The get and set movie commands", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
         text: "Couldn't find that film",
+      });
+    });
+
+    test("should not return a rating if the array is blank", async () => {
+      jest
+        .spyOn(movieFetcher, "getMovie")
+        .mockResolvedValueOnce(takenBlankRatingsArray);
+      state = new State();
+
+      const mockIncomingMessageOne: IncomingMessage = {
+        message: {
+          from: { first_name: "Joe" },
+          chat: { id: "some_chat_id" },
+          text: "/setmovie somemoviewithblankratingsarray",
+        },
+      };
+
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken added to the film selection",
       });
     });
   });
