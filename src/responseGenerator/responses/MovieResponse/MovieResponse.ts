@@ -25,7 +25,6 @@ export class MovieResponse extends AsyncResponse {
     runtime ? `Runtime: ${runtime}` : "";
 
   getTitleAndYear = (title?: string, year?: string): string => {
-    if (!title) return "Unknown movie";
     const movieYear = year;
     const movieTitle = movieYear
       ? `Movie: ${title} (${year})`
@@ -50,9 +49,7 @@ export class MovieResponse extends AsyncResponse {
     let info = "";
     infoArray.forEach((element, index) => {
       if (index === 0) {
-        
-          info = element;
-        
+        info = element;
       } else if (element !== "") {
         info = `${info}\n\n${element}`;
       }
@@ -64,7 +61,8 @@ export class MovieResponse extends AsyncResponse {
   generateResponse = async () => {
     await this.getMovie();
 
-    if (this.movie.Response === "False") return "Unknown movie";
+    if (this.movie.Response === "False" || this.movie.Title === undefined)
+      return "Unknown movie";
 
     const titleAndYear = this.getTitleAndYear(
       this.movie.Title,

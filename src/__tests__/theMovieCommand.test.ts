@@ -6,6 +6,7 @@ import * as trailerFetcher from "../fetcher/trailer/trailerFetcher";
 import { IncomingMessage } from "../types";
 
 import taken from "./testData/taken.json";
+import movieNoTitle from "./testData/movieWithoutTitle.json";
 import nemo from "./testData/findingnemo.json";
 import nemoNoInfo from "./testData/findingnemoNoInfo.json";
 import { State } from "../State/State";
@@ -135,6 +136,31 @@ describe("movie command", () => {
     };
 
     const mockResponseTwo: string = "Movie: Finding Nemo";
+
+    await messageHandler.generateResponse(
+      mockIncomingMessageTwo,
+      mockApi,
+      state
+    );
+
+    expect(mockSendMessage).toHaveBeenCalledWith({
+      chat_id: "some_chat_id",
+      text: mockResponseTwo,
+    });
+  });
+
+  test("should respond with cant find the film if the film title doesnt exist", async () => {
+    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieNoTitle);
+
+    const mockIncomingMessageTwo: IncomingMessage = {
+      message: {
+        from: { first_name: "Henry" },
+        chat: { id: "some_chat_id" },
+        text: "/movie not_a_film",
+      },
+    };
+
+    const mockResponseTwo: string = "Unknown movie";
 
     await messageHandler.generateResponse(
       mockIncomingMessageTwo,

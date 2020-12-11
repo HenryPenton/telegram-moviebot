@@ -1,0 +1,31 @@
+{
+  "Title": "Taken",
+  "Year": "2008",
+  "Rated": "PG-13",
+  "Released": "30 Jan 2009",
+  "Runtime": "90 min",
+  "Genre": "Action, Thriller",
+  "Director": "Pierre Morel",
+  "Writer": "Luc Besson, Robert Mark Kamen",
+  "Actors": "Liam Neeson, Maggie Grace, Leland Orser, Jon Gries",
+  "Plot": "A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.",
+  "Language": "English, French, Albanian, Arabic",
+  "Country": "France, USA, UK",
+  "Awards": "2 wins & 2 nominations.",
+  "Poster": "https://m.media-amazon.com/images/M/MV5BMTM4NzQ0OTYyOF5BMl5BanBnXkFtZTcwMDkyNjQyMg@@._V1_SX300.jpg",
+  "Ratings": [
+    { "Source": "Rotten Tomatoes", "Value": "58%" },
+    { "Source": "Internet Movie Database", "Value": "7.8/10" },
+    { "Source": "Metacritic", "Value": "51/100" }
+  ],
+  "Metascore": "51",
+  "imdbRating": "7.8",
+  "imdbVotes": "561,145",
+  "imdbID": "tt0936501",
+  "Type": "movie",
+  "DVD": "N/A",
+  "BoxOffice": "N/A",
+  "Production": "EuropaCorp, Grive Productions, M6 Films Production",
+  "Website": "N/A",
+  "Response": "True"
+}
