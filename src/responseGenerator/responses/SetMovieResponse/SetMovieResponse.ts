@@ -21,8 +21,6 @@ export class SetMovieResponse extends AsyncResponse {
 
   getType = () => ResponseType.message;
 
-  movieWithOrWithoutRating = () => {};
-
   isSuccessful = () => this.movie.Response === "True";
 
   getMovieRatings = () => {

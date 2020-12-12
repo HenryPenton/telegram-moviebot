@@ -1,4 +1,4 @@
 export abstract class Response {
-  abstract generateResponse = () => {};
-  abstract getType = () => {};
+  abstract generateResponse: () => void;
+  abstract getType: () => void;
 }

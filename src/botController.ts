@@ -3,12 +3,10 @@ import { IncomingMessage } from "./types";
 import { State } from "./State/State";
 const TG = require("telegram-bot-api");
 
-export const init = () => {
+const getApi = () => {
   const api = new TG({
     token: process.env.TELEGRAM_BOT_TOKEN,
   });
-
-  const state = new State();
 
   const mp = new TG.GetUpdateMessageProvider();
 
@@ -21,6 +19,13 @@ export const init = () => {
     })
     .catch((err: string) => console.error(err));
 
+  return api;
+};
+
+export const init = () => {
+  const state = new State();
+  const api = getApi();
+  
   api.on("update", async (update: IncomingMessage) => {
     generateResponse(update, api, state);
   });
