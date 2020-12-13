@@ -18,32 +18,7 @@ describe("movie command", () => {
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
-  test("should fire a message with the film plus info when someone queries a film", async () => {
-    const mockIncomingMessageOne: IncomingMessage = {
-      message: {
-        from: { first_name: "Joe" },
-        chat: { id: "some_chat_id" },
-        text: "/movie taken",
-      },
-    };
-
-    jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(taken);
-    jest.spyOn(trailerFetcher, "getTrailer").mockResolvedValueOnce("");
-
-    const mockResponseOne: string =
-      "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
-
-    await messageHandler.generateResponse(
-      mockIncomingMessageOne,
-      mockApi,
-      state
-    );
-
-    expect(mockSendMessage).toHaveBeenCalledWith({
-      chat_id: "some_chat_id",
-      text: mockResponseOne,
-    });
-  });
+  
   test("should fire a message with the film plus info plus the trailer (if available) when someone queries a film", async () => {
     jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
     jest
