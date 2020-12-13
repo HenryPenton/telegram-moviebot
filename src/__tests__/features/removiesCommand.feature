@@ -1,4 +1,4 @@
-Feature: Removie command
+Feature: Removies command
 
     Scenario: Removies command wipes the single film in the film selection
         Given a film selection

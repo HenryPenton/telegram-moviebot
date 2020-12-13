@@ -7,7 +7,7 @@ import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
 
-const feature = loadFeature("./src/__tests__/features/removiesCommand.feature");
+const feature = loadFeature("./src/__tests__/features/removieCommand.feature");
 
 defineFeature(feature, (test) => {
   const movieWithInfo = () => {
@@ -20,7 +20,7 @@ defineFeature(feature, (test) => {
     await response(command, mockApi, state);
   };
 
-  const removies = async () => {
+  const removie = async () => {
     command = removiesCommand;
     await response(command, mockApi, state);
   };
@@ -83,58 +83,25 @@ defineFeature(feature, (test) => {
 
   let command: IncomingMessage;
 
-  test("Removies command wipes the single film in the film selection", ({
-    and,
-    given,
-    when,
-    then,
-  }) => {
-    given("a film selection", async () => {
-      await setFilm();
-    });
+  test("Remove a movie by id", ({ given, and, when, then }) => {
+    given("a film selection", () => {});
 
-    and("the film selection has one film in it", async () => {
-      command = getMovieCommand;
-      await response(command, mockApi, state);
-    });
+    and(
+      /^the selection has any (.*) of movies in it$/,
+      (numberOfMovies: number) => {
+        let count = numberOfMovies;
+        while (count > 0) {
+          count--;
+          setFilm();
+        }
+      }
+    );
 
-    when("the removies command is sent", async () => {
-      await removies();
-    });
+    when("the removie command is sent", () => {});
 
-    then("the film selection is reset", async () => {
-      await filmSelectionWasCorrect(2, "1. Taken (IMDb Rating: 7.8/10)");
-
-      await filmSelectionReset(4);
-    });
-  });
-
-  test("Removies command wipes multiple films in the film selection", ({
-    given,
-    and,
-    when,
-    then,
-  }) => {
-    given("a film selection", async () => {
-      await setFilm();
-      await setFilm();
-    });
-
-    and("the film selection has multiple films in it", async () => {
-      command = getMovieCommand;
-      await response(command, mockApi, state);
-    });
-
-    when("the removies command is sent", async () => {
-      await removies();
-    });
-
-    then("the film selection is reset", async () => {
-      await filmSelectionWasCorrect(
-        3,
-        "1. Taken (IMDb Rating: 7.8/10)\n2. Taken (IMDb Rating: 7.8/10)"
-      );
-      await filmSelectionReset(5);
-    });
+    then(
+      /^the film with at position (.*) in the selection is removed$/,
+      (index: number) => {}
+    );
   });
 });
