@@ -26,3 +26,23 @@ Feature: Movie command
         And youtube is unvailable
         When the command is executed
         Then the response should contain the title and information
+
+    Scenario: Responding to a movie where the title without a trailer is the only available information
+        Given an incoming message prefixed with movie
+        And there is only a title available for the film
+        And there is no trailer for the film
+        When the command is executed
+        Then the response should contain the movie name only
+
+    Scenario: Responding to a movie where the title with a trailer is the only available information
+        Given an incoming message prefixed with movie
+        And there is only a title available for the film
+        And there is a trailer for the film
+        When the command is executed
+        Then the response should contain the movie name only
+
+    Scenario: Responding to a movie where the title doesn't exist
+        Given an incoming message prefixed with movie
+        And there is no title available for the film
+        When the command is executed
+        Then the response should say "Unknown movie"
