@@ -1,7 +1,5 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
-import * as fetcher from "../../fetcher/fetcher";
 
-import filmWithInfo from "../testData/taken.json";
 import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
@@ -52,7 +50,7 @@ defineFeature(feature, (test) => {
         let count = numberOfMovies;
         while (count > 0) {
           count--;
-          state.setMovie(`${numberOfMovies - count}`);
+          state.setMovie("" + (numberOfMovies - count));
         }
       }
     );
@@ -69,7 +67,7 @@ defineFeature(feature, (test) => {
           text: `${index} removed from the selection`,
         });
 
-        expect(state.getMovies()).not.toContain(`${index}`);
+        expect(state.getMovies()).not.toContain("" + index);
       }
     );
   });
