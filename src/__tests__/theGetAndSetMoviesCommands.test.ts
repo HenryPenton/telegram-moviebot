@@ -11,7 +11,6 @@ import nonExistingMovie from "./testData/nonExiststentFilm.json";
 import movieWithoutTitle from "./testData/movieWithoutTitle.json";
 import takenBlankRatingsArray from "./testData/takenBlankRatingsArray.json";
 
-
 describe("The get and set movie commands", () => {
   let state: State;
   const mockSendMessage = jest.fn(() => {});
@@ -171,6 +170,93 @@ describe("The get and set movie commands", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
         text: "Taken added to the film selection",
+      });
+    });
+
+    test("Should send back a message saying only 10 movies can be set if someone tries to set an 11th", async () => {
+      jest
+        .spyOn(movieFetcher, "getMovie")
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken)
+        .mockResolvedValueOnce(taken);
+
+      state = new State();
+
+      const mockIncomingMessageOne: IncomingMessage = {
+        message: {
+          from: { first_name: "Joe" },
+          chat: { id: "some_chat_id" },
+          text: "/setmovie somemovie",
+        },
+      };
+
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+      await messageHandler.generateResponse(
+        mockIncomingMessageOne,
+        mockApi,
+        state
+      );
+
+      expect(mockSendMessage).toHaveBeenLastCalledWith({
+        chat_id: "some_chat_id",
+        text: "You may only set up to 10 movies",
       });
     });
   });

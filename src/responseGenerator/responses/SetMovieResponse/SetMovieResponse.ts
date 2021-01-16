@@ -40,7 +40,9 @@ export class SetMovieResponse extends AsyncResponse {
   compileResponse = () => {
     const movieTitle = this.movie.Title;
     const movieRating = this.getMovieRatings();
-
+    if (this.state.movies.length === 10) {
+      return "You may only set up to 10 movies";
+    }
     if (movieTitle) {
       if (movieRating) {
         const titleWithRating = `${movieTitle} ${movieRating}`;
