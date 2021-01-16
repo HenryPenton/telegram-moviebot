@@ -20,8 +20,8 @@ defineFeature(feature, (test) => {
     await response(command, mockApi, state);
   };
 
-  const removie = async () => {
-    command = removiesCommand;
+  const removie = async (index: number) => {
+    command = removieCommand(index);
     await response(command, mockApi, state);
   };
 
@@ -49,7 +49,7 @@ defineFeature(feature, (test) => {
     await messageHandler.generateResponse(command, mockApi, state);
   };
 
-  const state = new State();
+  let state = new State();
 
   const mockSendMessage = jest.fn(() => {});
   const mockApi = { sendMessage: mockSendMessage };
@@ -73,35 +73,47 @@ defineFeature(feature, (test) => {
     },
   };
 
-  const removiesCommand: IncomingMessage = {
+  const removieCommand = (index: number): IncomingMessage => ({
     message: {
       from: { first_name: "Joe" },
       chat: { id: "some_chat_id" },
-      text: "/removies",
+      text: `/removie ${index}`,
     },
-  };
+  });
 
   let command: IncomingMessage;
 
   test("Remove a movie by id", ({ given, and, when, then }) => {
-    given("a film selection", () => {});
+    given("a film selection", () => {
+      state = new State();
+    });
 
     and(
       /^the selection has any (.*) of movies in it$/,
-      (numberOfMovies: number) => {
+      async (numberOfMovies: number) => {
         let count = numberOfMovies;
         while (count > 0) {
           count--;
-          setFilm();
+          state.setMovie(`${numberOfMovies - count}`);
         }
       }
     );
 
-    when("the removie command is sent", () => {});
+    when(/^the removie (.*) command is sent$/, (index: number) => {
+      removie(index);
+    });
 
     then(
       /^the film with at position (.*) in the selection is removed$/,
-      (index: number) => {}
+      (index: number) => {
+        
+        expect(mockSendMessage).toHaveBeenCalledWith({
+          chat_id: "some_chat_id",
+          text: `${index} removed from the selection`,
+        });
+        
+        expect(state.getMovies()).not.toContain(`${index}`);
+      }
     );
   });
 });

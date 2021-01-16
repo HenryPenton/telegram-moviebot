@@ -26,46 +26,6 @@ describe("The removie command", () => {
       text: "/getmovies",
     },
   };
-  test("added movies should be removeable from future calls to getmovie, remove by id", async () => {
-    jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
-    state = new State();
-
-    const removieMessage: IncomingMessage = {
-      message: {
-        from: { first_name: "Joe" },
-        chat: { id: "some_chat_id" },
-        text: "/removie 1",
-      },
-    };
-
-    await messageHandler.generateResponse(setMovieMessage, mockApi, state);
-
-    expect(mockSendMessage).toHaveBeenLastCalledWith({
-      chat_id: "some_chat_id",
-      text: "Finding Nemo (IMDb Rating: 8.1/10) added to the film selection",
-    });
-
-    await messageHandler.generateResponse(getMovieMessage, mockApi, state);
-
-    expect(mockSendMessage).toHaveBeenLastCalledWith({
-      chat_id: "some_chat_id",
-      text: "1. Finding Nemo (IMDb Rating: 8.1/10)",
-    });
-
-    await messageHandler.generateResponse(removieMessage, mockApi, state);
-
-    expect(mockSendMessage).toHaveBeenLastCalledWith({
-      chat_id: "some_chat_id",
-      text: "Finding Nemo (IMDb Rating: 8.1/10) removed from the selection",
-    });
-
-    await messageHandler.generateResponse(getMovieMessage, mockApi, state);
-
-    expect(mockSendMessage).toHaveBeenLastCalledWith({
-      chat_id: "some_chat_id",
-      text: "No movies have been set yet",
-    });
-  });
 
   test("shouldn't remove a movie if the id is non numerical", async () => {
     jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);

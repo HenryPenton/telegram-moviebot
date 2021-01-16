@@ -4,7 +4,7 @@ Feature: Removie command
     Scenario Outline: Remove a movie by id
         Given a film selection
         And the selection has any <number> of movies in it
-        When the removie command is sent
+        When the removie <id> command is sent
         Then the film with at position <id> in the selection is removed
 
         Examples:
