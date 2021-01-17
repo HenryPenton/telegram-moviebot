@@ -79,8 +79,8 @@ defineFeature(feature, (test) => {
       state.setMovie("finding nemo");
     });
 
-    when("the removie command is sent with the name of the film", () => {
-      removie("finding nemo");
+    when("the removie command is sent with the name of the film", async () => {
+      await removie("finding nemo");
     });
 
     then("the film is removed", () => {
