@@ -6,7 +6,7 @@ import { IncomingMessage } from "../../types";
 const feature = loadFeature("./src/__tests__/features/removieCommand.feature");
 
 defineFeature(feature, (test) => {
-  const removie = async (index: number) => {
+  const removie = async (index: number | string) => {
     command = removieCommand(index);
     await response(command, mockApi, state);
   };
@@ -27,11 +27,11 @@ defineFeature(feature, (test) => {
     mockSendMessage.mockReset();
   });
 
-  const removieCommand = (index: number): IncomingMessage => ({
+  const removieCommand = (movieNameOrId: number | string): IncomingMessage => ({
     message: {
       from: { first_name: "Joe" },
       chat: { id: "some_chat_id" },
-      text: `/removie ${index}`,
+      text: `/removie ${movieNameOrId}`,
     },
   });
 
@@ -53,8 +53,8 @@ defineFeature(feature, (test) => {
       }
     );
 
-    when(/^the removie (.*) command is sent$/, (index: number) => {
-      removie(index);
+    when(/^the removie (.*) command is sent$/, async (index: number) => {
+      await removie(index);
     });
 
     then(
@@ -68,5 +68,58 @@ defineFeature(feature, (test) => {
         expect(state.getMovies()).not.toContain(`${index}`);
       }
     );
+  });
+
+  test("Remove movie by name", ({ given, when, then }) => {
+    given("a film selection", () => {
+      state = new State();
+    });
+
+    given("the selection has a movie in it", () => {
+      state.setMovie("finding nemo");
+    });
+
+    when("the removie command is sent with the name of the film", () => {
+      removie("finding nemo");
+    });
+
+    then("the film is removed", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: `finding nemo removed from the selection`,
+      });
+
+      expect(state.getMovies()).not.toContain(`finding nemo`);
+    });
+  });
+
+  test("Id/name that doesnt relate to a movie", ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    given("a film selection", () => {
+      state = new State();
+    });
+
+    and("the selection has a movie in it", () => {
+      state.setMovie("1");
+    });
+
+    when(
+      /^the removie command is sent with an (.*) that doesnt relate to a movie$/,
+      async (nameOrId: number | string) => {
+        await removie(nameOrId);
+      }
+    );
+
+    then("nothing is removed from the film selection", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Couldn't find that film in the selection",
+      });
+      expect(state.movies).toHaveLength(1);
+    });
   });
 });
