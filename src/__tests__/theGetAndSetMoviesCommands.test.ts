@@ -174,19 +174,7 @@ describe("The get and set movie commands", () => {
     });
 
     test("Should send back a message saying only 10 movies can be set if someone tries to set an 11th", async () => {
-      jest
-        .spyOn(movieFetcher, "getMovie")
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken)
-        .mockResolvedValueOnce(taken);
+      jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(taken);
 
       state = new State();
 
@@ -198,56 +186,16 @@ describe("The get and set movie commands", () => {
         },
       };
 
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
+      state.setMovie("1");
+      state.setMovie("2");
+      state.setMovie("3");
+      state.setMovie("4");
+      state.setMovie("5");
+      state.setMovie("6");
+      state.setMovie("7");
+      state.setMovie("8");
+      state.setMovie("9");
+      state.setMovie("10");
       await messageHandler.generateResponse(
         mockIncomingMessageOne,
         mockApi,
