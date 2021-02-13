@@ -4,6 +4,7 @@ import { State } from "../State/State";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
+import { MovieYearResponse } from "./responses/MovieYearResponse/MovieYearResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
@@ -24,6 +25,12 @@ export const generate = async (
       response = await movieResponse.generateResponse();
       type = movieResponse.getType();
 
+      break;
+    case "movieyear":
+      const movieYearResponse = new MovieYearResponse(restOfString);
+      response = await movieYearResponse.generateResponse();
+
+      type = movieYearResponse.getType();
       break;
     case "setmovie":
       const setMovieResponse = new SetMovieResponse(restOfString, state);

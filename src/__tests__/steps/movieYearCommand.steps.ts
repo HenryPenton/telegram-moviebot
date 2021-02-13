@@ -1,19 +1,25 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
-import * as movieFetcher from "../../fetcher/movie/movieFetcher";
 
 import filmWithInfo from "../testData/taken.json";
-import movieNoTitle from "../testData/movieWithoutTitle.json";
-import filmNoInfo from "../testData/findingnemoNoInfo.json";
 import movieTrailer from "../testData/ytResponse.json";
+import filmNoInfo from "../testData/findingnemoNoInfo.json";
+import movieNoTitle from "../testData/movieWithoutTitle.json";
+
 import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
 
-const feature = loadFeature("./src/__tests__/features/movieCommand.feature");
+const feature = loadFeature(
+  "./src/__tests__/features/movieYearCommand.feature"
+);
 
 defineFeature(feature, (test) => {
+  const mockMovieWithYear = () => {
+    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
+  };
+
   const mockMovieWithInfo = () => {
     jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
   };
@@ -29,10 +35,6 @@ defineFeature(feature, (test) => {
   };
 
   const mockMovieWithTrailer = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
-  };
-
-  const mockMovieWithYear = () => {
     jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
   };
 
@@ -52,13 +54,8 @@ defineFeature(feature, (test) => {
     mockSendMessage.mockReset();
   });
 
-  const movieCommand: IncomingMessage = {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: "/movie somefilmname",
-    },
-  };
+  const movieWithInfoNoTrailerResponse: string =
+    "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
   const movieWithYearCommand: IncomingMessage = {
     message: {
@@ -68,14 +65,35 @@ defineFeature(feature, (test) => {
     },
   };
 
-  const movieWithInfoNoTrailerResponse: string =
-    "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
-
   let command: IncomingMessage;
+
+  test("Get a movie by title and Year", ({ given, and, when, then }) => {
+    given("a movie command with a year specified", () => {
+      command = movieWithYearCommand;
+    });
+
+    and("there are two possible movies by title", () => {
+      mockMovieWithYear();
+    });
+
+    when("the command is executed", async () => {
+      await response(command, mockApi, state);
+    });
+
+    then("the response should be the movie that relates to the Year", () => {
+      const responseWithTitleInformationAndTrailer: string =
+        "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: responseWithTitleInformationAndTrailer,
+      });
+    });
+  });
 
   test("Getting a movie with info", async ({ given, and, then, when }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and(
@@ -108,7 +126,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and(
@@ -147,7 +165,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and("the omdb is unvailable", () => {
@@ -168,7 +186,7 @@ defineFeature(feature, (test) => {
 
   test("Responding to an unavailable trailer", ({ given, and, when, then }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and(
@@ -201,7 +219,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and("there is only a title available for the film", () => {
@@ -231,7 +249,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and("there is only a title available for the film", () => {
@@ -261,7 +279,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = movieWithYearCommand;
     });
 
     and("there is no title available for the film", () => {
