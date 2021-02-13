@@ -1,6 +1,5 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
-import * as movieFetcher from "../../fetcher/movie/movieFetcher";
 
 import filmWithInfo from "../testData/taken.json";
 import movieNoTitle from "../testData/movieWithoutTitle.json";

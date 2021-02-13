@@ -4,7 +4,6 @@ import { State } from "../State/State";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
-import { MovieYearResponse } from "./responses/MovieYearResponse/MovieYearResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
@@ -27,7 +26,7 @@ export const generate = async (
 
       break;
     case "movieyear":
-      const movieYearResponse = new MovieYearResponse(restOfString);
+      const movieYearResponse = new MovieResponse(restOfString, true);
       response = await movieYearResponse.generateResponse();
 
       type = movieYearResponse.getType();
@@ -36,6 +35,16 @@ export const generate = async (
       const setMovieResponse = new SetMovieResponse(restOfString, state);
       response = await setMovieResponse.generateResponse();
       type = setMovieResponse.getType();
+
+      break;
+    case "setmovieyear":
+      const setMovieYearResponse = new SetMovieResponse(
+        restOfString,
+        state,
+        true
+      );
+      response = await setMovieYearResponse.generateResponse();
+      type = setMovieYearResponse.getType();
 
       break;
     case "getmovies":

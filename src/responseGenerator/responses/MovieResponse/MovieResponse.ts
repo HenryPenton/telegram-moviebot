@@ -1,17 +1,32 @@
-import { getMovie } from "../../../fetcher/movie/movieFetcher";
+import {
+  getMovie,
+  getMovieWithYear,
+} from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { Rating } from "../../../types";
 import { AsyncResponse } from "../AsyncResponse";
 
 export class MovieResponse extends AsyncResponse {
-  constructor(queryString: string) {
+  withYear: boolean;
+
+  constructor(queryString: string, withYear: boolean = false) {
     super(queryString);
     this.queryString = queryString;
+    this.withYear = withYear;
   }
 
   getMovie = async () => {
-    this.movie = await getMovie(this.queryString);
+    if (this.withYear) {
+      const querySplit = this.queryString.split(" ");
+      const movieYear = querySplit[querySplit.length - 1];
+
+      querySplit.pop();
+      const queryStringWithoutYear = querySplit.join(" ");
+      this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
+    } else {
+      this.movie = await getMovie(this.queryString);
+    }
   };
 
   getType = () => ResponseType.message;
