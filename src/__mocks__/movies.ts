@@ -2,7 +2,7 @@ import filmWithInfo from "../__tests__/testData/taken.json";
 import * as fetcher from "../fetcher/fetcher";
 import * as messageHandler from "../messageHandler/messageHandler";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
-import { getMessage, MessageType } from "./messages";
+import { getInvalidMessage, getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
 
 beforeEach(() => {
@@ -22,6 +22,17 @@ export const runMessageHandler = async (
 ) => {
   await messageHandler.generateResponse(
     getMessage(messageType),
+    mockApi,
+    state
+  );
+};
+
+export const runInvalidMessageHandler = async (
+  invalidCommand: string,
+  state: State
+) => {
+  await messageHandler.generateResponse(
+    getInvalidMessage(invalidCommand),
     mockApi,
     state
   );

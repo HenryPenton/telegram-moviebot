@@ -62,3 +62,12 @@ export const getMessage = (messageType: MessageType) => {
       return mockMoviePollMessage;
   }
 };
+export const getInvalidMessage = (message: string) => {
+  return {
+    message: {
+      from: { first_name: "Joe" },
+      chat: { id: "some_chat_id" },
+      text: message,
+    },
+  };
+};
