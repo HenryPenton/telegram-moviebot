@@ -2,6 +2,9 @@
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
+  "testPathIgnorePatterns" : [
+    "<rootDir>/__tests__/mockingFunctions/mocks.ts" 
+  ],
   "coveragePathIgnorePatterns" : [
     "<rootDir>/src/fetcher/fetcher.ts" 
   ],

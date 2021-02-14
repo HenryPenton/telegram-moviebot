@@ -1,4 +1,5 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
+import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
@@ -20,12 +21,6 @@ defineFeature(feature, (test) => {
   };
 
   let state = new State();
-
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-  });
 
   const removieCommand = (movieNameOrId: number | string): IncomingMessage => ({
     message: {
