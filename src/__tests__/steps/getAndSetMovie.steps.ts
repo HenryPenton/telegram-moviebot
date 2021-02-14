@@ -1,5 +1,5 @@
 import {
-  getMessageHandlerResponse,
+  runMessageHandler,
   mockMovieWithInfo,
   mockSendMessage,
 } from "../../__mocks__/movies";
@@ -24,7 +24,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(MessageType.SET_MOVIE_WITH_YEAR, state);
+      await runMessageHandler(MessageType.SET_MOVIE_WITH_YEAR, state);
     });
 
     then("the movie is set", () => {

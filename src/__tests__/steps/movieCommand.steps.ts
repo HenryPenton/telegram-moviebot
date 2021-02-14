@@ -1,8 +1,6 @@
-import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
 import {
-  getMessageHandlerResponse,
-  mockApi,
+  runMessageHandler,
   mockMovieWithInfo,
   mockMovieWithTrailer,
   mockNoTrailer,
@@ -11,36 +9,17 @@ import {
   mockYoutubeUnavailable,
 } from "../../__mocks__/movies";
 
-import filmWithInfo from "../testData/taken.json";
 import movieNoTitle from "../testData/movieWithoutTitle.json";
 import filmNoInfo from "../testData/findingnemoNoInfo.json";
-import movieTrailer from "../testData/ytResponse.json";
 import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { IncomingMessage } from "../../types";
 import { MessageType } from "../../__mocks__/messages";
 
 const feature = loadFeature("./src/__tests__/features/movieCommand.feature");
 
 defineFeature(feature, (test) => {
-  const response = async (
-    command: IncomingMessage,
-    mockApi: any,
-    state: State
-  ) => {
-    await messageHandler.generateResponse(command, mockApi, state);
-  };
-
   const state = new State();
-
-  const movieCommand: IncomingMessage = {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: "/movie somefilmname",
-    },
-  };
 
   const movieWithInfoNoTrailerResponse: string =
     "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
@@ -64,7 +43,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then("the response should contain the title and information", () => {
@@ -97,7 +76,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then(
@@ -129,7 +108,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then(/^the response should say "(.*)"$/, (failureResponse: string) => {
@@ -157,7 +136,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then("the response should contain the title and information", () => {
@@ -187,7 +166,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then("the response should contain the movie name only", () => {
@@ -217,7 +196,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then("the response should contain the movie name only", () => {
@@ -243,7 +222,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await getMessageHandlerResponse(command, state);
+      await runMessageHandler(command, state);
     });
 
     then(/^the response should say "(.*)"$/, (failureResponse: string) => {

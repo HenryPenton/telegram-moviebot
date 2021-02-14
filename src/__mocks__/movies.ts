@@ -17,7 +17,7 @@ export const mockApi = {
   sendPoll: mockSendPoll,
 };
 
-export const getMessageHandlerResponse = async (
+export const runMessageHandler = async (
   messageType: MessageType,
   state: State
 ) => {
