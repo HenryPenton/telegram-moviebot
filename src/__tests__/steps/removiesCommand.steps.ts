@@ -52,8 +52,6 @@ defineFeature(feature, (test) => {
 
   const state = new State();
 
-
-
   const setMovieCommand: IncomingMessage = {
     message: {
       from: { first_name: "Joe" },
