@@ -1,5 +1,6 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
+import { mockApi, mockSendMessage, mockSendPoll } from "../../__mocks__/movies";
 
 import film from "../testData/taken.json";
 import { State } from "../../State/State";
@@ -16,16 +17,6 @@ defineFeature(feature, (test) => {
     jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(film);
   };
 
-  const mockSendPoll = jest.fn(() => {});
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = {
-    sendMessage: mockSendMessage,
-    sendPoll: mockSendPoll,
-  };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-    mockSendPoll.mockReset();
-  });
   const mockMoviePollCommand: IncomingMessage = {
     message: {
       from: { first_name: "Joe" },

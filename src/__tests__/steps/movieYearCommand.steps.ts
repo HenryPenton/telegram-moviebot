@@ -1,5 +1,6 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
+import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 
 import filmWithInfo from "../testData/taken.json";
 import movieTrailer from "../testData/ytResponse.json";
@@ -47,12 +48,6 @@ defineFeature(feature, (test) => {
   };
 
   const state = new State();
-
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-  });
 
   const movieWithInfoNoTrailerResponse: string =
     "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";

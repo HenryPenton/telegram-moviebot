@@ -1,6 +1,6 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as movieFetcher from "../../fetcher/movie/movieFetcher";
-
+import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 import filmWithInfo from "../testData/taken.json";
 import { loadFeature, defineFeature } from "jest-cucumber";
 import { State } from "../../State/State";
@@ -10,11 +10,6 @@ const feature = loadFeature("./src/__tests__/features/getAndSetMovie.feature");
 
 defineFeature(feature, (test) => {
   let state: State;
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-  });
   test("Set a movie using the setmovieyear command", ({
     given,
     when,

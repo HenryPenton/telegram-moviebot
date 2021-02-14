@@ -1,5 +1,6 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
+import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 
 import filmWithInfo from "../testData/taken.json";
 import movieNoTitle from "../testData/movieWithoutTitle.json";
@@ -44,12 +45,6 @@ defineFeature(feature, (test) => {
   };
 
   const state = new State();
-
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
-  beforeEach(() => {
-    mockSendMessage.mockReset();
-  });
 
   const movieCommand: IncomingMessage = {
     message: {
