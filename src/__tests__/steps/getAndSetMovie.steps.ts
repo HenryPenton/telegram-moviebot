@@ -1,6 +1,6 @@
 import {
   getMessageHandlerResponse,
-  mockMovieWithYear,
+  mockMovieWithInfo,
   mockSendMessage,
 } from "../../__mocks__/movies";
 import { loadFeature, defineFeature } from "jest-cucumber";
@@ -20,7 +20,7 @@ defineFeature(feature, (test) => {
     state = new State();
 
     given("A setmovieyear command", () => {
-      mockMovieWithYear();
+      mockMovieWithInfo();
     });
 
     when("the command is executed", async () => {

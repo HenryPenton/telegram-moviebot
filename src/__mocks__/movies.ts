@@ -1,6 +1,8 @@
 import filmWithInfo from "../__tests__/testData/taken.json";
 import * as movieFetcher from "../fetcher/movie/movieFetcher";
+import * as fetcher from "../fetcher/fetcher";
 import * as messageHandler from "../messageHandler/messageHandler";
+import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
 
@@ -26,8 +28,21 @@ export const getMessageHandlerResponse = async (
   );
 };
 
-export const mockMovieWithYear = () => {
-  jest
-    .spyOn(movieFetcher, "getMovieWithYear")
-    .mockResolvedValueOnce(filmWithInfo);
+
+export const mockMovieWithInfo = () => {
+  jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
+};
+export const mockOmdbUnavailable = () => {
+  jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
+};
+export const mockYoutubeUnavailable = () => {
+  jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
+};
+
+export const mockNoTrailer = () => {
+  jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
+};
+
+export const mockMovieWithTrailer = () => {
+  jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
 };

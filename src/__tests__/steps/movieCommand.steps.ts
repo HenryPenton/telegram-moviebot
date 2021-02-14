@@ -1,6 +1,15 @@
 import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
-import { mockApi, mockSendMessage } from "../../__mocks__/movies";
+import {
+  getMessageHandlerResponse,
+  mockApi,
+  mockMovieWithInfo,
+  mockMovieWithTrailer,
+  mockNoTrailer,
+  mockOmdbUnavailable,
+  mockSendMessage,
+  mockYoutubeUnavailable,
+} from "../../__mocks__/movies";
 
 import filmWithInfo from "../testData/taken.json";
 import movieNoTitle from "../testData/movieWithoutTitle.json";
@@ -10,32 +19,11 @@ import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
+import { MessageType } from "../../__mocks__/messages";
 
 const feature = loadFeature("./src/__tests__/features/movieCommand.feature");
 
 defineFeature(feature, (test) => {
-  const mockMovieWithInfo = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
-  };
-  const mockOmdbUnavailable = () => {
-    jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
-  };
-  const mockYoutubeUnavailable = () => {
-    jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
-  };
-
-  const mockNoTrailer = () => {
-    jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
-  };
-
-  const mockMovieWithTrailer = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
-  };
-
-  const mockMovieWithYear = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
-  };
-
   const response = async (
     command: IncomingMessage,
     mockApi: any,
@@ -54,22 +42,14 @@ defineFeature(feature, (test) => {
     },
   };
 
-  const movieWithYearCommand: IncomingMessage = {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: "/movieyear somefilmname 1989",
-    },
-  };
-
   const movieWithInfoNoTrailerResponse: string =
     "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
-  let command: IncomingMessage;
+  let command: MessageType;
 
   test("Getting a movie with info", async ({ given, and, then, when }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and(
@@ -84,7 +64,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then("the response should contain the title and information", () => {
@@ -102,7 +82,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and(
@@ -117,7 +97,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then(
@@ -141,7 +121,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and("the omdb is unvailable", () => {
@@ -149,7 +129,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then(/^the response should say "(.*)"$/, (failureResponse: string) => {
@@ -162,7 +142,7 @@ defineFeature(feature, (test) => {
 
   test("Responding to an unavailable trailer", ({ given, and, when, then }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and(
@@ -177,7 +157,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then("the response should contain the title and information", () => {
@@ -195,7 +175,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and("there is only a title available for the film", () => {
@@ -207,7 +187,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then("the response should contain the movie name only", () => {
@@ -225,7 +205,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and("there is only a title available for the film", () => {
@@ -237,7 +217,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then("the response should contain the movie name only", () => {
@@ -255,7 +235,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     given("an incoming message prefixed with movie", () => {
-      command = movieCommand;
+      command = MessageType.MOVIE;
     });
 
     and("there is no title available for the film", () => {
@@ -263,7 +243,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the command is executed", async () => {
-      await response(command, mockApi, state);
+      await getMessageHandlerResponse(command, state);
     });
 
     then(/^the response should say "(.*)"$/, (failureResponse: string) => {
