@@ -1,5 +1,4 @@
 import filmWithInfo from "../__tests__/testData/taken.json";
-import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import * as fetcher from "../fetcher/fetcher";
 import * as messageHandler from "../messageHandler/messageHandler";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
@@ -27,7 +26,6 @@ export const runMessageHandler = async (
     state
   );
 };
-
 
 export const mockMovieWithInfo = () => {
   jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);

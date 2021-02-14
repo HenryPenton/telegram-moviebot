@@ -54,6 +54,30 @@ defineFeature(feature, (test) => {
     });
   });
 
+  test("Get a movie by title and Year", ({ given, and, when, then }) => {
+    given("a movie command with a year specified", () => {
+      command = MessageType.MOVIE_WITH_YEAR;
+    });
+
+    and("there are two possible movies by title", () => {
+      mockMovieWithInfo();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then("the response should be the movie that relates to the Year", () => {
+      const responseWithTitleInformationAndTrailer: string =
+        "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: responseWithTitleInformationAndTrailer,
+      });
+    });
+  });
+
   test("Getting a movie with info and a trailer", ({
     given,
     and,
@@ -101,6 +125,32 @@ defineFeature(feature, (test) => {
   }) => {
     given("an incoming message prefixed with movie", () => {
       command = MessageType.MOVIE;
+    });
+
+    and("the omdb is unvailable", () => {
+      mockOmdbUnavailable();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then(/^the response should say "(.*)"$/, (failureResponse: string) => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: failureResponse,
+      });
+    });
+  });
+
+  test("Responding to an unavailable film when getting by title and year", async ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    given("an incoming message prefixed with movieyear", () => {
+      command = MessageType.MOVIE_WITH_YEAR;
     });
 
     and("the omdb is unvailable", () => {
