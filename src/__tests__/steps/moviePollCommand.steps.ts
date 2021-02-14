@@ -1,37 +1,20 @@
-import * as messageHandler from "../../messageHandler/messageHandler";
-import * as fetcher from "../../fetcher/fetcher";
-import { mockApi, mockSendMessage, mockSendPoll } from "../../__mocks__/movies";
+import {
+  mockMovieWithInfo,
+  mockSendMessage,
+  mockSendPoll,
+  runMessageHandler,
+} from "../../__mocks__/movies";
 
-import film from "../testData/taken.json";
 import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { IncomingMessage } from "../../types";
+import { MessageType } from "../../__mocks__/messages";
 
 const feature = loadFeature(
   "./src/__tests__/features/moviePollCommand.feature"
 );
 
 defineFeature(feature, (test) => {
-  const mockMovieResponse = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(film);
-  };
-
-  const mockMoviePollCommand: IncomingMessage = {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: "/moviepoll",
-    },
-  };
-  const mockSetAMovieMessage: IncomingMessage = {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: "/setmovie some_movie",
-    },
-  };
-
   test("Minimum number of movies", ({ given, when, then }) => {
     let state: State;
 
@@ -42,23 +25,15 @@ defineFeature(feature, (test) => {
 
         let counter = numberOfMovies;
         while (counter > 0) {
-          mockMovieResponse();
-          await messageHandler.generateResponse(
-            mockSetAMovieMessage,
-            mockApi,
-            state
-          );
+          mockMovieWithInfo();
+          await runMessageHandler(MessageType.SET_MOVIE, state);
           counter--;
         }
       }
     );
 
     when("I send the moviepoll command", async () => {
-      await messageHandler.generateResponse(
-        mockMoviePollCommand,
-        mockApi,
-        state
-      );
+      await runMessageHandler(MessageType.MOVIEPOLL, state);
     });
 
     then(/^I get a message saying "(.*)"$/, (error: string) => {
@@ -80,23 +55,15 @@ defineFeature(feature, (test) => {
         let counter = numberOfMovies;
         while (counter > 0) {
           options.push("Taken (IMDb Rating: 7.8/10)");
-          mockMovieResponse();
-          await messageHandler.generateResponse(
-            mockSetAMovieMessage,
-            mockApi,
-            state
-          );
+          mockMovieWithInfo();
+          await runMessageHandler(MessageType.SET_MOVIE, state);
           counter--;
         }
       }
     );
 
     when("I send the moviepoll command", async () => {
-      await messageHandler.generateResponse(
-        mockMoviePollCommand,
-        mockApi,
-        state
-      );
+      await runMessageHandler(MessageType.MOVIEPOLL, state);
     });
 
     then("I receive a poll", () => {
