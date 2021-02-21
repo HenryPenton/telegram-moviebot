@@ -1,9 +1,5 @@
 import { State } from "../../State/State";
-import {
-  mockSendMessage,
-  runInvalidMessageHandler,
-  runMessageHandler,
-} from "../../__mocks__/movies";
+import { mockSendMessage, runMessageHandler } from "../../__mocks__/movies";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { MessageType } from "../../__mocks__/messages";
