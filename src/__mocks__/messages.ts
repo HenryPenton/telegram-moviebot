@@ -56,14 +56,6 @@ const mockNonExistentCommandMessage: IncomingMessage = {
   },
 };
 
-const blank: IncomingMessage = {
-  message: {
-    from: { first_name: "" },
-    chat: { id: "" },
-    text: "",
-  },
-};
-
 export enum MessageType {
   MOVIE,
   MOVIE_WITH_YEAR,
@@ -91,7 +83,5 @@ export const getMessage = (messageType: MessageType) => {
       return mockRegularMessage;
     case MessageType.NON_EXISTSTENT_COMMAND:
       return mockNonExistentCommandMessage;
-    default:
-      return blank;
   }
 };

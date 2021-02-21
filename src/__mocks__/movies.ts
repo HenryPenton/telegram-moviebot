@@ -21,7 +21,7 @@ export const runMessageHandler = async (
   state: State
 ) => {
   await messageHandler.generateResponse(
-    getMessage(messageType),
+    getMessage(messageType)!,
     mockApi,
     state
   );
