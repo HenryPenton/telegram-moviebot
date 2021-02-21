@@ -40,12 +40,31 @@ const mockMovieWithYearMessage: IncomingMessage = {
   },
 };
 
+const mockRegularMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "dontknowthiscommand",
+  },
+};
+
+const mockNonExistentCommandMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/dontknowthiscommand",
+  },
+};
+
 export enum MessageType {
-  MOVIE = "mockMovieMessage",
-  MOVIE_WITH_YEAR = "mockMovieWithYearMessage",
-  SET_MOVIE = "mockSetMovieMessage",
-  SET_MOVIE_WITH_YEAR = "mockSetMovieWithYearMessage",
-  MOVIEPOLL = "mockMoviePollMessage",
+  MOVIE,
+  MOVIE_WITH_YEAR,
+  SET_MOVIE,
+  SET_MOVIE_WITH_YEAR,
+  MOVIEPOLL,
+  REMOVIE,
+  UNKNOWN_COMMAND,
+  NON_EXISTSTENT_COMMAND
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -60,14 +79,9 @@ export const getMessage = (messageType: MessageType) => {
       return mockMovieWithYearMessage;
     case MessageType.MOVIEPOLL:
       return mockMoviePollMessage;
+    case MessageType.UNKNOWN_COMMAND:
+      return mockRegularMessage;
+    case MessageType.NON_EXISTSTENT_COMMAND:
+      return mockNonExistentCommandMessage;
   }
-};
-export const getInvalidMessage = (message: string) => {
-  return {
-    message: {
-      from: { first_name: "Joe" },
-      chat: { id: "some_chat_id" },
-      text: message,
-    },
-  };
 };

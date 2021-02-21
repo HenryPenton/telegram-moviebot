@@ -2,9 +2,11 @@ import { State } from "../../State/State";
 import {
   mockSendMessage,
   runInvalidMessageHandler,
+  runMessageHandler,
 } from "../../__mocks__/movies";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
+import { MessageType } from "../../__mocks__/messages";
 
 const feature = loadFeature(
   "./src/__tests__/features/nonExistentCommand.feature"
@@ -13,9 +15,9 @@ const feature = loadFeature(
 defineFeature(feature, (test) => {
   let state = new State();
 
-  test("Invalid command", ({ when, then }) => {
-    when("an invalid command is sent", async () => {
-      await runInvalidMessageHandler("/dontknowthiscommand", state);
+  test("Regular message", ({ when, then }) => {
+    when("a regular message is sent", async () => {
+      await runMessageHandler(MessageType.UNKNOWN_COMMAND, state);
     });
 
     then("There should be no response", () => {
@@ -27,7 +29,7 @@ defineFeature(feature, (test) => {
     when(
       /^a non existent command of varying number of (.*) is sent$/,
       async () => {
-        await runInvalidMessageHandler("/dontknowthiscommand", state);
+        await runMessageHandler(MessageType.NON_EXISTSTENT_COMMAND, state);
       }
     );
 

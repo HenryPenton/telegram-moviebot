@@ -2,8 +2,8 @@ Feature: Non existent command
 
     Make sure non existent/invalid commands do nothing
 
-    Scenario: Invalid command
-        When an invalid command is sent
+    Scenario: Regular message
+        When a regular message is sent
         Then There should be no response
 
     Scenario Outline: Non existent commands

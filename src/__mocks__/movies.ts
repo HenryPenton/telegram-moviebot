@@ -41,6 +41,7 @@ export const runInvalidMessageHandler = async (
 export const mockMovieWithInfo = () => {
   jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
 };
+
 export const mockOmdbUnavailable = () => {
   jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
 };
@@ -55,3 +56,5 @@ export const mockNoTrailer = () => {
 export const mockMovieWithTrailer = () => {
   jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
 };
+
+export const stateWithXMovies = (x: number) => {};
