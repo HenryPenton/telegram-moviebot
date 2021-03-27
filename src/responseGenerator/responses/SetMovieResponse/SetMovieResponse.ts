@@ -5,13 +5,9 @@ import {
 } from "../../../fetcher/movie/movieFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
+import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
-export enum SearchType {
-  WITH_YEAR,
-  WITH_ID,
-  WITH_SEARCH_TERM,
-}
 export class SetMovieResponse extends AsyncResponse {
   movieName: string;
   state: State;

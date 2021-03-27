@@ -1,31 +1,42 @@
 import {
   getMovie,
+  getMovieWithID,
   getMovieWithYear,
 } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { Rating } from "../../../types";
+import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
 export class MovieResponse extends AsyncResponse {
-  withYear: boolean;
+  searchType: SearchType;
 
-  constructor(queryString: string, withYear: boolean = false) {
+  constructor(queryString: string, searchType: SearchType) {
     super(queryString);
     this.queryString = queryString;
-    this.withYear = withYear;
+    this.searchType = searchType;
   }
 
   getMovie = async () => {
-    if (this.withYear) {
-      const querySplit = this.queryString.split(" ");
-      const movieYear = querySplit[querySplit.length - 1];
+    switch (this.searchType) {
+      case SearchType.WITH_YEAR:
+        const querySplit = this.queryString.split(" ");
+        const movieYear = querySplit[querySplit.length - 1];
 
-      querySplit.pop();
-      const queryStringWithoutYear = querySplit.join(" ");
-      this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
-    } else {
-      this.movie = await getMovie(this.queryString);
+        querySplit.pop();
+        const queryStringWithoutYear = querySplit.join(" ");
+        this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
+        break;
+      case SearchType.WITH_ID:
+        this.movie = await getMovieWithID(this.queryString);
+        break;
+      case SearchType.WITH_SEARCH_TERM:
+        this.movie = await getMovie(this.queryString);
+        break;
+
+      default:
+        break;
     }
   };
 

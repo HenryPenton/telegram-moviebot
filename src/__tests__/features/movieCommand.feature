@@ -13,7 +13,10 @@ Feature: Movie command
         When the command is executed
         Then the response should be the movie that relates to the Year
 
-
+    Scenario: Get a movie by id
+        Given a movie command with an id specified
+        When the command is executed
+        Then the response should be the movie that relates to the id
 
     Scenario: Responding to an unavailable film when getting by title and year
         Given an incoming message prefixed with movieyear

@@ -282,4 +282,25 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Get a movie by id", ({ given, when, then }) => {
+    given("a movie command with an id specified", () => {
+      mockMovieWithInfo();
+      command = MessageType.MOVIE_WITH_ID;
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then("the response should be the movie that relates to the id", () => {
+      const responseWithTitleInformationAndTrailer: string =
+        "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
+
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: responseWithTitleInformationAndTrailer,
+      });
+    });
+  });
 });

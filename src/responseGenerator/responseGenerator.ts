@@ -6,12 +6,15 @@ import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse"
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
-import {
-  SearchType,
-  SetMovieResponse,
-} from "./responses/SetMovieResponse/SetMovieResponse";
+import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
+
+export enum SearchType {
+  WITH_YEAR,
+  WITH_ID,
+  WITH_SEARCH_TERM,
+}
 
 export const generate = async (
   messageText: string,
@@ -23,16 +26,32 @@ export const generate = async (
 
   switch (command) {
     case "movie":
-      const movieResponse = new MovieResponse(restOfString);
+      const movieResponse = new MovieResponse(
+        restOfString,
+        SearchType.WITH_SEARCH_TERM
+      );
       response = await movieResponse.generateResponse();
       type = movieResponse.getType();
 
       break;
     case "movieyear":
-      const movieYearResponse = new MovieResponse(restOfString, true);
+      const movieYearResponse = new MovieResponse(
+        restOfString,
+        SearchType.WITH_YEAR
+      );
       response = await movieYearResponse.generateResponse();
 
       type = movieYearResponse.getType();
+      break;
+
+    case "movieid":
+      const movieIdResponse = new MovieResponse(
+        restOfString,
+        SearchType.WITH_ID
+      );
+      response = await movieIdResponse.generateResponse();
+
+      type = movieIdResponse.getType();
       break;
     case "setmovie":
       const setMovieResponse = new SetMovieResponse(
