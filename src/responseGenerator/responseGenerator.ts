@@ -6,7 +6,10 @@ import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse"
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
-import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
+import {
+  SearchType,
+  SetMovieResponse,
+} from "./responses/SetMovieResponse/SetMovieResponse";
 
 type Response = { response: string | string[]; type: ResponseType };
 
@@ -32,7 +35,11 @@ export const generate = async (
       type = movieYearResponse.getType();
       break;
     case "setmovie":
-      const setMovieResponse = new SetMovieResponse(restOfString, state);
+      const setMovieResponse = new SetMovieResponse(
+        restOfString,
+        state,
+        SearchType.WITH_SEARCH_TERM
+      );
       response = await setMovieResponse.generateResponse();
       type = setMovieResponse.getType();
 
@@ -41,10 +48,20 @@ export const generate = async (
       const setMovieYearResponse = new SetMovieResponse(
         restOfString,
         state,
-        true
+        SearchType.WITH_YEAR
       );
       response = await setMovieYearResponse.generateResponse();
       type = setMovieYearResponse.getType();
+
+      break;
+    case "setmovieid":
+      const setMovieIdResponse = new SetMovieResponse(
+        restOfString,
+        state,
+        SearchType.WITH_ID
+      );
+      response = await setMovieIdResponse.generateResponse();
+      type = setMovieIdResponse.getType();
 
       break;
     case "getmovies":

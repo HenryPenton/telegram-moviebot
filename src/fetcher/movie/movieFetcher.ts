@@ -15,8 +15,17 @@ export const getMovieWithYear = async (
 ): Promise<Movie> => {
   const splitQuery = queryString.split(" ");
   const urlQueryString = splitQuery.join("%20");
-  
+
   return fetcher(
     `http://www.omdbapi.com/?t=${urlQueryString}&y=${year}&apikey=${process.env.MOVIE_DATABASE_KEY}`
+  ).catch(() => ({ Response: "False" } as Movie));
+};
+
+export const getMovieWithID = async (queryString: string): Promise<Movie> => {
+  const splitQuery = queryString.split(" ");
+  const urlQueryString = splitQuery.join("%20");
+
+  return fetcher(
+    `http://www.omdbapi.com/?i=${urlQueryString}&apikey=${process.env.MOVIE_DATABASE_KEY}`
   ).catch(() => ({ Response: "False" } as Movie));
 };

@@ -8,6 +8,14 @@ const mockSetMovieWithYearMessage: IncomingMessage = {
   },
 };
 
+const mockSetMovieWithIdMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/setmovieid tt0103644",
+  },
+};
+
 const mockMovieMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
@@ -61,6 +69,7 @@ export enum MessageType {
   MOVIE_WITH_YEAR,
   SET_MOVIE,
   SET_MOVIE_WITH_YEAR,
+  SET_MOVIE_WITH_ID,
   MOVIEPOLL,
   REMOVIE,
   UNKNOWN_COMMAND,
@@ -83,5 +92,7 @@ export const getMessage = (messageType: MessageType) => {
       return mockRegularMessage;
     case MessageType.NON_EXISTSTENT_COMMAND:
       return mockNonExistentCommandMessage;
+    case MessageType.SET_MOVIE_WITH_ID:
+      return mockSetMovieWithIdMessage;
   }
 };

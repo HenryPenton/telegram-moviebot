@@ -34,4 +34,21 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Set a movie using the setmovieid command", ({ given, when, then }) => {
+    given("A setmovieid command", () => {
+      mockMovieWithInfo();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE_WITH_ID, state);
+    });
+
+    then("the movie is set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10) added to the film selection",
+      });
+    });
+  });
 });
