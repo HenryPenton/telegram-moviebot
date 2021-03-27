@@ -28,7 +28,12 @@ If you supplied a Youtube API key in the first stage, you should also get traile
 
 Running /movieyear _movieName_ _movieYear_ will return you information for _movieName_, if it exists with extra filtering to ensure its from the correct year.
 
+## movieid
+
+Running /movieid _imdbID_ will return information about the film relating to that imdb id
+
 If you supplied a Youtube API key in the first stage, you should also get trailers in the message.
+
 ## setmovie
 
 Running /setmovie _movieName_ will add _movieName_ to a state. This state currently gets wiped if the bot ever restarts.
@@ -36,6 +41,9 @@ Running /setmovie _movieName_ will add _movieName_ to a state. This state curren
 ## setmovieyear
 
 Running /setmovieyear _movieName_ _movieYear_ will add _movieName_, if it exist for the given year, to a state. This state currently gets wiped if the bot ever restarts.
+## setmovieid
+
+Running /setmovieid _imdbID_ will add the movie relating to that imdb id to a state. This state currently gets wiped if the bot ever restarts.
 
 ## getmovies
 
