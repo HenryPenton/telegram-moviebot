@@ -8,7 +8,7 @@ import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
-export type MessageResponse = string;
+type MessageResponse = string;
 
 export type PollResponse = string[][];
 

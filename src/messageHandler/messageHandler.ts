@@ -20,7 +20,7 @@ export const respond = (
   if (type === ResponseType.message) {
     api.sendMessage({ chat_id: chatId, text: response });
   } else if (type === ResponseType.moviePoll) {
-    const pollResponses = response as string[][];
+    const pollResponses = response as responseGenerator.PollResponse;
     for (let index = 0; index < pollResponses.length; index++) {
       const poll = pollResponses[index];
 

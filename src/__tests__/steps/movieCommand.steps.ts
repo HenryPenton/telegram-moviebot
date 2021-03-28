@@ -303,4 +303,22 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Get a movie by id but the id doesnt exist", ({ given, when, then }) => {
+    given("a movie command with an id specified", () => {
+      mockOmdbUnavailable();
+      command = MessageType.MOVIE_WITH_ID;
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then(/^the response should be "(.*)"$/, (response) => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: response,
+      });
+    });
+  });
 });

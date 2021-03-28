@@ -34,9 +34,6 @@ export class MovieResponse extends AsyncResponse {
       case SearchType.WITH_SEARCH_TERM:
         this.movie = await getMovie(this.queryString);
         break;
-
-      default:
-        break;
     }
   };
 
