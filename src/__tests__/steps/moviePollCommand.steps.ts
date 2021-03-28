@@ -15,6 +15,10 @@ const feature = loadFeature(
 );
 
 defineFeature(feature, (test) => {
+
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
   test("Minimum number of movies", ({ given, when, then }) => {
     let state: State;
 
@@ -74,6 +78,31 @@ defineFeature(feature, (test) => {
         options,
         question: "New week new movies",
       });
+    });
+  });
+
+  test("Movies larger than telegram limit", ({ given, when, then }) => {
+    let state: State;
+    let numberOfPolls = 0;
+    given(
+      /^I have selected a (.*) movies greater than the telegram limit$/,
+      async (numberOfMovies: number) => {
+        numberOfPolls = Math.ceil(numberOfMovies / 10);
+        state = new State();
+        let counter = numberOfMovies;
+        while (counter > 0) {
+          state.movies.push("some movie");
+          counter--;
+        }
+      }
+    );
+
+    when("I send the moviepoll command", async () => {
+      await runMessageHandler(MessageType.MOVIEPOLL, state);
+    });
+
+    then("I receive as many polls as needed", () => {
+      expect(mockSendPoll).toHaveBeenCalledTimes(numberOfPolls);
     });
   });
 });

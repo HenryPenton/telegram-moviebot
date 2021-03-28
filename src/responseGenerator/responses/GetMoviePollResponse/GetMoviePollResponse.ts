@@ -18,6 +18,14 @@ export class GetMoviePollResponse extends LocalResponse {
 
     if (this.pollReady) {
       response = this.movies;
+
+      let options = [];
+
+      for (let index = 0; index < this.movies.length; index += 10) {
+        options.push(this.movies.slice(index, index + 10));
+      }
+
+      return options;
     } else {
       response =
         "You must set at least two movies to be able to send out a poll";

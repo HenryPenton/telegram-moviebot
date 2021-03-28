@@ -173,40 +173,6 @@ describe("The get and set movie commands", () => {
       });
     });
 
-    test("Should send back a message saying only 10 movies can be set if someone tries to set an 11th", async () => {
-      jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(taken);
-
-      state = new State();
-
-      const mockIncomingMessageOne: IncomingMessage = {
-        message: {
-          from: { first_name: "Joe" },
-          chat: { id: "some_chat_id" },
-          text: "/setmovie somemovie",
-        },
-      };
-
-      state.setMovie("1");
-      state.setMovie("2");
-      state.setMovie("3");
-      state.setMovie("4");
-      state.setMovie("5");
-      state.setMovie("6");
-      state.setMovie("7");
-      state.setMovie("8");
-      state.setMovie("9");
-      state.setMovie("10");
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-
-      expect(mockSendMessage).toHaveBeenLastCalledWith({
-        chat_id: "some_chat_id",
-        text: "You may only set up to 10 movies",
-      });
-    });
   });
 
   describe("The getmovies command", () => {

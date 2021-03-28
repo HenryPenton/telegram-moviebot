@@ -8,7 +8,16 @@ import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
-type Response = { response: string | string[]; type: ResponseType };
+export type MessageResponse = string;
+
+export type PollResponse = string[][];
+
+export type Response = MessageResponse | PollResponse;
+
+export type ResponseAndType = {
+  response: Response;
+  type: ResponseType;
+};
 
 export enum SearchType {
   WITH_YEAR,
@@ -19,9 +28,9 @@ export enum SearchType {
 export const generate = async (
   messageText: string,
   state: State
-): Promise<Response> => {
+): Promise<ResponseAndType> => {
   const { command, restOfString } = commandParser(messageText);
-  let response: string | string[] = "";
+  let response: Response = "";
   let type: ResponseType = ResponseType.none;
 
   switch (command) {

@@ -21,3 +21,15 @@ Feature: Movie poll command
             | 2      |
             | 5      |
             | 10     |
+
+
+    Scenario Outline: Movies larger than telegram limit
+        Given I have selected a <number> movies greater than the telegram limit
+        When I send the moviepoll command
+        Then I receive as many polls as needed
+
+        Examples:
+            | number |            
+            | 11     |
+            | 21     |
+            | 31     |
