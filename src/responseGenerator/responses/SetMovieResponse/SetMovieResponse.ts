@@ -14,14 +14,21 @@ export class SetMovieResponse extends AsyncResponse {
   state: State;
   completeResponse: string;
   searchType: SearchType;
+  multiMovie: boolean;
 
-  constructor(queryString: string, state: State, searchType: SearchType) {
+  constructor(
+    queryString: string,
+    state: State,
+    searchType: SearchType,
+    multiMovie = false
+  ) {
     super(queryString);
 
     this.state = state;
     this.completeResponse = "";
     this.movieName = queryString;
     this.searchType = searchType;
+    this.multiMovie = multiMovie;
   }
   getMovie = async () => {
     switch (this.searchType) {
@@ -53,25 +60,40 @@ export class SetMovieResponse extends AsyncResponse {
       if (movieRating) {
         const titleWithRating = `${movieTitle} ${movieRating}`;
         this.state.setMovie(this.movie);
-        return `${titleWithRating} added to the film selection`;
+        return titleWithRating;
       } else {
         this.state.setMovie(this.movie);
-        return `${movieTitle} added to the film selection`;
+        return movieTitle;
       }
     }
-
-    return "Couldn't find that film";
   };
 
   generateResponse = async () => {
-    await this.getMovie();
+    if (this.multiMovie) {
+      const moviesToSearchFor = this.queryString.split("%%");
 
-    if (!this.isSuccessful()) {
-      this.completeResponse = "Couldn't find that film";
+      for (let index = 0; index < moviesToSearchFor.length; index++) {
+        const movieToSearchFor = moviesToSearchFor[index];
+        this.queryString = movieToSearchFor;
+        await this.getMovie();
+        const compiledResponse = this.compileResponse();
+
+        // if (this.isSuccessful()) {
+          this.completeResponse = `${this.completeResponse}${
+            index !== 0 ? " and " : ""
+          }${compiledResponse}`;
+        // }
+      }
+      this.completeResponse = `${this.completeResponse} added to the film selection`;
     } else {
-      this.completeResponse = this.compileResponse();
+      await this.getMovie();
+      const compiledResponse = this.compileResponse();
+      if (this.isSuccessful() && compiledResponse) {
+        this.completeResponse = `${compiledResponse} added to the film selection`;
+      } else {
+        this.completeResponse = "Couldn't find that film";
+      }
     }
-
     return this.completeResponse;
   };
 }

@@ -73,6 +73,17 @@ export const generate = async (
       type = setMovieResponse.getType();
 
       break;
+    case "setmultimovie":
+      const setMultiMovieResponse = new SetMovieResponse(
+        restOfString,
+        state,
+        SearchType.WITH_SEARCH_TERM,
+        true
+      );
+      response = await setMultiMovieResponse.generateResponse();
+      type = setMultiMovieResponse.getType();
+
+      break;
     case "setmovieyear":
       const setMovieYearResponse = new SetMovieResponse(
         restOfString,

@@ -9,3 +9,8 @@ Feature: Get and Set movies
         Given A setmovieid command
         When the command is executed
         Then the movie is set
+
+    Scenario: Set multiple movies at once by name
+        Given A setmultimovie command
+        When the command is executed
+        Then all of the movies are set

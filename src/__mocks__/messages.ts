@@ -88,6 +88,14 @@ const cleanupMessage: IncomingMessage = {
   },
 };
 
+const setMultiMovieMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/setmultimovie movie one%%movie two",
+  },
+};
+
 export enum MessageType {
   MOVIE,
   MOVIE_WITH_YEAR,
@@ -95,6 +103,7 @@ export enum MessageType {
   SET_MOVIE,
   SET_MOVIE_WITH_YEAR,
   SET_MOVIE_WITH_ID,
+  SET_MULTI_MOVIE,
   MOVIEPOLL,
   REMOVIE,
   UNKNOWN_COMMAND,
@@ -127,5 +136,7 @@ export const getMessage = (messageType: MessageType) => {
       return noChatIDMessage;
     case MessageType.CLEANUP:
       return cleanupMessage;
+    case MessageType.SET_MULTI_MOVIE:
+      return setMultiMovieMessage;
   }
 };

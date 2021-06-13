@@ -51,4 +51,22 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Set multiple movies at once by name", ({ given, when, then }) => {
+    given("A setmultimovie command", () => {
+      mockMovieWithInfo();
+      mockMovieWithInfo();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MULTI_MOVIE, state);
+    });
+
+    then("all of the movies are set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10) and Taken (IMDb Rating: 7.8/10) added to the film selection",
+      });
+    });
+  });
 });
