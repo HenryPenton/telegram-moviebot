@@ -34,20 +34,26 @@ Running /movieid _imdbID_ will return information about the film relating to tha
 
 If you supplied a Youtube API key in the first stage, you should also get trailers in the message.
 
+
+_the selection mentioned in the following setmovie commands will be wiped if the bot is ever restarted_
 ## setmovie
 
-Running /setmovie _movieName_ will add _movieName_ to a state. This state currently gets wiped if the bot ever restarts.
+Running /setmovie _movieName_ will add _movieName_ to the movie selection. 
+
+## setmultimovie
+
+Running /setmultimovie _movieName%%otherMovieName_ will add _movieName_ and _otherMovieName_ to the selection.
 
 ## setmovieyear
 
-Running /setmovieyear _movieName_ _movieYear_ will add _movieName_, if it exist for the given year, to a state. This state currently gets wiped if the bot ever restarts.
+Running /setmovieyear _movieName_ _movieYear_ will add _movieName_, if it exist for the given year, to the selection.
 ## setmovieid
 
-Running /setmovieid _imdbID_ will add the movie relating to that imdb id to a state. This state currently gets wiped if the bot ever restarts.
+Running /setmovieid _imdbID_ will add the movie relating to that imdb id to the selection.
 
 ## getmovies
 
-Running /getmovies will return you all of the movies set previously using the setmovie command.
+Running /getmovies will return you all of the movies set previously using the any of the setmovie commands.
 
 ## moviepoll
 
@@ -62,3 +68,7 @@ Running /removie _moviename_ will attempt to match the movie name to one of the 
 ## removies
 
 Running /removies will wipe the entire movie selection
+
+## cleanup
+
+Running /cleanup will remove any duplicates from the movie selection based on imdb id
