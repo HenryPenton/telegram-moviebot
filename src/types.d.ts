@@ -1,7 +1,7 @@
 export type IncomingMessage = {
   message: {
     from: { first_name: string };
-    chat: { id: string | number };
+    chat: { id?: string | number };
     text: string;
   };
 };

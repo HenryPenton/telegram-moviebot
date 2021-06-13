@@ -14,3 +14,7 @@ Feature: Non existent command
             |           |
             | one       |
             | two words |
+
+    Scenario: Invalid message
+        When a message is sent with a missing chat_id
+        Then there should be no response

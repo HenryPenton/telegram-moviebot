@@ -40,8 +40,8 @@ export const generateResponse = async (
   api: any,
   state: State
 ) => {
-  const chatId = open(message, "message.chat.id");
-  const messageText = open(message, "message.text");
+  const chatId: ChatId = open(message, "message.chat.id");
+  const messageText: string = open(message, "message.text");
 
   if (chatId && messageText) {
     const { response, type } = await responseGenerator.generate(

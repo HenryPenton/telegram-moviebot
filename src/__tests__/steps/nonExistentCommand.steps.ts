@@ -33,4 +33,14 @@ defineFeature(feature, (test) => {
       expect(mockSendMessage).not.toHaveBeenCalled();
     });
   });
+
+  test("Invalid message", ({ when, then }) => {
+    when("a message is sent with a missing chat_id", async () => {
+      await runMessageHandler(MessageType.NO_CHAT_ID, state);
+    });
+
+    then("there should be no response", () => {
+      expect(mockSendMessage).not.toHaveBeenCalled();
+    });
+  });
 });

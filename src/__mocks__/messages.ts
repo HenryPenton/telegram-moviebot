@@ -64,6 +64,14 @@ const mockRegularMessage: IncomingMessage = {
   },
 };
 
+const noChatIDMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: {},
+    text: "dontknowthiscommand",
+  },
+};
+
 const mockNonExistentCommandMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
@@ -83,6 +91,7 @@ export enum MessageType {
   REMOVIE,
   UNKNOWN_COMMAND,
   NON_EXISTSTENT_COMMAND,
+  NO_CHAT_ID,
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -105,5 +114,7 @@ export const getMessage = (messageType: MessageType) => {
       return mockNonExistentCommandMessage;
     case MessageType.SET_MOVIE_WITH_ID:
       return mockSetMovieWithIdMessage;
+    case MessageType.NO_CHAT_ID:
+      return noChatIDMessage;
   }
 };
