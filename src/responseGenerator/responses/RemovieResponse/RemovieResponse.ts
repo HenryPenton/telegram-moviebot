@@ -14,10 +14,7 @@ export class RemovieResponse extends LocalResponse {
 
   removieMovie = (movieId: number) => {
     const removedMovie = this.state.removie(movieId);
-    console.log(removedMovie,'aaaa')
     if (removedMovie) {
-    console.log(removedMovie,'bbbb')
-
       return `${removedMovie} removed from the selection`;
     }
 

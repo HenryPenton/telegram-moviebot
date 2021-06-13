@@ -31,7 +31,15 @@ export class State {
       (_, index) => index !== zeroizedId
     );
     this.movies = newMovieArray;
+    if (!movie) {
+      return undefined;
+    }
+    return movie.Title;
+  };
 
-    return movie?.Title;
+  makeUnique = () => {
+    const newbadboi = Array.from(new Set(this.movies));
+
+    this.movies = newbadboi;
   };
 }

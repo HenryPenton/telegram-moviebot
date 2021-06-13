@@ -80,6 +80,14 @@ const mockNonExistentCommandMessage: IncomingMessage = {
   },
 };
 
+const cleanupMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/moviecleanup",
+  },
+};
+
 export enum MessageType {
   MOVIE,
   MOVIE_WITH_YEAR,
@@ -92,6 +100,7 @@ export enum MessageType {
   UNKNOWN_COMMAND,
   NON_EXISTSTENT_COMMAND,
   NO_CHAT_ID,
+  CLEANUP,
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -116,5 +125,7 @@ export const getMessage = (messageType: MessageType) => {
       return mockSetMovieWithIdMessage;
     case MessageType.NO_CHAT_ID:
       return noChatIDMessage;
+    case MessageType.CLEANUP:
+      return cleanupMessage;
   }
 };

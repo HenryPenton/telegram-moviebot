@@ -1,6 +1,7 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
 import { State } from "../State/State";
+import { CleanupResponse } from "./responses/CleanupResponse/CleanupResponse";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
@@ -114,6 +115,12 @@ export const generate = async (
       const removiesResponse = new RemoviesResponse(state);
       response = removiesResponse.generateResponse();
       type = removiesResponse.getType();
+
+      break;
+    case "moviecleanup":
+      const cleanupResponse = new CleanupResponse(state);
+      response = cleanupResponse.generateResponse();
+      type = cleanupResponse.getType();
 
       break;
   }
