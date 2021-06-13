@@ -39,10 +39,7 @@ _the selection mentioned in the following setmovie commands will be wiped if the
 ## setmovie
 
 Running /setmovie _movieName_ will add _movieName_ to the movie selection. 
-
-## setmultimovie
-
-Running /setmultimovie _movieName%%otherMovieName_ will add _movieName_ and _otherMovieName_ to the selection.
+Running /setmovie _movieName%%otherMovieName_ will add _movieName_ and _otherMovieName_ to the selection. You can separate as many movies as you wish with %% - only those which have successful calls to the omdb will be added to the selection.
 
 ## setmovieyear
 
