@@ -117,7 +117,7 @@ export const generate = async (
       type = removiesResponse.getType();
 
       break;
-    case "moviecleanup":
+    case "cleanup":
       const cleanupResponse = new CleanupResponse(state);
       response = cleanupResponse.generateResponse();
       type = cleanupResponse.getType();

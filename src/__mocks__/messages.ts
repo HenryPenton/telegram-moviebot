@@ -84,7 +84,7 @@ const cleanupMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
     chat: { id: "some_chat_id" },
-    text: "/moviecleanup",
+    text: "/cleanup",
   },
 };
 
