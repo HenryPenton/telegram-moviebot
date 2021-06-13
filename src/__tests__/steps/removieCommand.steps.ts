@@ -43,7 +43,7 @@ defineFeature(feature, (test) => {
         let count = numberOfMovies;
         while (count > 0) {
           count--;
-          state.setMovie(`${numberOfMovies - count}`);
+          state.setMovie({ Title: `${numberOfMovies - count}` });
         }
       }
     );
@@ -71,7 +71,7 @@ defineFeature(feature, (test) => {
     });
 
     given("the selection has a movie in it", () => {
-      state.setMovie("finding nemo");
+      state.setMovie({ Title: "finding nemo" });
     });
 
     when("the removie command is sent with the name of the film", async () => {
@@ -99,7 +99,7 @@ defineFeature(feature, (test) => {
     });
 
     and("the selection has a movie in it", () => {
-      state.setMovie("1");
+      state.setMovie({ Title: "1" });
     });
 
     when(

@@ -1,25 +1,37 @@
+import { Movie } from "../types";
+import { getMovieRatings } from "../utils/getMovieRatings";
+
 export class State {
-  movies: string[];
+  movies: Movie[];
 
   constructor() {
     this.movies = [];
   }
 
-  setMovie = (movie: string) => this.movies.push(movie);
+  setMovie = (movie: Movie) => this.movies.push(movie);
 
-  getMovies = (): string[] => this.movies;
+  getMovies = (): string[] => {
+    return this.movies.map(
+      (movie) =>
+        `${
+          movie.Ratings
+            ? `${movie.Title} ${getMovieRatings(movie)}`
+            : movie.Title
+        }`
+    );
+  };
 
   removies = () => (this.movies = []);
 
-  removie = (id: number): string => {
+  removie = (id: number): string | undefined => {
     const zeroizedId = id - 1;
-    const movieName = this.movies[zeroizedId];
+    const movie = this.movies[zeroizedId];
 
     const newMovieArray = this.movies.filter(
       (_, index) => index !== zeroizedId
     );
     this.movies = newMovieArray;
 
-    return movieName;
+    return movie?.Title;
   };
 }

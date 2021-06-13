@@ -15,10 +15,9 @@ const feature = loadFeature(
 );
 
 defineFeature(feature, (test) => {
-
   beforeEach(() => {
-    jest.resetAllMocks()
-  })
+    jest.resetAllMocks();
+  });
   test("Minimum number of movies", ({ given, when, then }) => {
     let state: State;
 
@@ -91,7 +90,7 @@ defineFeature(feature, (test) => {
         state = new State();
         let counter = numberOfMovies;
         while (counter > 0) {
-          state.movies.push("some movie");
+          state.movies.push({ Title: "some movie" });
           counter--;
         }
       }

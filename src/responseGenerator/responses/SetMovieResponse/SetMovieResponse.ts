@@ -5,6 +5,7 @@ import {
 } from "../../../fetcher/movie/movieFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
+import { getMovieRatings } from "../../../utils/getMovieRatings";
 import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
@@ -45,30 +46,16 @@ export class SetMovieResponse extends AsyncResponse {
 
   isSuccessful = () => this.movie.Response === "True";
 
-  getMovieRatings = () => {
-    let setMovieRating;
-    if (this.movie.Ratings) {
-      if (this.movie.Ratings.length > 0) {
-        setMovieRating = `(${
-          this.movie.Ratings[0].Source === "Internet Movie Database"
-            ? "IMDb"
-            : this.movie.Ratings[0].Source
-        } Rating: ${this.movie.Ratings[0].Value})`;
-      }
-    }
-    return setMovieRating;
-  };
-
   compileResponse = () => {
     const movieTitle = this.movie.Title;
-    const movieRating = this.getMovieRatings();
+    const movieRating = getMovieRatings(this.movie);
     if (movieTitle) {
       if (movieRating) {
         const titleWithRating = `${movieTitle} ${movieRating}`;
-        this.state.setMovie(titleWithRating);
+        this.state.setMovie(this.movie);
         return `${titleWithRating} added to the film selection`;
       } else {
-        this.state.setMovie(movieTitle);
+        this.state.setMovie(this.movie);
         return `${movieTitle} added to the film selection`;
       }
     }
