@@ -46,6 +46,8 @@ export class State {
           uniqueMovies.push(movie);
           uniqueMovieTitles.push(movie.imdbID);
         }
+      } else {
+        uniqueMovies.push(movie);
       }
     });
 

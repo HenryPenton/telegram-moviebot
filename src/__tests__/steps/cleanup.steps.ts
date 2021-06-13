@@ -13,7 +13,7 @@ const feature = loadFeature("./src/__tests__/features/cleanup.feature");
 
 defineFeature(feature, (test) => {
   let state: State;
-  const movie: Movie = {
+  const commonMovieProperties: Movie = {
     Title: "Finding Nemo",
     Year: "2003",
     Rated: "G",
@@ -31,8 +31,14 @@ defineFeature(feature, (test) => {
     Poster:
       "https://m.media-amazon.com/images/M/MV5BZTAzNWZlNmUtZDEzYi00ZjA5LWIwYjEtZGM1NWE1MjE4YWRhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
     Ratings: [{ Source: "some-source", Value: "some-value" }],
-    imdbID: "tt0266543",
     Response: "True",
+  };
+  const movie: Movie = {
+    ...commonMovieProperties,
+    imdbID: "tt0266543",
+  };
+  const movieWithoutId: Movie = {
+    ...commonMovieProperties,
   };
 
   test("Cleanup duplicate movies", ({ given, when, then }) => {
@@ -47,6 +53,25 @@ defineFeature(feature, (test) => {
 
     then("any duplicates in the selection are removed", () => {
       expect(state.movies).toEqual([movie]);
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Duplicates in the movie selection have been removed",
+      });
+    });
+  });
+
+  test("Movies without an id", ({ given, when, then }) => {
+    state = new State();
+    given("the selection has multiple movies without ids", () => {
+      state.movies = [movieWithoutId, movieWithoutId];
+    });
+
+    when("the cleanup command is sent", async () => {
+      await runMessageHandler(MessageType.CLEANUP, state);
+    });
+
+    then("nothing is removed", () => {
+      expect(state.movies).toEqual([movieWithoutId, movieWithoutId]);
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
         text: "Duplicates in the movie selection have been removed",
