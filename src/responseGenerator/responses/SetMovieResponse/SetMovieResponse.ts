@@ -15,6 +15,7 @@ export class SetMovieResponse extends AsyncResponse {
   completeResponse: string;
   searchType: SearchType;
   multiMovie: boolean;
+  setMovies: string[];
 
   constructor(
     queryString: string,
@@ -29,6 +30,7 @@ export class SetMovieResponse extends AsyncResponse {
     this.movieName = queryString;
     this.searchType = searchType;
     this.multiMovie = multiMovie;
+    this.setMovies = [];
   }
   getMovie = async () => {
     switch (this.searchType) {
@@ -51,23 +53,42 @@ export class SetMovieResponse extends AsyncResponse {
 
   getType = () => ResponseType.message;
 
-  isSuccessful = () => this.movie.Response === "True";
-
-  compileResponse = () => {
+  addMovie = () => {
     const movieTitle = this.movie.Title;
     const movieRating = getMovieRatings(this.movie);
     if (movieTitle) {
+      this.state.setMovie(this.movie);
       if (movieRating) {
         const titleWithRating = `${movieTitle} ${movieRating}`;
-        this.state.setMovie(this.movie);
-        return titleWithRating;
+        this.setMovies.push(titleWithRating);
       } else {
-        this.state.setMovie(this.movie);
-        return movieTitle;
+        this.setMovies.push(movieTitle);
       }
     }
   };
+  compileResponse = () => {
+    if (this.setMovies.length === 1) {
+      return `${this.setMovies[0]} added to the film selection`;
+    } else if (this.setMovies.length > 1) {
+      let response = "";
+      for (let index = 0; index < this.setMovies.length; index++) {
+        const setMovie = this.setMovies[index];
+        if (index === this.setMovies.length - 1) {
+          response = `${response} and ${setMovie}`;
+        } else if (index === 0) {
+          response = setMovie;
+        } else {
+          response = `${response}, ${setMovie}`;
+        }
+      }
+      response = `${response} added to the film selection`;
+      return response;
+    }
 
+    return this.multiMovie
+      ? "Couldn't find those films"
+      : "Couldn't find that film";
+  };
   generateResponse = async () => {
     if (this.multiMovie) {
       const moviesToSearchFor = this.queryString.split("%%");
@@ -76,23 +97,15 @@ export class SetMovieResponse extends AsyncResponse {
         const movieToSearchFor = moviesToSearchFor[index];
         this.queryString = movieToSearchFor;
         await this.getMovie();
-        const compiledResponse = this.compileResponse();
+        this.addMovie();
 
-        // if (this.isSuccessful()) {
-          this.completeResponse = `${this.completeResponse}${
-            index !== 0 ? " and " : ""
-          }${compiledResponse}`;
-        // }
+        this.completeResponse = this.compileResponse();
       }
-      this.completeResponse = `${this.completeResponse} added to the film selection`;
     } else {
       await this.getMovie();
-      const compiledResponse = this.compileResponse();
-      if (this.isSuccessful() && compiledResponse) {
-        this.completeResponse = `${compiledResponse} added to the film selection`;
-      } else {
-        this.completeResponse = "Couldn't find that film";
-      }
+      this.addMovie();
+
+      this.completeResponse = this.compileResponse();
     }
     return this.completeResponse;
   };
