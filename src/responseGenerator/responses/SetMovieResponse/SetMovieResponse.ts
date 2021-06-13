@@ -94,7 +94,7 @@ export class SetMovieResponse extends AsyncResponse {
       const moviesToSearchFor = this.queryString.split("%%");
 
       for (let index = 0; index < moviesToSearchFor.length; index++) {
-        const movieToSearchFor = moviesToSearchFor[index];
+        const movieToSearchFor = moviesToSearchFor[index].trim();
         this.queryString = movieToSearchFor;
         await this.getMovie();
         this.addMovie();
