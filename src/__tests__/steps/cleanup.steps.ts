@@ -13,7 +13,27 @@ const feature = loadFeature("./src/__tests__/features/cleanup.feature");
 
 defineFeature(feature, (test) => {
   let state: State;
-  const movie: Movie = { Title: "some movie title" };
+  const movie: Movie = {
+    Title: "Finding Nemo",
+    Year: "2003",
+    Rated: "G",
+    Released: "30 May 2003",
+    Runtime: "100 min",
+    Genre: "Animation, Adventure, Comedy, Family",
+    Director: "Andrew Stanton, Lee Unkrich(co-director)",
+    Writer:
+      "Andrew Stanton (original story by), Andrew Stanton (screenplay by), Bob Peterson (screenplay by), David Reynolds (screenplay by)",
+    Actors: "Albert Brooks, Ellen DeGeneres, Alexander Gould, Willem Dafoe",
+    Plot: "After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.",
+    Language: "English",
+    Country: "USA",
+    Awards: "Won 1 Oscar. Another 47 wins & 63 nominations.",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BZTAzNWZlNmUtZDEzYi00ZjA5LWIwYjEtZGM1NWE1MjE4YWRhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+    Ratings: [{ Source: "some-source", Value: "some-value" }],
+    imdbID: "tt0266543",
+    Response: "True",
+  };
 
   test("Cleanup duplicate movies", ({ given, when, then }) => {
     state = new State();

@@ -12,7 +12,7 @@ export class RemovieResponse extends LocalResponse {
     this.unfoundResponse = "Couldn't find that film in the selection";
   }
 
-  removieMovie = (movieId: number) => {
+  removeMovie = (movieId: number) => {
     const removedMovie = this.state.removie(movieId);
     if (removedMovie) {
       return `${removedMovie} removed from the selection`;
@@ -33,14 +33,14 @@ export class RemovieResponse extends LocalResponse {
     });
 
     if (!idToRemove) return this.unfoundResponse;
-    return this.removieMovie(idToRemove);
+    return this.removeMovie(idToRemove);
   };
 
   generateResponse = () => {
     const movieId = parseInt(this.movieToRemove, 10);
 
     if (Number.isInteger(movieId)) {
-      return this.removieMovie(movieId);
+      return this.removeMovie(movieId);
     } else {
       return this.matchToNameToId();
     }

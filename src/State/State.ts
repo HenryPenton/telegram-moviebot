@@ -31,15 +31,24 @@ export class State {
       (_, index) => index !== zeroizedId
     );
     this.movies = newMovieArray;
-    if (!movie) {
-      return undefined;
+    if (movie) {
+      return movie.Title;
     }
-    return movie.Title;
   };
 
   makeUnique = () => {
-    const newbadboi = Array.from(new Set(this.movies));
+    const uniqueMovies: Movie[] = [];
+    const uniqueMovieTitles: string[] = [];
 
-    this.movies = newbadboi;
+    this.movies.forEach((movie) => {
+      if (movie.imdbID) {
+        if (!uniqueMovieTitles.includes(movie.imdbID)) {
+          uniqueMovies.push(movie);
+          uniqueMovieTitles.push(movie.imdbID);
+        }
+      }
+    });
+
+    this.movies = uniqueMovies;
   };
 }

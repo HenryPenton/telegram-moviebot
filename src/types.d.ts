@@ -24,6 +24,7 @@ export type Movie = {
   Country?: string;
   Awards?: string;
   Poster?: string;
+  imdbID?: string;
   Ratings?: Rating[];
 };
 
