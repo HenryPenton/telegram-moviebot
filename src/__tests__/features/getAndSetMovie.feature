@@ -11,7 +11,7 @@ Feature: Get and Set movies
         Then the movie is set
 
     Scenario: Set two movies at once by name
-        Given A setmultimovie command
+        Given A setmovie command with two film separated by %%
         When the command is executed
         Then all of the movies are set
 

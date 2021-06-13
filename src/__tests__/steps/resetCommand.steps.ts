@@ -8,7 +8,7 @@ import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
 
-const feature = loadFeature("./src/__tests__/features/removiesCommand.feature");
+const feature = loadFeature("./src/__tests__/features/resetCommand.feature");
 
 defineFeature(feature, (test) => {
   const movieWithInfo = () => {
@@ -21,8 +21,8 @@ defineFeature(feature, (test) => {
     await response(command, mockApi, state);
   };
 
-  const removies = async () => {
-    command = removiesCommand;
+  const reset = async () => {
+    command = resetCommand;
     await response(command, mockApi, state);
   };
 
@@ -68,17 +68,17 @@ defineFeature(feature, (test) => {
     },
   };
 
-  const removiesCommand: IncomingMessage = {
+  const resetCommand: IncomingMessage = {
     message: {
       from: { first_name: "Joe" },
       chat: { id: "some_chat_id" },
-      text: "/removies",
+      text: "/reset",
     },
   };
 
   let command: IncomingMessage;
 
-  test("Removies command wipes the single film in the film selection", ({
+  test("reset command wipes the single film in the film selection", ({
     and,
     given,
     when,
@@ -93,8 +93,8 @@ defineFeature(feature, (test) => {
       await response(command, mockApi, state);
     });
 
-    when("the removies command is sent", async () => {
-      await removies();
+    when("the reset command is sent", async () => {
+      await reset();
     });
 
     then("the film selection is reset", async () => {
@@ -104,7 +104,7 @@ defineFeature(feature, (test) => {
     });
   });
 
-  test("Removies command wipes multiple films in the film selection", ({
+  test("reset command wipes multiple films in the film selection", ({
     given,
     and,
     when,
@@ -120,8 +120,8 @@ defineFeature(feature, (test) => {
       await response(command, mockApi, state);
     });
 
-    when("the removies command is sent", async () => {
-      await removies();
+    when("the reset command is sent", async () => {
+      await reset();
     });
 
     then("the film selection is reset", async () => {

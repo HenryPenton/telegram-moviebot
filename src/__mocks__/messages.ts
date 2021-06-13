@@ -92,14 +92,14 @@ const setMultiMovieMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
     chat: { id: "some_chat_id" },
-    text: "/setmultimovie movie one%%movie two",
+    text: "/setmovie movie one%%movie two",
   },
 };
 const setThreeMultiMovieMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
     chat: { id: "some_chat_id" },
-    text: "/setmultimovie movie one%%movie two%%moviethree",
+    text: "/setmovie movie one%%movie two%%moviethree",
   },
 };
 

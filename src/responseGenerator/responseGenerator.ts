@@ -73,17 +73,7 @@ export const generate = async (
       type = setMovieResponse.getType();
 
       break;
-    case "setmultimovie":
-      const setMultiMovieResponse = new SetMovieResponse(
-        restOfString,
-        state,
-        SearchType.WITH_SEARCH_TERM,
-        true
-      );
-      response = await setMultiMovieResponse.generateResponse();
-      type = setMultiMovieResponse.getType();
 
-      break;
     case "setmovieyear":
       const setMovieYearResponse = new SetMovieResponse(
         restOfString,
@@ -122,7 +112,7 @@ export const generate = async (
       type = removieResponse.getType();
 
       break;
-    case "removies":
+    case "reset":
       const removiesResponse = new RemoviesResponse(state);
       response = removiesResponse.generateResponse();
       type = removiesResponse.getType();

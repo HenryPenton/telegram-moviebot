@@ -16,20 +16,17 @@ export class SetMovieResponse extends AsyncResponse {
   searchType: SearchType;
   multiMovie: boolean;
   setMovies: string[];
+  moviesToSearchFor: string[];
 
-  constructor(
-    queryString: string,
-    state: State,
-    searchType: SearchType,
-    multiMovie = false
-  ) {
+  constructor(queryString: string, state: State, searchType: SearchType) {
     super(queryString);
 
     this.state = state;
     this.completeResponse = "";
     this.movieName = queryString;
     this.searchType = searchType;
-    this.multiMovie = multiMovie;
+    this.moviesToSearchFor = this.queryString.split("%%");
+    this.multiMovie = this.moviesToSearchFor.length > 1;
     this.setMovies = [];
   }
   getMovie = async () => {
@@ -89,12 +86,11 @@ export class SetMovieResponse extends AsyncResponse {
       ? "Couldn't find those films"
       : "Couldn't find that film";
   };
+  
   generateResponse = async () => {
     if (this.multiMovie) {
-      const moviesToSearchFor = this.queryString.split("%%");
-
-      for (let index = 0; index < moviesToSearchFor.length; index++) {
-        const movieToSearchFor = moviesToSearchFor[index].trim();
+      for (let index = 0; index < this.moviesToSearchFor.length; index++) {
+        const movieToSearchFor = this.moviesToSearchFor[index].trim();
         this.queryString = movieToSearchFor;
         await this.getMovie();
         this.addMovie();

@@ -55,7 +55,7 @@ defineFeature(feature, (test) => {
   });
 
   test("Set two movies at once by name", ({ given, when, then }) => {
-    given("A setmultimovie command", () => {
+    given("A setmovie command with two film separated by %%", () => {
       mockMovieWithInfo();
       mockMovieWithInfo();
     });
