@@ -35,10 +35,13 @@ Running /movieid _imdbID_ will return information about the film relating to tha
 If you supplied a Youtube API key in the first stage, you should also get trailers in the message.
 
 
-_the selection mentioned in the following setmovie commands will be wiped if the bot is ever restarted_
+**Setting movies**
+
+_The selection mentioned in the following setmovie commands will be wiped if the bot is ever restarted_
 ## setmovie
 
-Running /setmovie _movieName_ will add _movieName_ to the movie selection. 
+Running /setmovie _movieName_ will add _movieName_ to the movie selection.
+
 Running /setmovie _movieName%%otherMovieName_ will add _movieName_ and _otherMovieName_ to the selection. You can separate as many movies as you wish with %% - only those which have successful calls to the omdb will be added to the selection.
 
 ## setmovieyear
