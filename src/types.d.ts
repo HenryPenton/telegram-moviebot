@@ -6,9 +6,13 @@ export type IncomingMessage = {
   };
 };
 
+export type MovieVote = { movie: string; votes: number };
+
+export type MoviePollId = number;
+
 export interface Poll {
-  id: string;
-  movies: string[];
+  id: MoviePollId;
+  movieVotes: MovieVote[];
 }
 
 export interface MoviePollResponse {
@@ -16,7 +20,7 @@ export interface MoviePollResponse {
     username: string;
   };
   poll: {
-    id: string;
+    id: MoviePollId;
     options: string[];
     total_voter_count: 0;
   };

@@ -1,4 +1,4 @@
-import { IncomingMessage, MoviePollResponse } from "../types";
+import { IncomingMessage, MoviePollResponse, MovieVote, Poll } from "../types";
 import * as responseGenerator from "../responseGenerator/responseGenerator";
 import { State } from "../State/State";
 import { open } from "object_opener";
@@ -22,7 +22,7 @@ export const respond = async (
     api.sendMessage({ chat_id: chatId, text: response });
   } else if (type === ResponseType.moviePoll) {
     const pollResponses = response as responseGenerator.PollResponse;
-    // state.wipePolls();
+    state.wipePolls();
     for (let index = 0; index < pollResponses.length; index++) {
       const poll = pollResponses[index];
       try {
@@ -33,8 +33,24 @@ export const respond = async (
           allows_multiple_answers: "true",
           is_anonymous: "false",
         });
+        const pollResponseId: number = open(pollResponse, "poll.id");
+        const pollOptions: string[] = open(pollResponse, "poll.options");
 
-        state.setPoll(pollResponse.poll.id, pollResponse.poll.options);
+        console.log(pollOptions);
+
+
+
+        const pollToSet: Poll = {
+          id: pollResponseId,
+          movieVotes: pollOptions.map(
+            (option): MovieVote => ({
+              movie: option,
+              votes: 0,
+            })
+          ),
+        };
+
+        state.setPoll(pollToSet);
       } catch {}
     }
   }

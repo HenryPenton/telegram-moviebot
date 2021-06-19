@@ -105,7 +105,6 @@ defineFeature(feature, (test) => {
         }
       }
     );
-
     when("I send the moviepoll command", async () => {
       await runMessageHandler(
         MessageType.MOVIEPOLL,
