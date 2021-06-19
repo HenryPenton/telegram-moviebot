@@ -18,7 +18,7 @@ const feature = loadFeature(
 const mockPollResponse: MoviePollResponse = {
   chat: { username: "some-user-name" },
   poll: {
-    id: "some-id",
+    id: '12345',
     options: ["option one", "option two"],
     total_voter_count: 0,
   },

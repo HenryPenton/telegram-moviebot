@@ -1,4 +1,4 @@
-import { Movie, MovieVote, Poll } from "../types";
+import { Movie, MovieVote, optionsSelected, Poll } from "../types";
 import { getMovieRatings } from "../utils/getMovieRatings";
 
 export class State {
@@ -9,6 +9,14 @@ export class State {
     this.movies = [];
     this.polls = [];
   }
+  updateVotesForPollId = (movieVotes: optionsSelected, pollId: string) => {
+    const poll = this.polls.find((poll) => poll.id === pollId);
+    if (poll) {
+      movieVotes.forEach((movieVote) => {
+        poll.movieVotes[movieVote].votes++;
+      });
+    }
+  };
 
   setPoll = (poll: Poll) => this.polls.push(poll);
 

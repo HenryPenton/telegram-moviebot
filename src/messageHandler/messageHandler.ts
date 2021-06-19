@@ -1,7 +1,15 @@
-import { IncomingMessage, MoviePollResponse, MovieVote, Poll } from "../types";
+import {
+  IncomingMessage,
+  MoviePollId,
+  MoviePollResponse,
+  MovieVote,
+  optionsSelected,
+  Poll,
+} from "../types";
 import * as responseGenerator from "../responseGenerator/responseGenerator";
 import { State } from "../State/State";
 import { open } from "object_opener";
+import { voteHandler } from "./movieVoteHandler";
 
 type ChatId = string | number;
 
@@ -35,7 +43,7 @@ const respondWithPoll = async (
         allows_multiple_answers: "true",
         is_anonymous: "false",
       });
-      const pollResponseId: number = open(pollResponse, "poll.id");
+      const pollResponseId: MoviePollId = open(pollResponse, "poll.id");
       const pollOptions: string[] = open(pollResponse, "poll.options");
       if (pollOptions && pollResponseId) {
         const pollToSet: Poll = {
@@ -77,12 +85,16 @@ export const generateResponse = async (
   const chatId: ChatId = open(message, "message.chat.id");
   const messageText: string = open(message, "message.text");
 
+  const movieVotes: optionsSelected = open(message, "poll_answer.option_ids");
+  const pollId: MoviePollId = open(message, "poll_answer.poll_id");
+
+  voteHandler(state, movieVotes, pollId);
+
   if (chatId && messageText) {
     const { response, type } = await responseGenerator.generate(
       messageText,
       state
     );
-
     await respond(chatId, type, api, state, response);
   }
 };

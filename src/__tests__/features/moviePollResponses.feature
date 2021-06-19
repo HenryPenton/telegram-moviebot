@@ -30,3 +30,10 @@ Feature: Movie poll responses command
         When I send the moviepoll command
         Then The poll gets added to state
         And It is the only thing in state
+
+    Scenario: A vote on a poll gets counted
+        Given I have selected a number movies greater than the minimum
+        And I have generated a moviepoll to vote on
+        When I send a vote on a movie poll
+        Then The poll gets updated in state
+

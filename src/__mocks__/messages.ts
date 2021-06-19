@@ -102,6 +102,15 @@ const setThreeMultiMovieMessage: IncomingMessage = {
     text: "/setmovie movie one%%movie two%%moviethree",
   },
 };
+const moviePollVote: IncomingMessage = {
+  poll_answer: {
+    poll_id: "12345",
+    user: {
+      username: "HenryPenton",
+    },
+    option_ids: [0],
+  },
+};
 
 export enum MessageType {
   MOVIE,
@@ -120,6 +129,7 @@ export enum MessageType {
   NON_EXISTSTENT_COMMAND,
   NO_CHAT_ID,
   CLEANUP,
+  MOVIEPOLL_VOTE,
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -154,5 +164,7 @@ export const getMessage = (messageType: MessageType) => {
       return setThreeMultiMovieMessage;
     case MessageType.SET_TWO_MULTI_MOVIE_ONE_FAILURE:
       return setThreeMultiMovieMessage;
+    case MessageType.MOVIEPOLL_VOTE:
+      return moviePollVote;
   }
 };

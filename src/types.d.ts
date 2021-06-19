@@ -1,8 +1,18 @@
+export type optionsSelected = number[];
+
 export type IncomingMessage = {
-  message: {
+  message?: {
     from: { first_name: string };
     chat: { id?: string | number };
     text: string;
+  };
+
+  poll_answer?: {
+    poll_id: MoviePollId;
+    user: {
+      username: "HenryPenton";
+    };
+    option_ids: optionsSelected;
   };
 };
 
@@ -12,7 +22,7 @@ export type RecursivePartial<T> = {
 
 export type MovieVote = { movie: string; votes: number };
 
-export type MoviePollId = number;
+export type MoviePollId = string;
 
 export interface Poll {
   id: MoviePollId;

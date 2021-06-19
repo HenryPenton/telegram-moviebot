@@ -20,7 +20,7 @@ const feature = loadFeature(
 const mockPollResponse: MoviePollResponse = {
   chat: { username: "some-user-name" },
   poll: {
-    id: 12345,
+    id: "12345",
     options: ["option one", "option two"],
     total_voter_count: 0,
   },
@@ -30,7 +30,7 @@ defineFeature(feature, (test) => {
     jest.resetAllMocks();
   });
 
-  test("A poll gets added to state", ({ given, and, when, then }) => {
+  test("A poll gets added to state", ({ given, when, then }) => {
     let state: State;
     given(
       "I have selected a number movies greater than the minimum",
@@ -54,7 +54,7 @@ defineFeature(feature, (test) => {
     then("The poll gets added to state", () => {
       const expectedPolls: Poll[] = [
         {
-          id: 12345,
+          id: "12345",
           movieVotes: [
             { movie: "option one", votes: 0 },
             { movie: "option two", votes: 0 },
@@ -141,7 +141,7 @@ defineFeature(feature, (test) => {
     then("The poll gets added to state", () => {
       const expectedPolls: Poll[] = [
         {
-          id: 12345,
+          id: "12345",
           movieVotes: [
             { movie: "option one", votes: 0 },
             { movie: "option two", votes: 0 },
@@ -178,7 +178,7 @@ defineFeature(feature, (test) => {
       const mockPollResponseWithOnlyId: RecursivePartial<MoviePollResponse> = {
         chat: { username: "some-user-name" },
         poll: {
-          id: 12345,
+          id: "12345",
           total_voter_count: 0,
         },
       };
@@ -237,6 +237,44 @@ defineFeature(feature, (test) => {
 
     then("poll is not added to state", () => {
       expect(state.polls).toEqual([]);
+    });
+  });
+
+  test.only("A vote on a poll gets counted", ({ given, when, and, then }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+    and("I have generated a moviepoll to vote on", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponse
+      );
+    });
+
+    when("I send a vote on a movie poll", async () => {
+      await runMessageHandler(MessageType.MOVIEPOLL_VOTE, state);
+    });
+
+    then("The poll gets updated in state", () => {
+      const expectedPolls: Poll[] = [
+        {
+          id: "12345",
+          movieVotes: [
+            { movie: "option one", votes: 1 },
+            { movie: "option two", votes: 0 },
+          ],
+        },
+      ];
+      expect(state.polls).toEqual(expectedPolls);
     });
   });
 });
