@@ -1,12 +1,18 @@
-import { Movie } from "../types";
+import { Movie, Poll } from "../types";
 import { getMovieRatings } from "../utils/getMovieRatings";
 
 export class State {
   movies: Movie[];
+  polls: Poll[];
 
   constructor() {
     this.movies = [];
+    this.polls = [];
   }
+
+  setPoll = (id: string, movies: string[]) => this.polls.push({ id, movies });
+
+  // wipePolls = () => (this.polls = []);
 
   setMovie = (movie: Movie) => this.movies.push(movie);
 

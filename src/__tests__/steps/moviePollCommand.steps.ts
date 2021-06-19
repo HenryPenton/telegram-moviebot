@@ -9,10 +9,20 @@ import { State } from "../../State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { MessageType } from "../../__mocks__/messages";
+import { MoviePollResponse } from "../../types";
 
 const feature = loadFeature(
   "./src/__tests__/features/moviePollCommand.feature"
 );
+
+const mockPollResponse: MoviePollResponse = {
+  chat: { username: "some-user-name" },
+  poll: {
+    id: "some-id",
+    options: ["option one", "option two"],
+    total_voter_count: 0,
+  },
+};
 
 defineFeature(feature, (test) => {
   beforeEach(() => {
@@ -36,7 +46,7 @@ defineFeature(feature, (test) => {
     );
 
     when("I send the moviepoll command", async () => {
-      await runMessageHandler(MessageType.MOVIEPOLL, state);
+      await runMessageHandler(MessageType.MOVIEPOLL, state, mockPollResponse);
     });
 
     then(/^I get a message saying "(.*)"$/, (error: string) => {
@@ -66,7 +76,7 @@ defineFeature(feature, (test) => {
     );
 
     when("I send the moviepoll command", async () => {
-      await runMessageHandler(MessageType.MOVIEPOLL, state);
+      await runMessageHandler(MessageType.MOVIEPOLL, state, mockPollResponse);
     });
 
     then("I receive a poll", () => {
@@ -97,7 +107,12 @@ defineFeature(feature, (test) => {
     );
 
     when("I send the moviepoll command", async () => {
-      await runMessageHandler(MessageType.MOVIEPOLL, state);
+      await runMessageHandler(
+        MessageType.MOVIEPOLL,
+        state,
+        mockPollResponse,
+        false
+      );
     });
 
     then("I receive as many polls as needed", () => {

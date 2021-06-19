@@ -6,6 +6,21 @@ export type IncomingMessage = {
   };
 };
 
+export interface Poll {
+  id: string;
+  movies: string[];
+}
+
+export interface MoviePollResponse {
+  chat: {
+    username: string;
+  };
+  poll: {
+    id: string;
+    options: string[];
+    total_voter_count: 0;
+  };
+}
 export type Rating = { Source: string; Value: string };
 
 export type Movie = {

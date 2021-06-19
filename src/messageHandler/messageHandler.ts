@@ -1,4 +1,4 @@
-import { IncomingMessage } from "../types";
+import { IncomingMessage, MoviePollResponse } from "../types";
 import * as responseGenerator from "../responseGenerator/responseGenerator";
 import { State } from "../State/State";
 import { open } from "object_opener";
@@ -11,26 +11,31 @@ export enum ResponseType {
   none = "none",
 }
 
-export const respond = (
+export const respond = async (
   chatId: ChatId,
   type: ResponseType,
   api: any,
+  state: State,
   response?: responseGenerator.Response
 ) => {
   if (type === ResponseType.message) {
     api.sendMessage({ chat_id: chatId, text: response });
   } else if (type === ResponseType.moviePoll) {
     const pollResponses = response as responseGenerator.PollResponse;
+    // state.wipePolls();
     for (let index = 0; index < pollResponses.length; index++) {
       const poll = pollResponses[index];
+      try {
+        const pollResponse: MoviePollResponse = await api.sendPoll({
+          chat_id: chatId,
+          question: "New week new movies",
+          options: poll,
+          allows_multiple_answers: "true",
+          is_anonymous: "false",
+        });
 
-      api.sendPoll({
-        chat_id: chatId,
-        question: "New week new movies",
-        options: poll,
-        allows_multiple_answers: "true",
-        is_anonymous: "false",
-      });
+        state.setPoll(pollResponse.poll.id, pollResponse.poll.options);
+      } catch {}
     }
   }
 };
@@ -49,6 +54,6 @@ export const generateResponse = async (
       state
     );
 
-    respond(chatId, type, api, response);
+    await respond(chatId, type, api, state, response);
   }
 };

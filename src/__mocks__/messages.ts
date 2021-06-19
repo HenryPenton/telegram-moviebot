@@ -103,7 +103,6 @@ const setThreeMultiMovieMessage: IncomingMessage = {
   },
 };
 
-
 export enum MessageType {
   MOVIE,
   MOVIE_WITH_YEAR,
@@ -115,6 +114,7 @@ export enum MessageType {
   SET_THREE_MULTI_MOVIE,
   SET_TWO_MULTI_MOVIE_ONE_FAILURE,
   MOVIEPOLL,
+  MOVIEPOLL_WITH_RESPONSE,
   REMOVIE,
   UNKNOWN_COMMAND,
   NON_EXISTSTENT_COMMAND,
@@ -135,6 +135,8 @@ export const getMessage = (messageType: MessageType) => {
     case MessageType.MOVIE_WITH_YEAR:
       return mockMovieWithYearMessage;
     case MessageType.MOVIEPOLL:
+      return mockMoviePollMessage;
+    case MessageType.MOVIEPOLL_WITH_RESPONSE:
       return mockMoviePollMessage;
     case MessageType.UNKNOWN_COMMAND:
       return mockRegularMessage;

@@ -4,6 +4,7 @@ import * as messageHandler from "../messageHandler/messageHandler";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
+import { MoviePollResponse } from "../types";
 
 beforeEach(() => {
   mockSendMessage.mockReset();
@@ -11,18 +12,31 @@ beforeEach(() => {
 
 export const mockSendPoll = jest.fn(() => {});
 export const mockSendMessage = jest.fn(() => {});
+
 export const mockApi = {
   sendMessage: mockSendMessage,
   sendPoll: mockSendPoll,
 };
 
+export const mockApiWithPollResponse = (
+  responseToResolve: MoviePollResponse,
+  shouldFail?: boolean
+) => ({
+  sendMessage: mockSendMessage,
+  sendPoll: shouldFail
+    ? jest.fn().mockImplementation(() => Promise.reject("somefailure"))
+    : mockSendPoll.mockImplementation(() => Promise.resolve(responseToResolve)),
+});
+
 export const runMessageHandler = async (
   messageType: MessageType,
-  state: State
+  state: State,
+  pollResponse?: MoviePollResponse,
+  shouldFail?: boolean
 ) => {
   await messageHandler.generateResponse(
     getMessage(messageType)!,
-    mockApi,
+    pollResponse ? mockApiWithPollResponse(pollResponse, shouldFail) : mockApi,
     state
   );
 };
