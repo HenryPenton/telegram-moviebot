@@ -5,14 +5,13 @@ Feature: Movie poll responses command
         When I send the moviepoll command
         Then The poll gets added to state
 
-
     Scenario: A poll that has no response falls over gracefully
         Given I have selected a number movies greater than the minimum
         When I send the moviepoll command
         But the response does not exist
         Then The command falls over gracefully
 
-    Scenario: A poll that has partial response falls over gracefully
+    Scenario: A poll with a response that only has a poll id is not added to state
         Given I have selected a number movies greater than the minimum
         When I send the moviepoll command
         But the response is only contains a poll id

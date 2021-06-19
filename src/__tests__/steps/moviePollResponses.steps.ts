@@ -150,4 +150,35 @@ defineFeature(feature, (test) => {
       //verified by strict equals
     });
   });
+
+  test("A poll with a response that only has a poll id is not added to state", ({
+    given,
+    when,
+    but,
+    then,
+  }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+
+    when("I send the moviepoll command", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponse
+      );
+    });
+
+    but("the response is only contains a poll id", () => {});
+
+    then("poll is not added to state", () => {});
+  });
 });

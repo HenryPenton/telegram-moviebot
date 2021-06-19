@@ -36,10 +36,6 @@ export const respond = async (
         const pollResponseId: number = open(pollResponse, "poll.id");
         const pollOptions: string[] = open(pollResponse, "poll.options");
 
-        console.log(pollOptions);
-
-
-
         const pollToSet: Poll = {
           id: pollResponseId,
           movieVotes: pollOptions.map(
