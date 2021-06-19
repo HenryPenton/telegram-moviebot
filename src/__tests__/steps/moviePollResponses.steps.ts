@@ -7,7 +7,12 @@ import {
 import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { MessageType } from "../../__mocks__/messages";
-import { MoviePollResponse, MovieVote, Poll } from "../../types";
+import {
+  MoviePollResponse,
+  MovieVote,
+  Poll,
+  RecursivePartial,
+} from "../../types";
 
 const feature = loadFeature(
   "./src/__tests__/features/moviePollResponses.feature"
@@ -170,15 +175,68 @@ defineFeature(feature, (test) => {
     );
 
     when("I send the moviepoll command", async () => {
+      const mockPollResponseWithOnlyId: RecursivePartial<MoviePollResponse> = {
+        chat: { username: "some-user-name" },
+        poll: {
+          id: 12345,
+          total_voter_count: 0,
+        },
+      };
       await runMessageHandler(
         MessageType.MOVIEPOLL_WITH_RESPONSE,
         state,
-        mockPollResponse
+        mockPollResponseWithOnlyId as MoviePollResponse
       );
     });
 
-    but("the response is only contains a poll id", () => {});
+    but("the response is only contains a poll id", () => {
+      //defined above
+    });
 
-    then("poll is not added to state", () => {});
+    then("poll is not added to state", () => {
+      expect(state.polls).toEqual([]);
+    });
+  });
+
+  test("A poll with a response that only has poll options is not added to state", ({
+    given,
+    when,
+    but,
+    then,
+  }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+
+    when("I send the moviepoll command", async () => {
+      const mockPollResponseWithOnlyOptions: RecursivePartial<MoviePollResponse> =
+        {
+          chat: { username: "some-user-name" },
+          poll: {
+            options: ["1", "2"],
+            total_voter_count: 0,
+          },
+        };
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponseWithOnlyOptions as MoviePollResponse
+      );
+    });
+    but("the response is only contains poll options", () => {
+      //defined above
+    });
+
+    then("poll is not added to state", () => {
+      expect(state.polls).toEqual([]);
+    });
   });
 });

@@ -35,18 +35,18 @@ export const respond = async (
         });
         const pollResponseId: number = open(pollResponse, "poll.id");
         const pollOptions: string[] = open(pollResponse, "poll.options");
-
-        const pollToSet: Poll = {
-          id: pollResponseId,
-          movieVotes: pollOptions.map(
-            (option): MovieVote => ({
-              movie: option,
-              votes: 0,
-            })
-          ),
-        };
-
-        state.setPoll(pollToSet);
+        if (pollOptions && pollResponseId) {
+          const pollToSet: Poll = {
+            id: pollResponseId,
+            movieVotes: pollOptions.map(
+              (option): MovieVote => ({
+                movie: option,
+                votes: 0,
+              })
+            ),
+          };
+          state.setPoll(pollToSet);
+        }
       } catch {}
     }
   }

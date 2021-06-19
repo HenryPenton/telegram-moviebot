@@ -6,6 +6,10 @@ export type IncomingMessage = {
   };
 };
 
+export type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
 export type MovieVote = { movie: string; votes: number };
 
 export type MoviePollId = number;
