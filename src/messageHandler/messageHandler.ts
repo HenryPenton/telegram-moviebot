@@ -11,6 +11,49 @@ export enum ResponseType {
   none = "none",
 }
 
+const respondWithMessage = (
+  chatId: ChatId,
+  api: any,
+  response?: responseGenerator.Response
+) => api.sendMessage({ chat_id: chatId, text: response });
+
+const respondWithPoll = async (
+  chatId: ChatId,
+  type: ResponseType,
+  api: any,
+  state: State,
+  response?: responseGenerator.Response
+) => {
+  const pollResponses = response as responseGenerator.PollResponse;
+  state.wipePolls();
+  for (let index = 0; index < pollResponses.length; index++) {
+    const poll = pollResponses[index];
+    try {
+      const pollResponse: MoviePollResponse = await api.sendPoll({
+        chat_id: chatId,
+        question: "New week new movies",
+        options: poll,
+        allows_multiple_answers: "true",
+        is_anonymous: "false",
+      });
+      const pollResponseId: number = open(pollResponse, "poll.id");
+      const pollOptions: string[] = open(pollResponse, "poll.options");
+      if (pollOptions && pollResponseId) {
+        const pollToSet: Poll = {
+          id: pollResponseId,
+          movieVotes: pollOptions.map(
+            (option): MovieVote => ({
+              movie: option,
+              votes: 0,
+            })
+          ),
+        };
+        state.setPoll(pollToSet);
+      }
+    } catch {}
+  }
+};
+
 export const respond = async (
   chatId: ChatId,
   type: ResponseType,
@@ -19,36 +62,9 @@ export const respond = async (
   response?: responseGenerator.Response
 ) => {
   if (type === ResponseType.message) {
-    api.sendMessage({ chat_id: chatId, text: response });
+    respondWithMessage(chatId, api, response);
   } else if (type === ResponseType.moviePoll) {
-    const pollResponses = response as responseGenerator.PollResponse;
-    state.wipePolls();
-    for (let index = 0; index < pollResponses.length; index++) {
-      const poll = pollResponses[index];
-      try {
-        const pollResponse: MoviePollResponse = await api.sendPoll({
-          chat_id: chatId,
-          question: "New week new movies",
-          options: poll,
-          allows_multiple_answers: "true",
-          is_anonymous: "false",
-        });
-        const pollResponseId: number = open(pollResponse, "poll.id");
-        const pollOptions: string[] = open(pollResponse, "poll.options");
-        if (pollOptions && pollResponseId) {
-          const pollToSet: Poll = {
-            id: pollResponseId,
-            movieVotes: pollOptions.map(
-              (option): MovieVote => ({
-                movie: option,
-                votes: 0,
-              })
-            ),
-          };
-          state.setPoll(pollToSet);
-        }
-      } catch {}
-    }
+    await respondWithPoll(chatId, type, api, state, response);
   }
 };
 
