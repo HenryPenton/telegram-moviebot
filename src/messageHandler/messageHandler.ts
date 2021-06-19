@@ -19,12 +19,11 @@ const respondWithMessage = (
 
 const respondWithPoll = async (
   chatId: ChatId,
-  type: ResponseType,
+
   api: any,
   state: State,
-  response?: responseGenerator.Response
+  pollResponses: responseGenerator.PollResponse
 ) => {
-  const pollResponses = response as responseGenerator.PollResponse;
   state.wipePolls();
   for (let index = 0; index < pollResponses.length; index++) {
     const poll = pollResponses[index];
@@ -64,7 +63,9 @@ export const respond = async (
   if (type === ResponseType.message) {
     respondWithMessage(chatId, api, response);
   } else if (type === ResponseType.moviePoll) {
-    await respondWithPoll(chatId, type, api, state, response);
+    const pollResponses = response as responseGenerator.PollResponse;
+
+    await respondWithPoll(chatId, api, state, pollResponses);
   }
 };
 
