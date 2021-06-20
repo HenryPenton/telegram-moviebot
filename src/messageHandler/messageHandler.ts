@@ -3,6 +3,7 @@ import {
   MoviePollId,
   MoviePollResponse,
   MovieVote,
+  Option,
   optionsSelected,
   Poll,
 } from "../types";
@@ -44,16 +45,14 @@ const respondWithPoll = async (
         is_anonymous: "false",
       });
       const pollResponseId: MoviePollId = open(pollResponse, "poll.id");
-      const pollOptions: string[] = open(pollResponse, "poll.options");
+      const pollOptions: Option[] = open(pollResponse, "poll.options");
       if (pollOptions && pollResponseId) {
         const pollToSet: Poll = {
           id: pollResponseId,
-          movieVotes: pollOptions.map(
-            (option): MovieVote => ({
-              movie: option,
-              votes: 0,
-            })
-          ),
+          movieVotes: pollOptions.map((option) => ({
+            movie: option.text,
+            votes: 0,
+          })),
         };
         state.setPoll(pollToSet);
       }

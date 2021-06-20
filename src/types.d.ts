@@ -29,13 +29,15 @@ export interface Poll {
   movieVotes: MovieVote[];
 }
 
+type Option = { text: string };
+
 export interface MoviePollResponse {
   chat: {
     username: string;
   };
   poll: {
     id: MoviePollId;
-    options: string[];
+    options: Option[];
     total_voter_count: 0;
   };
 }

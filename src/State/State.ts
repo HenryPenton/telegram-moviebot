@@ -16,7 +16,26 @@ export class State {
         poll.movieVotes[movieVote].votes++;
       });
     }
+    // this.getVotes();
   };
+
+  // getVotes = () => {
+  //   let allVotes = "";
+  //   for (let index = 0; index < this.polls.length; index++) {
+  //     const poll = this.polls[index];
+
+  //     for (
+  //       let movieIndex = 0;
+  //       movieIndex < poll.movieVotes.length;
+  //       movieIndex++
+  //     ) {
+  //       const movie = poll.movieVotes[movieIndex];
+  //       console.log(JSON.stringify(movie));
+  //       allVotes += `${movie.movie.toString()} has ${movie.votes} votes \n`;
+  //     }
+  //   }
+  //   console.log(allVotes);
+  // };
 
   setPoll = (poll: Poll) => this.polls.push(poll);
 

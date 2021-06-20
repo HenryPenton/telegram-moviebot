@@ -21,7 +21,7 @@ const mockPollResponse: MoviePollResponse = {
   chat: { username: "some-user-name" },
   poll: {
     id: "12345",
-    options: ["option one", "option two"],
+    options: [{ text: "option one" }, { text: "option two" }],
     total_voter_count: 0,
   },
 };
@@ -221,7 +221,7 @@ defineFeature(feature, (test) => {
         {
           chat: { username: "some-user-name" },
           poll: {
-            options: ["1", "2"],
+            options: [{ text: "1" }, { text: "2" }],
             total_voter_count: 0,
           },
         };

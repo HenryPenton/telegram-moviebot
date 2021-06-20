@@ -4,7 +4,7 @@ import * as messageHandler from "../messageHandler/messageHandler";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
-import { MoviePollResponse } from "../types";
+import { IncomingMessage, MoviePollResponse } from "../types";
 
 beforeEach(() => {
   mockSendMessage.mockReset();
@@ -35,7 +35,7 @@ export const runMessageHandler = async (
   shouldFail?: boolean
 ) => {
   await messageHandler.generateResponse(
-    getMessage(messageType)!,
+    getMessage(messageType)! as IncomingMessage,
     pollResponse ? mockApiWithPollResponse(pollResponse, shouldFail) : mockApi,
     state
   );
