@@ -9,6 +9,7 @@ export class RemoviesResponse extends LocalResponse {
 
   generateResponse = () => {
     this.state.removies();
+    this.state.resetPolls();
     return "The movie selection has been reset";
   };
 

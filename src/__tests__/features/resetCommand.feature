@@ -11,3 +11,8 @@ Feature: Removies command
         And the film selection has multiple films in it
         When the reset command is sent
         Then the film selection is reset
+
+    Scenario: Polls are wiped by the reset command
+        Given a moviepoll
+        When the reset command is sent
+        Then poll is reset

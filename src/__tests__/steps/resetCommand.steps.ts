@@ -15,13 +15,13 @@ defineFeature(feature, (test) => {
     jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
   };
 
-  const setFilm = async () => {
+  const setFilm = async (state: State) => {
     command = setMovieCommand;
     movieWithInfo();
     await response(command, mockApi, state);
   };
 
-  const reset = async () => {
+  const reset = async (state: State) => {
     command = resetCommand;
     await response(command, mockApi, state);
   };
@@ -33,7 +33,7 @@ defineFeature(feature, (test) => {
     });
   };
 
-  const filmSelectionReset = async (index: number) => {
+  const filmSelectionReset = async (index: number, state: State) => {
     command = getMovieCommand;
     await response(command, mockApi, state);
 
@@ -49,8 +49,6 @@ defineFeature(feature, (test) => {
   ) => {
     await messageHandler.generateResponse(command, mockApi, state);
   };
-
-  const state = new State();
 
   const setMovieCommand: IncomingMessage = {
     message: {
@@ -84,8 +82,10 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
+    const state = new State();
+
     given("a film selection", async () => {
-      await setFilm();
+      await setFilm(state);
     });
 
     and("the film selection has one film in it", async () => {
@@ -94,13 +94,13 @@ defineFeature(feature, (test) => {
     });
 
     when("the reset command is sent", async () => {
-      await reset();
+      await reset(state);
     });
 
     then("the film selection is reset", async () => {
       await filmSelectionWasCorrect(2, "1. Taken (IMDb Rating: 7.8/10)");
 
-      await filmSelectionReset(4);
+      await filmSelectionReset(4, state);
     });
   });
 
@@ -110,9 +110,11 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
+    const state = new State();
+
     given("a film selection", async () => {
-      await setFilm();
-      await setFilm();
+      await setFilm(state);
+      await setFilm(state);
     });
 
     and("the film selection has multiple films in it", async () => {
@@ -121,7 +123,7 @@ defineFeature(feature, (test) => {
     });
 
     when("the reset command is sent", async () => {
-      await reset();
+      await reset(state);
     });
 
     then("the film selection is reset", async () => {
@@ -129,7 +131,25 @@ defineFeature(feature, (test) => {
         3,
         "1. Taken (IMDb Rating: 7.8/10)\n2. Taken (IMDb Rating: 7.8/10)"
       );
-      await filmSelectionReset(5);
+      await filmSelectionReset(5, state);
+    });
+  });
+
+  test("Polls are wiped by the reset command", ({ given, when, then }) => {
+    const state = new State();
+
+    given("a moviepoll", () => {
+      state.polls = [
+        { id: "some id", movieVotes: [{ votes: [], movie: "some movie" }] },
+      ];
+    });
+
+    when("the reset command is sent", async () => {
+      await reset(state);
+    });
+
+    then("poll is reset", () => {
+      expect(state.polls).toEqual([]);
     });
   });
 });

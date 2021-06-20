@@ -32,6 +32,8 @@ export class State {
 
   getPolls = () => this.polls;
 
+  resetPolls = () => (this.polls = []);
+
   setPoll = (poll: Poll) => this.polls.push(poll);
 
   wipePolls = () => (this.polls = []);
