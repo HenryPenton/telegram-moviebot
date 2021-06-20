@@ -4,6 +4,7 @@ import { State } from "../State/State";
 import { CleanupResponse } from "./responses/CleanupResponse/CleanupResponse";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
+import { GetVotesResponse } from "./responses/GetVotesResponse/GetVotesResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
@@ -122,6 +123,12 @@ export const generate = async (
       const cleanupResponse = new CleanupResponse(state);
       response = cleanupResponse.generateResponse();
       type = cleanupResponse.getType();
+
+      break;
+    case "votes":
+      const voteResponse = new GetVotesResponse(state);
+      response = voteResponse.generateResponse();
+      type = voteResponse.getType();
 
       break;
   }
