@@ -10,7 +10,7 @@ export type IncomingMessage = {
   poll_answer?: {
     poll_id: MoviePollId;
     user: {
-      username: "HenryPenton";
+      username: string;
     };
     option_ids: optionsSelected;
   };
@@ -20,7 +20,7 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-export type MovieVote = { movie: string; votes: number };
+export type MovieVote = { movie: string; votes: string[] };
 
 export type MoviePollId = string;
 

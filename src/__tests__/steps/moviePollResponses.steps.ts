@@ -56,8 +56,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 0 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: [] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];
@@ -143,8 +143,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 0 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: [] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];
@@ -269,8 +269,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 1 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: ["HenryPenton"] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];
@@ -318,8 +318,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 0 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: [] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];
@@ -365,8 +365,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 0 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: [] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];
@@ -409,8 +409,8 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: 0 },
-            { movie: "option two", votes: 0 },
+            { movie: "option one", votes: [] },
+            { movie: "option two", votes: [] },
           ],
         },
       ];

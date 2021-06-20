@@ -1,5 +1,6 @@
 import { Movie, MovieVote, optionsSelected, Poll } from "../types";
 import { getMovieRatings } from "../utils/getMovieRatings";
+import { removeFromArray } from "../utils/removeFromArray";
 
 export class State {
   movies: Movie[];
@@ -9,12 +10,23 @@ export class State {
     this.movies = [];
     this.polls = [];
   }
-  updateVotesForPollId = (movieVotes: optionsSelected, pollId: string) => {
+  updateVotesForPollId = (
+    movieVotes: optionsSelected,
+    pollId: string,
+    username: string
+  ) => {
     const poll = this.polls.find((poll) => poll.id === pollId);
+
     if (poll) {
-      movieVotes.forEach((movieVote) => {
-        poll.movieVotes[movieVote].votes++;
-      });
+      if (movieVotes.length === 0) {
+        poll.movieVotes.forEach((movieVote) => {
+          removeFromArray<string>(movieVote.votes, username);
+        });
+      } else {
+        movieVotes.forEach((movieVote) => {
+          poll.movieVotes[movieVote].votes.push(username);
+        });
+      }
     }
   };
 

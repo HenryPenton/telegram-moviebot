@@ -122,6 +122,16 @@ const moviePollVote: IncomingMessage = {
   },
 };
 
+const moviePollRetractVotes: IncomingMessage = {
+  poll_answer: {
+    poll_id: "12345",
+    user: {
+      username: "HenryPenton",
+    },
+    option_ids: [],
+  },
+};
+
 const moviePollVoteNoId: RecursivePartial<IncomingMessage> = {
   poll_answer: {
     user: {
@@ -172,6 +182,7 @@ export enum MessageType {
   SET_TWO_MULTI_MOVIE_ONE_FAILURE,
   UNKNOWN_COMMAND,
   VOTES,
+  RETRACT_VOTES,
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -216,5 +227,7 @@ export const getMessage = (messageType: MessageType) => {
       return moviePollIdMismatch;
     case MessageType.VOTES:
       return movieVotes;
+    case MessageType.RETRACT_VOTES:
+      return moviePollRetractVotes;
   }
 };

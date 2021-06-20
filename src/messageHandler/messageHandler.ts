@@ -28,7 +28,6 @@ const respondWithMessage = (
 
 const respondWithPoll = async (
   chatId: ChatId,
-
   api: any,
   state: State,
   pollResponses: responseGenerator.PollResponse
@@ -51,7 +50,7 @@ const respondWithPoll = async (
           id: pollResponseId,
           movieVotes: pollOptions.map((option) => ({
             movie: option.text,
-            votes: 0,
+            votes: [],
           })),
         };
         state.setPoll(pollToSet);
@@ -86,9 +85,10 @@ export const generateResponse = async (
 
   const movieVotes: optionsSelected = open(message, "poll_answer.option_ids");
   const pollId: MoviePollId = open(message, "poll_answer.poll_id");
+  const username: MoviePollId = open(message, "poll_answer.user.username");
 
-  if (movieVotes && pollId) {
-    voteHandler(state, movieVotes, pollId);
+  if (movieVotes && pollId && username) {
+    voteHandler(state, movieVotes, pollId, username);
   }
 
   if (chatId && messageText) {
