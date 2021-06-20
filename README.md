@@ -65,9 +65,9 @@ Running /removie _movieid_ where movieid is the id returned by getmovies will re
 
 Running /removie _moviename_ will attempt to match the movie name to one of the movies in the selection and remove it. If unsuccessful nothing will be removed. If the string matches multiple items in the selection, the most recently added will be removed.
 
-## removies
+## reset
 
-Running /removies will wipe the entire movie selection
+Running /reset will wipe the entire movie selection
 
 ## cleanup
 
