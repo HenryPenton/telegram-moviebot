@@ -35,7 +35,7 @@ defineFeature(feature, (test) => {
     then("I see all of the votes", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text: `other has 2 votes \nmovie has 1 votes \n`,
+        text: `other has 2 votes (2 and 1) \nmovie has 1 vote (1) \n`,
       });
     });
   });
@@ -66,7 +66,7 @@ defineFeature(feature, (test) => {
     then("I see all of the votes", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text: `movie has 5 votes \n`,
+        text: `movie has 5 votes (5, 4, 3, 2 and 1) \n`,
       });
     });
   });
@@ -102,7 +102,7 @@ defineFeature(feature, (test) => {
     then("I see the votes in order", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text: `moviesevenvotes has 7 votes \nmoviefivevotes has 5 votes \nmovietwovotes has 2 votes \n`,
+        text: `moviesevenvotes has 7 votes (7, 6, 5, 4, 3, 2 and 1) \nmoviefivevotes has 5 votes (5, 4, 3, 2 and 1) \nmovietwovotes has 2 votes (2 and 1) \n`,
       });
     });
   });
@@ -204,5 +204,44 @@ defineFeature(feature, (test) => {
         text: "Could not find any votes",
       });
     });
+  });
+
+  test("Voters listed correctly", ({ given, when, and, then }) => {
+    let state: State;
+    let numberOfVoters = 0;
+
+    given("There is a poll", () => {
+      state = new State();
+      state.polls = [
+        { movieVotes: [{ movie: "movie", votes: [] }], id: "some id" },
+      ];
+    });
+
+    and(/^there are (.*) voters$/, (voters: number) => {
+      const voterNames = ["HenryPenton", "JD", "JL"];
+      numberOfVoters = voters;
+      let counter = voters;
+      while (counter > 0) {
+        state.polls[0].movieVotes[0].votes.push(voterNames[counter - 1]);
+
+        counter--;
+      }
+    });
+
+    when("I execute the votes command", async () => {
+      await runMessageHandler(MessageType.VOTES, state);
+    });
+
+    then(
+      /^I see all of the votes with grammatically correct (.*)$/,
+      (voters: string) => {
+        const plural = numberOfVoters == 1 ? "vote" : "votes";
+
+        expect(mockSendMessage).toHaveBeenCalledWith({
+          chat_id: "some_chat_id",
+          text: `movie has ${numberOfVoters} ${plural} (${voters}) \n`,
+        });
+      }
+    );
   });
 });
