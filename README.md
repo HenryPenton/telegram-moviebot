@@ -72,3 +72,7 @@ Running /removies will wipe the entire movie selection
 ## cleanup
 
 Running /cleanup will remove any duplicates from the movie selection based on imdb id
+
+## votes
+
+Running /votes will tell you the state of votes in the latest moviepoll
