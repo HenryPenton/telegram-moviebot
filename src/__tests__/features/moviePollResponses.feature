@@ -37,3 +37,24 @@ Feature: Movie poll responses command
         When I send a vote on a movie poll
         Then The poll gets updated in state
 
+    Scenario: A vote on a poll doesnt get counted if no poll id
+        Given I have selected a number movies greater than the minimum
+        And I have generated a moviepoll to vote on
+        When I send a vote on a movie poll
+        But there is no poll id
+        Then The poll vote doesnt get counted
+
+    Scenario: A vote on a poll doesnt get counted if no poll options selected
+        Given I have selected a number movies greater than the minimum
+        And I have generated a moviepoll to vote on
+        When I send a vote on a movie poll
+        But there are no poll options
+        Then The poll vote doesnt get counted
+
+    Scenario: A vote on a poll doesnt get counted if the poll id doesnt match one in state
+        Given I have selected a number movies greater than the minimum
+        And I have generated a moviepoll to vote on
+        When I send a vote on a movie poll
+        Then The poll vote doesnt get counted
+
+

@@ -1,4 +1,4 @@
-import { IncomingMessage } from "../types";
+import { IncomingMessage, RecursivePartial } from "../types";
 
 const mockSetMovieWithYearMessage: IncomingMessage = {
   message: {
@@ -112,24 +112,55 @@ const moviePollVote: IncomingMessage = {
   },
 };
 
+const moviePollVoteNoId: RecursivePartial<IncomingMessage> = {
+  poll_answer: {
+    user: {
+      username: "HenryPenton",
+    },
+    option_ids: [0],
+  },
+};
+
+const moviePollVoteNoOptions: RecursivePartial<IncomingMessage> = {
+  poll_answer: {
+    poll_id: "12345",
+    user: {
+      username: "HenryPenton",
+    },
+  },
+};
+
+const moviePollIdMismatch: RecursivePartial<IncomingMessage> = {
+  poll_answer: {
+    poll_id: "54321",
+    user: {
+      username: "HenryPenton",
+    },
+    option_ids: [0],
+  },
+};
+
 export enum MessageType {
-  MOVIE,
-  MOVIE_WITH_YEAR,
+  CLEANUP,
   MOVIE_WITH_ID,
-  SET_MOVIE,
-  SET_MOVIE_WITH_YEAR,
+  MOVIE_WITH_YEAR,
+  MOVIE,
+  MOVIEPOLL_VOTE_ID_MISMATCH,
+  MOVIEPOLL_VOTE_NO_ID,
+  MOVIEPOLL_VOTE_NO_OPTIONS,
+  MOVIEPOLL_VOTE,
+  MOVIEPOLL_WITH_RESPONSE,
+  MOVIEPOLL,
+  NO_CHAT_ID,
+  NON_EXISTSTENT_COMMAND,
+  REMOVIE,
   SET_MOVIE_WITH_ID,
+  SET_MOVIE_WITH_YEAR,
+  SET_MOVIE,
   SET_MULTI_MOVIE,
   SET_THREE_MULTI_MOVIE,
   SET_TWO_MULTI_MOVIE_ONE_FAILURE,
-  MOVIEPOLL,
-  MOVIEPOLL_WITH_RESPONSE,
-  REMOVIE,
   UNKNOWN_COMMAND,
-  NON_EXISTSTENT_COMMAND,
-  NO_CHAT_ID,
-  CLEANUP,
-  MOVIEPOLL_VOTE,
 }
 
 export const getMessage = (messageType: MessageType) => {
@@ -166,5 +197,11 @@ export const getMessage = (messageType: MessageType) => {
       return setThreeMultiMovieMessage;
     case MessageType.MOVIEPOLL_VOTE:
       return moviePollVote;
+    case MessageType.MOVIEPOLL_VOTE_NO_ID:
+      return moviePollVoteNoId;
+    case MessageType.MOVIEPOLL_VOTE_NO_OPTIONS:
+      return moviePollVoteNoOptions;
+    case MessageType.MOVIEPOLL_VOTE_ID_MISMATCH:
+      return moviePollIdMismatch;
   }
 };

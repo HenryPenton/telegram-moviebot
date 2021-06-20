@@ -240,7 +240,7 @@ defineFeature(feature, (test) => {
     });
   });
 
-  test.only("A vote on a poll gets counted", ({ given, when, and, then }) => {
+  test("A vote on a poll gets counted", ({ given, when, and, then }) => {
     let state: State;
     given(
       "I have selected a number movies greater than the minimum",
@@ -270,6 +270,146 @@ defineFeature(feature, (test) => {
           id: "12345",
           movieVotes: [
             { movie: "option one", votes: 1 },
+            { movie: "option two", votes: 0 },
+          ],
+        },
+      ];
+
+      expect(state.polls).toEqual(expectedPolls);
+    });
+  });
+
+  test("A vote on a poll doesnt get counted if no poll options selected", ({
+    given,
+    and,
+    when,
+    but,
+    then,
+  }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+    and("I have generated a moviepoll to vote on", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponse
+      );
+    });
+
+    when("I send a vote on a movie poll", async () => {
+      await runMessageHandler(MessageType.MOVIEPOLL_VOTE_NO_OPTIONS, state);
+    });
+
+    but("there are no poll options", () => {
+      //dealt with above
+    });
+
+    then("The poll vote doesnt get counted", () => {
+      const expectedPolls: Poll[] = [
+        {
+          id: "12345",
+          movieVotes: [
+            { movie: "option one", votes: 0 },
+            { movie: "option two", votes: 0 },
+          ],
+        },
+      ];
+      expect(state.polls).toEqual(expectedPolls);
+    });
+  });
+
+  test("A vote on a poll doesnt get counted if no poll id", ({
+    given,
+    and,
+    when,
+    but,
+    then,
+  }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+    and("I have generated a moviepoll to vote on", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponse
+      );
+    });
+
+    when("I send a vote on a movie poll", async () => {
+      await runMessageHandler(MessageType.MOVIEPOLL_VOTE_NO_ID, state);
+    });
+
+    but("there is no poll id", () => {
+      //dealt with above
+    });
+    then("The poll vote doesnt get counted", () => {
+      const expectedPolls: Poll[] = [
+        {
+          id: "12345",
+          movieVotes: [
+            { movie: "option one", votes: 0 },
+            { movie: "option two", votes: 0 },
+          ],
+        },
+      ];
+      expect(state.polls).toEqual(expectedPolls);
+    });
+  });
+
+  test("A vote on a poll doesnt get counted if the poll id doesnt match one in state", ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    let state: State;
+    given(
+      "I have selected a number movies greater than the minimum",
+      async () => {
+        state = new State();
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+        mockMovieWithInfo();
+        await runMessageHandler(MessageType.SET_MOVIE, state);
+      }
+    );
+
+    and("I have generated a moviepoll to vote on", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL_WITH_RESPONSE,
+        state,
+        mockPollResponse
+      );
+    });
+
+    when("I send a vote on a movie poll", async () => {
+      await runMessageHandler(MessageType.MOVIEPOLL_VOTE_ID_MISMATCH, state);
+    });
+
+    then("The poll vote doesnt get counted", () => {
+      const expectedPolls: Poll[] = [
+        {
+          id: "12345",
+          movieVotes: [
+            { movie: "option one", votes: 0 },
             { movie: "option two", votes: 0 },
           ],
         },

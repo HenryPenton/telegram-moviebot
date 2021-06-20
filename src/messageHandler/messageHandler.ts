@@ -88,7 +88,9 @@ export const generateResponse = async (
   const movieVotes: optionsSelected = open(message, "poll_answer.option_ids");
   const pollId: MoviePollId = open(message, "poll_answer.poll_id");
 
-  voteHandler(state, movieVotes, pollId);
+  if (movieVotes && pollId) {
+    voteHandler(state, movieVotes, pollId);
+  }
 
   if (chatId && messageText) {
     const { response, type } = await responseGenerator.generate(
