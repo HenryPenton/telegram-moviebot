@@ -1,6 +1,6 @@
 import { Movie } from "../types";
 
-export const getMovieRatings = (movie: Movie) => {
+export const getMovieRatings = (movie: Movie): string | undefined => {
   let setMovieRating;
   if (movie.Ratings) {
     if (movie.Ratings.length > 0) {
