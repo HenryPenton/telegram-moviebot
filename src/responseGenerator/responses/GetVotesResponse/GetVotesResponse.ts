@@ -10,9 +10,9 @@ export class GetVotesResponse extends LocalResponse {
     this.response = this.getVotes();
   }
 
-  generateResponse = () => this.response;
+  generateResponse = (): string => this.response;
 
-  getVotes = () => {
+  getVotes = (): string => {
     let allVotes = "";
     let movieVotes: MovieVote[] = [];
     const polls = this.state.getPolls();
@@ -47,5 +47,5 @@ export class GetVotesResponse extends LocalResponse {
     return allVotes;
   };
 
-  getType = () => ResponseType.message;
+  getType = (): ResponseType => ResponseType.message;
 }

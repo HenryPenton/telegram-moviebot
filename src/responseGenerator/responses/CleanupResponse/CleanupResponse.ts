@@ -7,10 +7,10 @@ export class CleanupResponse extends LocalResponse {
     super(state);
   }
 
-  generateResponse = () => {
+  generateResponse = (): string => {
     this.state.makeUnique();
     return "Duplicates in the movie selection have been removed";
   };
 
-  getType = () => ResponseType.message;
+  getType = (): ResponseType => ResponseType.message;
 }

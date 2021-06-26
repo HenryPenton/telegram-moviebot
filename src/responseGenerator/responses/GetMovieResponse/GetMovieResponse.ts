@@ -7,7 +7,7 @@ export class GetMovieResponse extends LocalResponse {
     super(state);
   }
 
-  generateResponse = () => {
+  generateResponse = (): string => {
     const movieSelection = this.state.getMovies();
     if (movieSelection.length === 0) {
       return "No movies have been set yet";
@@ -25,5 +25,5 @@ export class GetMovieResponse extends LocalResponse {
     }
   };
 
-  getType = () => ResponseType.message;
+  getType = (): ResponseType => ResponseType.message;
 }
