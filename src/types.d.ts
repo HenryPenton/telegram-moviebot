@@ -21,6 +21,7 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
+
 export type MovieVote = { movie: string; votes: string[] };
 
 export type MoviePollId = string;
@@ -42,27 +43,8 @@ export interface MoviePollResponse {
     total_voter_count: 0;
   };
 }
-export type Rating = { Source: string; Value: string };
 
-export type Movie = {
-  Response?: string;
-  Title?: string;
-  Year?: string;
-  Rated?: string;
-  Released?: string;
-  Runtime?: string;
-  Genre?: string;
-  Director?: string;
-  Writer?: string;
-  Actors?: string;
-  Plot?: string;
-  Language?: string;
-  Country?: string;
-  Awards?: string;
-  Poster?: string;
-  imdbID?: string;
-  Ratings?: Rating[];
-};
+
 
 export type Trailer = {
   link: string;

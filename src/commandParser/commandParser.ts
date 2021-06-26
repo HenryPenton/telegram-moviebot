@@ -1,6 +1,8 @@
-type Command = { command: string; restOfString: string };
+type Operator = string;
+type Operand = string;
+type Instruction = { command: Operator; restOfString: Operand };
 
-export const commandParser = (incomingText: string): Command => {
+export const commandParser = (incomingText: string): Instruction => {
   const split = incomingText.split(" ");
 
   const command = getCommand(split);

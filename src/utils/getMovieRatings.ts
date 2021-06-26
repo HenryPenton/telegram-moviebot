@@ -1,4 +1,5 @@
-import { Movie } from "../types";
+import { Movie } from "../fetcher/movie/movieFetcher";
+
 
 export const getMovieRatings = (movie: Movie): string | undefined => {
   let setMovieRating;

@@ -1,4 +1,4 @@
-import { Movie } from "../../types";
+import { Movie } from "../../fetcher/movie/movieFetcher";
 import { Response } from "./Response";
 
 export abstract class AsyncResponse extends Response {

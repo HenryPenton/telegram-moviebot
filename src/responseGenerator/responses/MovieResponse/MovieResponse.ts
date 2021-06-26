@@ -2,10 +2,11 @@ import {
   getMovie,
   getMovieWithID,
   getMovieWithYear,
+  Rating,
 } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
-import { Rating } from "../../../types";
+
 import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
