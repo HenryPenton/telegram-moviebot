@@ -2,7 +2,6 @@ import {
   IncomingMessage,
   MoviePollId,
   MoviePollResponse,
-  MovieVote,
   Option,
   optionsSelected,
   Poll,
@@ -24,14 +23,16 @@ const respondWithMessage = (
   chatId: ChatId,
   api: any,
   response?: responseGenerator.Response
-) => api.sendMessage({ chat_id: chatId, text: response });
+): void => {
+  api.sendMessage({ chat_id: chatId, text: response });
+};
 
 const respondWithPoll = async (
   chatId: ChatId,
   api: any,
   state: State,
   pollResponses: responseGenerator.PollResponse
-) => {
+): Promise<void> => {
   state.resetPolls();
   for (let index = 0; index < pollResponses.length; index++) {
     const poll = pollResponses[index];
@@ -55,7 +56,9 @@ const respondWithPoll = async (
         };
         state.setPoll(pollToSet);
       }
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 
@@ -65,7 +68,7 @@ export const respond = async (
   api: any,
   state: State,
   response?: responseGenerator.Response
-) => {
+): Promise<void> => {
   if (type === ResponseType.message) {
     respondWithMessage(chatId, api, response);
   } else if (type === ResponseType.moviePoll) {
@@ -79,7 +82,7 @@ export const generateResponse = async (
   message: IncomingMessage,
   api: any,
   state: State
-) => {
+): Promise<void> => {
   const chatId: ChatId = open(message, "message.chat.id");
   const messageText: string = open(message, "message.text");
 
@@ -87,7 +90,6 @@ export const generateResponse = async (
   const pollId: MoviePollId = open(message, "poll_answer.poll_id");
   const userid: number = open(message, "poll_answer.user.id");
 
-  
   if (movieVotes && pollId && userid) {
     const username = userid.toString();
     voteHandler(state, movieVotes, pollId, username);
