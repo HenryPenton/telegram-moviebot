@@ -1,9 +1,8 @@
-import { runMessageHandler, mockSendMessage } from "../../__mocks__/movies";
 import { loadFeature, defineFeature } from "jest-cucumber";
-import { State } from "../../State/State";
-
 import { MessageType } from "../../__mocks__/messages";
-import { Movie } from "../../types";
+import { Movie } from "../../fetcher/movie/movieFetcher";
+import { runMessageHandler, mockSendMessage } from "../../__mocks__/movies";
+import { State } from "../../State/State";
 
 const feature = loadFeature("./src/__tests__/features/cleanup.feature");
 

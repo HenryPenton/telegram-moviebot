@@ -1,4 +1,6 @@
-import { IncomingMessage, RecursivePartial } from "../types";
+import { IncomingMessage } from "../messageHandler/messageHandler";
+import { RecursivePartial } from "../types";
+
 
 const mockSetMovieWithYearMessage: IncomingMessage = {
   message: {

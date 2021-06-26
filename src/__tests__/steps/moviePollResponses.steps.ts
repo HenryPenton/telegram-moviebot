@@ -4,10 +4,11 @@ import {
   mockSendPoll,
   runMessageHandler,
 } from "../../__mocks__/movies";
-import { State } from "../../State/State";
+import { Poll, State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { MessageType } from "../../__mocks__/messages";
-import { MoviePollResponse, Poll, RecursivePartial } from "../../types";
+import { RecursivePartial } from "../../types";
+import { MoviePollResponse } from "../../messageHandler/messageHandler";
 
 const feature = loadFeature(
   "./src/__tests__/features/moviePollResponses.feature"

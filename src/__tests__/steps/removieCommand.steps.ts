@@ -2,7 +2,7 @@ import * as messageHandler from "../../messageHandler/messageHandler";
 import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { IncomingMessage } from "../../types";
+import { IncomingMessage } from "../../messageHandler/messageHandler";
 
 const feature = loadFeature("./src/__tests__/features/removieCommand.feature");
 

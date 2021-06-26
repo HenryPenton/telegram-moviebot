@@ -1,6 +1,5 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { State } from "../../State/State";
-import { Poll } from "../../types";
+import { Poll, State } from "../../State/State";
 import { MessageType } from "../../__mocks__/messages";
 import { mockSendMessage, runMessageHandler } from "../../__mocks__/movies";
 

@@ -3,9 +3,9 @@ import { mockApi, mockSendMessage } from "../../__mocks__/movies";
 import filmWithInfo from "../testData/taken.json";
 import { State } from "../../State/State";
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { IncomingMessage } from "../../types";
 import {
   generateResponse,
+  IncomingMessage,
   TelegramApi,
 } from "../../messageHandler/messageHandler";
 

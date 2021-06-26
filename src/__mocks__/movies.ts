@@ -3,9 +3,10 @@ import * as fetcher from "../fetcher/fetcher";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
-import { IncomingMessage, MoviePollResponse } from "../types";
 import {
   generateResponse,
+  IncomingMessage,
+  MoviePollResponse,
   TelegramApi,
 } from "../messageHandler/messageHandler";
 

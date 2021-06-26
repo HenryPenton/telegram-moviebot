@@ -1,5 +1,7 @@
-import { generateResponse } from "./messageHandler/messageHandler";
-import { IncomingMessage } from "./types";
+import {
+  generateResponse,
+  IncomingMessage,
+} from "./messageHandler/messageHandler";
 import { State } from "./State/State";
 // eslint-disable-next-line
 const TG = require("telegram-bot-api");
