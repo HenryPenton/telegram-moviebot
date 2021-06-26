@@ -80,6 +80,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 5.1.2
+- Moved types to more appropriate places
+
 # 5.1.1
 - Fixed linting issue that stopped deployment of 5.1.0
 
