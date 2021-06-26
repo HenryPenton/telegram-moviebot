@@ -1,7 +1,6 @@
 import { IncomingMessage } from "../messageHandler/messageHandler";
 import { RecursivePartial } from "../types";
 
-
 const mockSetMovieWithYearMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
@@ -87,6 +86,14 @@ const cleanupMessage: IncomingMessage = {
     from: { first_name: "Joe" },
     chat: { id: "some_chat_id" },
     text: "/cleanup",
+  },
+};
+
+const helpMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/help",
   },
 };
 
@@ -190,6 +197,7 @@ export enum MessageType {
   UNKNOWN_COMMAND,
   VOTES,
   RETRACT_VOTES,
+  HELP,
 }
 
 export const getMessage = (
@@ -238,5 +246,7 @@ export const getMessage = (
       return movieVotes;
     case MessageType.RETRACT_VOTES:
       return moviePollRetractVotes;
+    case MessageType.HELP:
+      return helpMessage;
   }
 };

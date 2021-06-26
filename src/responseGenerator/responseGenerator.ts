@@ -5,6 +5,8 @@ import { CleanupResponse } from "./responses/CleanupResponse/CleanupResponse";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
 import { GetVotesResponse } from "./responses/GetVotesResponse/GetVotesResponse";
+import { helpDefinitions } from "./responses/HelpResponse/helpDefinitions";
+import { HelpResponse } from "./responses/HelpResponse/HelpResponse";
 import { MovieResponse } from "./responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
@@ -140,6 +142,13 @@ export const generate = async (
       const voteResponse = new GetVotesResponse(state);
       response = voteResponse.generateResponse();
       type = voteResponse.getType();
+
+      break;
+    }
+    case Commands.help: {
+      const helpResponse = new HelpResponse(state, helpDefinitions, Object.keys(Commands));
+      response = helpResponse.generateResponse();
+      type = helpResponse.getType();
 
       break;
     }
