@@ -1,12 +1,13 @@
-import * as messageHandler from "../../messageHandler/messageHandler";
 import * as fetcher from "../../fetcher/fetcher";
 import { mockApi, mockSendMessage } from "../../__mocks__/movies";
-
 import filmWithInfo from "../testData/taken.json";
 import { State } from "../../State/State";
-
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { IncomingMessage } from "../../types";
+import {
+  generateResponse,
+  TelegramApi,
+} from "../../messageHandler/messageHandler";
 
 const feature = loadFeature("./src/__tests__/features/resetCommand.feature");
 
@@ -46,10 +47,10 @@ defineFeature(feature, (test) => {
   };
   const response = async (
     command: IncomingMessage,
-    mockApi: messageHandler.TelegramApi,
+    mockApi: TelegramApi,
     state: State
   ) => {
-    await messageHandler.generateResponse(command, mockApi, state);
+    await generateResponse(command, mockApi, state);
   };
 
   const setMovieCommand: IncomingMessage = {

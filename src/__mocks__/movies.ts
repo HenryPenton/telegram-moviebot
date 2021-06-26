@@ -1,10 +1,13 @@
 import filmWithInfo from "../__tests__/testData/taken.json";
 import * as fetcher from "../fetcher/fetcher";
-import * as messageHandler from "../messageHandler/messageHandler";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
 import { IncomingMessage, MoviePollResponse } from "../types";
+import {
+  generateResponse,
+  TelegramApi,
+} from "../messageHandler/messageHandler";
 
 beforeEach(() => {
   mockSendMessage.mockReset();
@@ -21,7 +24,7 @@ export const mockApi = {
 export const mockApiWithPollResponse = (
   responseToResolve: MoviePollResponse,
   shouldFail?: boolean
-): messageHandler.TelegramApi => ({
+): TelegramApi => ({
   sendMessage: mockSendMessage,
   sendPoll: shouldFail
     ? jest.fn().mockImplementation(() => Promise.reject("somefailure"))
@@ -34,7 +37,7 @@ export const runMessageHandler = async (
   pollResponse?: MoviePollResponse,
   shouldFail?: boolean
 ): Promise<void> => {
-  await messageHandler.generateResponse(
+  await generateResponse(
     getMessage(messageType) as IncomingMessage,
     pollResponse ? mockApiWithPollResponse(pollResponse, shouldFail) : mockApi,
     state
@@ -42,7 +45,9 @@ export const runMessageHandler = async (
 };
 
 export const mockMovieWithInfo = (): void => {
-  jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(filmWithInfo as unknown as fetcher.UnknownObject);
 };
 
 export const mockOmdbUnavailable = (): void => {
@@ -57,5 +62,7 @@ export const mockNoTrailer = (): void => {
 };
 
 export const mockMovieWithTrailer = (): void => {
-  jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(movieTrailer as unknown as fetcher.UnknownObject);
 };
