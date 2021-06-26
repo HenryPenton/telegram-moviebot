@@ -68,11 +68,6 @@ export type Trailer = {
   link: string;
 };
 
-export type Failure = {
-  Response: string;
-  err: any;
-};
-
 export type YoutubeResponse = {
   items: [{ id: { videoId: string } }];
 };
