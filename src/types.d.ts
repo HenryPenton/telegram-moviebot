@@ -11,6 +11,7 @@ export type IncomingMessage = {
     poll_id: MoviePollId;
     user: {
       username: string;
+      id: number;
     };
     option_ids: optionsSelected;
   };

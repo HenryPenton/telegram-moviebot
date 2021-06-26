@@ -117,6 +117,7 @@ const moviePollVote: IncomingMessage = {
     poll_id: "12345",
     user: {
       username: "HenryPenton",
+      id: 12345,
     },
     option_ids: [0],
   },
@@ -127,6 +128,7 @@ const moviePollRetractVotes: IncomingMessage = {
     poll_id: "12345",
     user: {
       username: "HenryPenton",
+      id: 12345,
     },
     option_ids: [],
   },
@@ -136,6 +138,7 @@ const moviePollVoteNoId: RecursivePartial<IncomingMessage> = {
   poll_answer: {
     user: {
       username: "HenryPenton",
+      id: 12345,
     },
     option_ids: [0],
   },
@@ -145,6 +148,7 @@ const moviePollVoteNoOptions: RecursivePartial<IncomingMessage> = {
   poll_answer: {
     poll_id: "12345",
     user: {
+      id: 12345,
       username: "HenryPenton",
     },
   },
@@ -155,6 +159,7 @@ const moviePollIdMismatch: RecursivePartial<IncomingMessage> = {
     poll_id: "54321",
     user: {
       username: "HenryPenton",
+      id: 12345,
     },
     option_ids: [0],
   },

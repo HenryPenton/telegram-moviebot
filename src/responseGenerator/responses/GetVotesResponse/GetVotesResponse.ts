@@ -12,28 +12,6 @@ export class GetVotesResponse extends LocalResponse {
 
   generateResponse = () => this.response;
 
-  condenseVoters = (voters: string[]) => {
-    let numberOfVotesRemaining = voters.length;
-    if (numberOfVotesRemaining === 1) return voters[0];
-    
-    let votersCombined = "";
-    while (numberOfVotesRemaining > 0) {
-      const voterId = numberOfVotesRemaining - 1;
-      const voter = voters[voterId];
-      if (votersCombined === "") {
-        votersCombined = voters[voterId];
-      } else {
-        votersCombined =
-          voterId === 0
-            ? `${votersCombined} and ${voter}`
-            : `${votersCombined}, ${voter}`;
-      }
-
-      numberOfVotesRemaining = voterId;
-    }
-    return votersCombined;
-  };
-
   getVotes = () => {
     let allVotes = "";
     let movieVotes: MovieVote[] = [];
@@ -60,9 +38,8 @@ export class GetVotesResponse extends LocalResponse {
       const movieName = movieVote.movie;
       const numberOfVotes = movieVote.votes.length;
       const pluralised = numberOfVotes > 1 ? "votes" : "vote";
-      const votes = this.condenseVoters(movieVote.votes);
 
-      allVotes += `${movieName} has ${numberOfVotes} ${pluralised} (${votes}) \n`;
+      allVotes += `${movieName} has ${numberOfVotes} ${pluralised} \n`;
     }
     if (allVotes === "") {
       allVotes = "Could not find any votes";

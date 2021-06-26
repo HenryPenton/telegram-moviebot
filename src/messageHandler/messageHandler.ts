@@ -85,9 +85,11 @@ export const generateResponse = async (
 
   const movieVotes: optionsSelected = open(message, "poll_answer.option_ids");
   const pollId: MoviePollId = open(message, "poll_answer.poll_id");
-  const username: MoviePollId = open(message, "poll_answer.user.username");
+  const userid: number = open(message, "poll_answer.user.id");
 
-  if (movieVotes && pollId && username) {
+  
+  if (movieVotes && pollId && userid) {
+    const username = userid.toString();
     voteHandler(state, movieVotes, pollId, username);
   }
 

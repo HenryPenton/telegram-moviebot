@@ -28,14 +28,3 @@ Feature: votes command
         When I retract my votes
         Then The state is updated accordingly
 
-    Scenario Outline: Voters listed correctly
-        Given There is a poll
-        And there are <voters> voters
-        When I execute the votes command
-        Then I see all of the votes with grammatically correct <voterusernames>
-
-        Examples:
-            | voters | voterusernames         |
-            | 1      | HenryPenton            |
-            | 2      | HenryPenton and JD     |
-            | 3      | HenryPenton, JD and JL |

@@ -269,7 +269,7 @@ defineFeature(feature, (test) => {
         {
           id: "12345",
           movieVotes: [
-            { movie: "option one", votes: ["HenryPenton"] },
+            { movie: "option one", votes: ["12345"] },
             { movie: "option two", votes: [] },
           ],
         },
