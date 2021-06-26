@@ -69,5 +69,5 @@ export type Trailer = {
 };
 
 export type YoutubeResponse = {
-  items: [{ id: { videoId: string } }];
+  items: { id: { videoId: string } }[];
 };
