@@ -22,10 +22,10 @@ const getApi = () => {
   return api;
 };
 
-export const init = () => {
+export const init = (): void => {
   const state = new State();
   const api = getApi();
-  
+
   api.on("update", async (update: IncomingMessage) => {
     generateResponse(update, api, state);
   });

@@ -9,9 +9,9 @@ const feature = loadFeature(
 );
 
 defineFeature(feature, (test) => {
-  let state = new State();
-
   test("Regular message", ({ when, then }) => {
+    const state = new State();
+
     when("a regular message is sent", async () => {
       await runMessageHandler(MessageType.UNKNOWN_COMMAND, state);
     });
@@ -22,6 +22,8 @@ defineFeature(feature, (test) => {
   });
 
   test("Non existent commands", ({ when, then }) => {
+    const state = new State();
+
     when(
       /^a non existent command of varying number of (.*) is sent$/,
       async () => {
@@ -35,6 +37,8 @@ defineFeature(feature, (test) => {
   });
 
   test("Invalid message", ({ when, then }) => {
+    const state = new State();
+
     when("a message is sent with a missing chat_id", async () => {
       await runMessageHandler(MessageType.NO_CHAT_ID, state);
     });

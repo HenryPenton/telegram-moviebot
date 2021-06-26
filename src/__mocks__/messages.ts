@@ -190,7 +190,9 @@ export enum MessageType {
   RETRACT_VOTES,
 }
 
-export const getMessage = (messageType: MessageType) => {
+export const getMessage = (
+  messageType: MessageType
+): RecursivePartial<IncomingMessage> => {
   switch (messageType) {
     case MessageType.SET_MOVIE:
       return mockSetMovieMessage;

@@ -14,7 +14,7 @@ defineFeature(feature, (test) => {
 
   const response = async (
     command: IncomingMessage,
-    mockApi: any,
+    mockApi: messageHandler.TelegramApi,
     state: State
   ) => {
     await messageHandler.generateResponse(command, mockApi, state);

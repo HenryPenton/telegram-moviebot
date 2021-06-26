@@ -21,7 +21,7 @@ export const mockApi = {
 export const mockApiWithPollResponse = (
   responseToResolve: MoviePollResponse,
   shouldFail?: boolean
-) => ({
+): messageHandler.TelegramApi => ({
   sendMessage: mockSendMessage,
   sendPoll: shouldFail
     ? jest.fn().mockImplementation(() => Promise.reject("somefailure"))
@@ -33,31 +33,29 @@ export const runMessageHandler = async (
   state: State,
   pollResponse?: MoviePollResponse,
   shouldFail?: boolean
-) => {
+): Promise<void> => {
   await messageHandler.generateResponse(
-    getMessage(messageType)! as IncomingMessage,
+    getMessage(messageType) as IncomingMessage,
     pollResponse ? mockApiWithPollResponse(pollResponse, shouldFail) : mockApi,
     state
   );
 };
 
-export const mockMovieWithInfo = () => {
+export const mockMovieWithInfo = (): void => {
   jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
 };
 
-export const mockOmdbUnavailable = () => {
+export const mockOmdbUnavailable = (): void => {
   jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
 };
-export const mockYoutubeUnavailable = () => {
-  jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
-};
-
-export const mockNoTrailer = () => {
+export const mockYoutubeUnavailable = (): void => {
   jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
 };
 
-export const mockMovieWithTrailer = () => {
+export const mockNoTrailer = (): void => {
+  jest.spyOn(fetcher, "fetcher").mockRejectedValueOnce("some error");
+};
+
+export const mockMovieWithTrailer = (): void => {
   jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(movieTrailer);
 };
-
-export const stateWithXMovies = (x: number) => {};

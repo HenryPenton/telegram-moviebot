@@ -13,8 +13,11 @@ import takenBlankRatingsArray from "./testData/takenBlankRatingsArray.json";
 
 describe("The get and set movie commands", () => {
   let state: State;
-  const mockSendMessage = jest.fn(() => {});
-  const mockApi = { sendMessage: mockSendMessage };
+  const mockSendMessage = jest.fn();
+  const mockApi: messageHandler.TelegramApi = {
+    sendMessage: mockSendMessage,
+    sendPoll: jest.fn(),
+  };
   beforeEach(() => {
     mockSendMessage.mockReset();
   });
@@ -172,7 +175,6 @@ describe("The get and set movie commands", () => {
         text: "Taken added to the film selection",
       });
     });
-
   });
 
   describe("The getmovies command", () => {
@@ -263,8 +265,7 @@ describe("The get and set movie commands", () => {
 
       expect(mockSendMessage).toHaveBeenLastCalledWith({
         chat_id: "some_chat_id",
-        text:
-          "1. Taken (IMDb Rating: 7.8/10)\n2. Finding Nemo (IMDb Rating: 8.1/10)",
+        text: "1. Taken (IMDb Rating: 7.8/10)\n2. Finding Nemo (IMDb Rating: 8.1/10)",
       });
     });
   });

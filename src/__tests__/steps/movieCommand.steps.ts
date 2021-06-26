@@ -21,7 +21,7 @@ const feature = loadFeature("./src/__tests__/features/movieCommand.feature");
 defineFeature(feature, (test) => {
   const state = new State();
 
-  const movieWithInfoNoTrailerResponse: string =
+  const movieWithInfoNoTrailerResponse =
     "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
   let command: MessageType;
@@ -68,7 +68,7 @@ defineFeature(feature, (test) => {
     });
 
     then("the response should be the movie that relates to the Year", () => {
-      const responseWithTitleInformationAndTrailer: string =
+      const responseWithTitleInformationAndTrailer =
         "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
       expect(mockSendMessage).toHaveBeenCalledWith({
@@ -106,7 +106,7 @@ defineFeature(feature, (test) => {
     then(
       "the response should contain the title, information and trailer",
       () => {
-        const responseWithTitleInformationAndTrailer: string =
+        const responseWithTitleInformationAndTrailer =
           "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.\n\nhttps://www.youtube.co.uk/watch?v=movieId";
 
         expect(mockSendMessage).toHaveBeenCalledWith({
@@ -252,8 +252,7 @@ defineFeature(feature, (test) => {
     then("the response should contain the movie name only", () => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text:
-          "Movie: Finding Nemo\n\nhttps://www.youtube.co.uk/watch?v=movieId",
+        text: "Movie: Finding Nemo\n\nhttps://www.youtube.co.uk/watch?v=movieId",
       });
     });
   });
@@ -294,7 +293,7 @@ defineFeature(feature, (test) => {
     });
 
     then("the response should be the movie that relates to the id", () => {
-      const responseWithTitleInformationAndTrailer: string =
+      const responseWithTitleInformationAndTrailer =
         "Movie: Taken (2008)\n\nRuntime: 90 min\n\nInternet Movie Database: 7.8/10\nRotten Tomatoes: 58%\nMetacritic: 51/100\n\nDirector: Pierre Morel\n\nPlot: A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.";
 
       expect(mockSendMessage).toHaveBeenCalledWith({

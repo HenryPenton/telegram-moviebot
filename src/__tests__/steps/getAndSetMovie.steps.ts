@@ -142,7 +142,7 @@ defineFeature(feature, (test) => {
     then(/^the message reads "(.*)"$/, (errorMessage) => {
       expect(mockSendMessage).toHaveBeenCalledWith({
         chat_id: "some_chat_id",
-        text: "Couldn't find those films",
+        text: errorMessage,
       });
     });
   });
