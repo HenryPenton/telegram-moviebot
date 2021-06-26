@@ -18,6 +18,9 @@ TELEGRAM_BOT_TOKEN is a bot token received by talking to the BotFather on Telegr
 
 ## Commands
 
+## help
+Running /help will get you all of the following commands
+
 ## movie
 
 Running /movie _movieName_ will return you information for _movieName_, if it exists.
@@ -79,6 +82,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 
 # Changelog (better late than never)
+
+# 5.2.0
+- Added /help command
 
 # 5.1.2
 - Moved types to more appropriate places
