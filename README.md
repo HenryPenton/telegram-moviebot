@@ -76,3 +76,11 @@ Running /cleanup will remove any duplicates from the movie selection based on im
 ## votes
 
 Running /votes will tell you the state of votes in the latest moviepoll
+
+
+# Changelog (better late than never)
+
+# 5.1.0
+
+- Movie voting changed to track a user's id rather than username, as not all users have a username. This caused some peoples votes to be missed.
+- ESLint added to the project with recommended typescript settings. Resultant linting errors fixed.
