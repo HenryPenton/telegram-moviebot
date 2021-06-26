@@ -67,7 +67,7 @@ defineFeature(feature, (test) => {
     then,
   }) => {
     let state: State;
-
+    jest.spyOn(console, "error");
     given(
       "I have selected a number movies greater than the minimum",
       async () => {
