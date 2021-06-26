@@ -18,9 +18,9 @@ export class MovieResponse extends AsyncResponse {
     this.searchType = searchType;
   }
 
-  getMovie = async () => {
+  getMovie = async (): Promise<void> => {
     switch (this.searchType) {
-      case SearchType.WITH_YEAR:
+      case SearchType.WITH_YEAR: {
         const querySplit = this.queryString.split(" ");
         const movieYear = querySplit[querySplit.length - 1];
 
@@ -28,6 +28,7 @@ export class MovieResponse extends AsyncResponse {
         const queryStringWithoutYear = querySplit.join(" ");
         this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
         break;
+      }
       case SearchType.WITH_ID:
         this.movie = await getMovieWithID(this.queryString);
         break;
@@ -37,7 +38,7 @@ export class MovieResponse extends AsyncResponse {
     }
   };
 
-  getType = () => ResponseType.message;
+  getType = (): ResponseType => ResponseType.message;
 
   getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
 
@@ -68,7 +69,7 @@ export class MovieResponse extends AsyncResponse {
     return allRatings;
   };
 
-  infoAmalgamate = (infoArray: any[]) => {
+  infoAmalgamate = (infoArray: string[]): string => {
     let info = "";
     infoArray.forEach((element, index) => {
       if (index === 0) {
@@ -81,7 +82,7 @@ export class MovieResponse extends AsyncResponse {
     return info;
   };
 
-  generateResponse = async () => {
+  generateResponse = async (): Promise<string> => {
     await this.getMovie();
 
     if (this.movie.Response === "False" || this.movie.Title === undefined)

@@ -11,15 +11,15 @@ export class GetMoviePollResponse extends LocalResponse {
     this.movies = state.getMovies();
     this.pollReady = this.isPollReady();
   }
-  isPollReady = () => this.movies.length >= 2;
+  isPollReady = (): boolean => this.movies.length >= 2;
 
-  generateResponse = () => {
+  generateResponse = (): string[][] | string => {
     let response;
 
     if (this.pollReady) {
       response = this.movies;
 
-      let options = [];
+      const options = [];
 
       for (let index = 0; index < this.movies.length; index += 10) {
         options.push(this.movies.slice(index, index + 10));
@@ -34,6 +34,6 @@ export class GetMoviePollResponse extends LocalResponse {
     return response;
   };
 
-  getType = () =>
+  getType = (): ResponseType =>
     this.pollReady ? ResponseType.moviePoll : ResponseType.message;
 }
