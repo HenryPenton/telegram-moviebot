@@ -1,6 +1,5 @@
 import { Movie } from "../fetcher/movie/movieFetcher";
-import { optionsSelected } from "../types";
-
+import { optionsSelected } from "../messageHandler/messageHandler";
 import { getMovieRatings } from "../utils/getMovieRatings";
 import { removeFromArray } from "../utils/removeFromArray";
 
@@ -11,7 +10,7 @@ export type MoviePollId = string;
 
 export interface Poll {
   id: MoviePollId;
-  movieVotes: MovieVotes
+  movieVotes: MovieVotes;
 }
 
 export class State {
@@ -23,20 +22,20 @@ export class State {
     this.polls = [];
   }
   updateVotesForPollId = (
-    movieVotes: optionsSelected,
+    userVotes: optionsSelected,
     pollId: string,
     username: string
   ): void => {
     const poll = this.polls.find((poll) => poll.id === pollId);
 
     if (poll) {
-      if (movieVotes.length === 0) {
+      if (userVotes.length === 0) {
         poll.movieVotes.forEach((movieVote) => {
           removeFromArray<string>(movieVote.votes, username);
         });
       } else {
-        movieVotes.forEach((movieVote) => {
-          poll.movieVotes[movieVote].votes.push(username);
+        userVotes.forEach((userVote) => {
+          poll.movieVotes[userVote].votes.push(username);
         });
       }
     }

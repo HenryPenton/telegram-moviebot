@@ -1,4 +1,3 @@
-export type optionsSelected = number[];
 
 export type IncomingMessage = {
   message?: {
