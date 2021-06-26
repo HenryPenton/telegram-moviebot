@@ -19,17 +19,41 @@ export enum ResponseType {
   none = "none",
 }
 
+type SendMessage = {
+  chat_id: ChatId;
+  text?: responseGenerator.MessageResponse;
+};
+
+type SendPoll = {
+  chat_id: ChatId;
+  question: string;
+  options: string[];
+  allows_multiple_answers: "true" | "false";
+  is_anonymous: "true" | "false";
+};
+
+export interface TelegramApi {
+  sendMessage: ({ chat_id, text }: SendMessage) => void;
+  sendPoll: ({
+    chat_id,
+    question,
+    options,
+    allows_multiple_answers,
+    is_anonymous,
+  }: SendPoll) => Promise<MoviePollResponse>;
+}
+
 const respondWithMessage = (
   chatId: ChatId,
-  api: any,
-  response?: responseGenerator.Response
+  api: TelegramApi,
+  response?: responseGenerator.MessageResponse
 ): void => {
   api.sendMessage({ chat_id: chatId, text: response });
 };
 
 const respondWithPoll = async (
   chatId: ChatId,
-  api: any,
+  api: TelegramApi,
   state: State,
   pollResponses: responseGenerator.PollResponse
 ): Promise<void> => {
@@ -65,12 +89,16 @@ const respondWithPoll = async (
 export const respond = async (
   chatId: ChatId,
   type: ResponseType,
-  api: any,
+  api: TelegramApi,
   state: State,
-  response?: responseGenerator.Response
+  response: responseGenerator.Response
 ): Promise<void> => {
   if (type === ResponseType.message) {
-    respondWithMessage(chatId, api, response);
+    respondWithMessage(
+      chatId,
+      api,
+      response as responseGenerator.MessageResponse
+    );
   } else if (type === ResponseType.moviePoll) {
     const pollResponses = response as responseGenerator.PollResponse;
 
@@ -80,7 +108,7 @@ export const respond = async (
 
 export const generateResponse = async (
   message: IncomingMessage,
-  api: any,
+  api: TelegramApi,
   state: State
 ): Promise<void> => {
   const chatId: ChatId = open(message, "message.chat.id");

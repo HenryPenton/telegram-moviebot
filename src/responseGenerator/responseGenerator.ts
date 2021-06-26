@@ -10,7 +10,7 @@ import { RemovieResponse } from "./responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responses/SetMovieResponse/SetMovieResponse";
 
-type MessageResponse = string;
+export type MessageResponse = string;
 
 export type PollResponse = string[][];
 
