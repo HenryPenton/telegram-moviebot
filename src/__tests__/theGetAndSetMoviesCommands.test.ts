@@ -1,8 +1,6 @@
-import { IncomingMessage } from "../types";
 import * as messageHandler from "../messageHandler/messageHandler";
 import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import { State } from "../State/State";
-
 import taken from "./testData/taken.json";
 import takenNotImdbFirst from "./testData/takenNotImdbFirst.json";
 import nemo from "./testData/findingnemo.json";
@@ -10,6 +8,7 @@ import submarineUnrated from "./testData/submarineUnrated.json";
 import nonExistingMovie from "./testData/nonExiststentFilm.json";
 import movieWithoutTitle from "./testData/movieWithoutTitle.json";
 import takenBlankRatingsArray from "./testData/takenBlankRatingsArray.json";
+import { IncomingMessage } from "../messageHandler/messageHandler";
 
 describe("The get and set movie commands", () => {
   let state: State;
