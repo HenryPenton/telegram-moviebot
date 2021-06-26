@@ -32,7 +32,7 @@ const respondWithPoll = async (
   state: State,
   pollResponses: responseGenerator.PollResponse
 ) => {
-  state.wipePolls();
+  state.resetPolls();
   for (let index = 0; index < pollResponses.length; index++) {
     const poll = pollResponses[index];
     try {

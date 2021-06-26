@@ -6,6 +6,6 @@ export const voteHandler = (
   movieVotes: optionsSelected,
   pollId: string,
   username: string
-) => {
+): void => {
   state.updateVotesForPollId(movieVotes, pollId, username);
 };

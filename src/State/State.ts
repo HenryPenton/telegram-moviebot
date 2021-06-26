@@ -14,7 +14,7 @@ export class State {
     movieVotes: optionsSelected,
     pollId: string,
     username: string
-  ) => {
+  ): void => {
     const poll = this.polls.find((poll) => poll.id === pollId);
 
     if (poll) {
@@ -30,15 +30,19 @@ export class State {
     }
   };
 
-  getPolls = () => this.polls;
+  getPolls = (): Poll[] => this.polls;
 
-  resetPolls = () => (this.polls = []);
+  resetPolls = (): void => {
+    this.polls = [];
+  };
 
-  setPoll = (poll: Poll) => this.polls.push(poll);
+  setPoll = (poll: Poll): void => {
+    this.polls.push(poll);
+  };
 
-  wipePolls = () => (this.polls = []);
-
-  setMovie = (movie: Movie) => this.movies.push(movie);
+  setMovie = (movie: Movie): void => {
+    this.movies.push(movie);
+  };
 
   getMovies = (): string[] => {
     return this.movies.map(
@@ -51,7 +55,9 @@ export class State {
     );
   };
 
-  removies = () => (this.movies = []);
+  removies = (): void => {
+    this.movies = [];
+  };
 
   removie = (id: number): string | undefined => {
     const zeroizedId = id - 1;
@@ -66,7 +72,7 @@ export class State {
     }
   };
 
-  makeUnique = () => {
+  makeUnique = (): void => {
     const uniqueMovies: Movie[] = [];
     const uniqueMovieTitles: string[] = [];
 
