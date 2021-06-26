@@ -6,10 +6,16 @@ import {
   optionsSelected,
   Poll,
 } from "../types";
-import * as responseGenerator from "../responseGenerator/responseGenerator";
+
 import { State } from "../State/State";
 import { open } from "object_opener";
 import { voteHandler } from "./movieVoteHandler";
+import {
+  generate,
+  MessageResponse,
+  PollResponse,
+  Response,
+} from "../responseGenerator/responseGenerator";
 
 type ChatId = string | number;
 
@@ -21,7 +27,7 @@ export enum ResponseType {
 
 type SendMessage = {
   chat_id: ChatId;
-  text?: responseGenerator.MessageResponse;
+  text?: MessageResponse;
 };
 
 type SendPoll = {
@@ -46,7 +52,7 @@ export interface TelegramApi {
 const respondWithMessage = (
   chatId: ChatId,
   api: TelegramApi,
-  response?: responseGenerator.MessageResponse
+  response?: MessageResponse
 ): void => {
   api.sendMessage({ chat_id: chatId, text: response });
 };
@@ -55,7 +61,7 @@ const respondWithPoll = async (
   chatId: ChatId,
   api: TelegramApi,
   state: State,
-  pollResponses: responseGenerator.PollResponse
+  pollResponses: PollResponse
 ): Promise<void> => {
   state.resetPolls();
   for (let index = 0; index < pollResponses.length; index++) {
@@ -91,16 +97,12 @@ export const respond = async (
   type: ResponseType,
   api: TelegramApi,
   state: State,
-  response: responseGenerator.Response
+  response: Response
 ): Promise<void> => {
   if (type === ResponseType.message) {
-    respondWithMessage(
-      chatId,
-      api,
-      response as responseGenerator.MessageResponse
-    );
+    respondWithMessage(chatId, api, response as MessageResponse);
   } else if (type === ResponseType.moviePoll) {
-    const pollResponses = response as responseGenerator.PollResponse;
+    const pollResponses = response as PollResponse;
 
     await respondWithPoll(chatId, api, state, pollResponses);
   }
@@ -124,10 +126,7 @@ export const generateResponse = async (
   }
 
   if (chatId && messageText) {
-    const { response, type } = await responseGenerator.generate(
-      messageText,
-      state
-    );
+    const { response, type } = await generate(messageText, state);
     await respond(chatId, type, api, state, response);
   }
 };
