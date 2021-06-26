@@ -1,13 +1,5 @@
-import {
-  IncomingMessage,
-  MoviePollId,
-  MoviePollResponse,
-  Option,
-  optionsSelected,
-  Poll,
-} from "../types";
-
-import { State } from "../State/State";
+import { IncomingMessage, Option, optionsSelected } from "../types";
+import { MoviePollId, Poll, State } from "../State/State";
 import { open } from "object_opener";
 import { voteHandler } from "./movieVoteHandler";
 import {
@@ -23,6 +15,17 @@ export enum ResponseType {
   message = "message",
   moviePoll = "moviePoll",
   none = "none",
+}
+
+export interface MoviePollResponse {
+  chat: {
+    username: string;
+  };
+  poll: {
+    id: MoviePollId;
+    options: Option[];
+    total_voter_count: 0;
+  };
 }
 
 type SendMessage = {

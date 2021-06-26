@@ -21,35 +21,5 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-
-export type MovieVote = { movie: string; votes: string[] };
-
-export type MoviePollId = string;
-
-export interface Poll {
-  id: MoviePollId;
-  movieVotes: MovieVote[];
-}
-
 type Option = { text: string };
 
-export interface MoviePollResponse {
-  chat: {
-    username: string;
-  };
-  poll: {
-    id: MoviePollId;
-    options: Option[];
-    total_voter_count: 0;
-  };
-}
-
-
-
-export type Trailer = {
-  link: string;
-};
-
-export type YoutubeResponse = {
-  items: { id: { videoId: string } }[];
-};

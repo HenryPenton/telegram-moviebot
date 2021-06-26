@@ -1,7 +1,18 @@
 import { Movie } from "../fetcher/movie/movieFetcher";
-import { optionsSelected, Poll } from "../types";
+import { optionsSelected } from "../types";
+
 import { getMovieRatings } from "../utils/getMovieRatings";
 import { removeFromArray } from "../utils/removeFromArray";
+
+export type MovieVote = { movie: string; votes: string[] };
+export type MovieVotes = MovieVote[];
+
+export type MoviePollId = string;
+
+export interface Poll {
+  id: MoviePollId;
+  movieVotes: MovieVotes
+}
 
 export class State {
   movies: Movie[];

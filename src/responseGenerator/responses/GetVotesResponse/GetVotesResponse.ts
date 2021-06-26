@@ -1,6 +1,5 @@
 import { ResponseType } from "../../../messageHandler/messageHandler";
-import { State } from "../../../State/State";
-import { MovieVote } from "../../../types";
+import { MovieVotes, State } from "../../../State/State";
 import { LocalResponse } from "../LocalResponse";
 
 export class GetVotesResponse extends LocalResponse {
@@ -14,7 +13,7 @@ export class GetVotesResponse extends LocalResponse {
 
   getVotes = (): string => {
     let allVotes = "";
-    let movieVotes: MovieVote[] = [];
+    let movieVotes: MovieVotes = [];
     const polls = this.state.getPolls();
     for (let index = 0; index < polls.length; index++) {
       const poll = polls[index];
