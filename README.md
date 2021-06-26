@@ -80,6 +80,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 5.1.1
+- Fixed linting issue that stopped deployment of 5.1.0
+
 # 5.1.0
 
 - Movie voting changed to track a user's id rather than username, as not all users have a username. This caused some peoples votes to be missed.
