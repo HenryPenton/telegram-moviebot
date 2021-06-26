@@ -1,7 +1,7 @@
 type Command = { command: string; restOfString: string };
 
 export const commandParser = (incomingText: string): Command => {
-  let split = incomingText.split(" ");
+  const split = incomingText.split(" ");
 
   const command = getCommand(split);
   const restOfString = getRestOfString(split);
@@ -15,7 +15,6 @@ const getCommand = (splitString: string[]) => {
 };
 
 const getRestOfString = (splitString: string[]) => {
-  let restOfString = "";
   splitString.shift();
-  return splitString.length !== 0 ? (restOfString = splitString.join(" ")) : "";
+  return splitString.length !== 0 ? splitString.join(" ") : "";
 };

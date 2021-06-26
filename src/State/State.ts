@@ -1,4 +1,4 @@
-import { Movie, MovieVote, optionsSelected, Poll } from "../types";
+import { Movie, optionsSelected, Poll } from "../types";
 import { getMovieRatings } from "../utils/getMovieRatings";
 import { removeFromArray } from "../utils/removeFromArray";
 
