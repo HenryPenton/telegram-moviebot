@@ -192,7 +192,7 @@ export enum MessageType {
 
 export const getMessage = (
   messageType: MessageType
-): RecursivePartial<IncomingMessage> => {
+): RecursivePartial<IncomingMessage> | undefined => {
   switch (messageType) {
     case MessageType.SET_MOVIE:
       return mockSetMovieMessage;
