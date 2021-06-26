@@ -29,9 +29,9 @@ export class SetMovieResponse extends AsyncResponse {
     this.multiMovie = this.moviesToSearchFor.length > 1;
     this.setMovies = [];
   }
-  getMovie = async () => {
+  getMovie = async (): Promise<void> => {
     switch (this.searchType) {
-      case SearchType.WITH_YEAR:
+      case SearchType.WITH_YEAR: {
         const querySplit = this.queryString.split(" ");
         const movieYear = querySplit[querySplit.length - 1];
 
@@ -39,18 +39,20 @@ export class SetMovieResponse extends AsyncResponse {
         const queryStringWithoutYear = querySplit.join(" ");
         this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
         break;
+      }
       case SearchType.WITH_ID:
         this.movie = await getMovieWithID(this.queryString);
         break;
+
       case SearchType.WITH_SEARCH_TERM:
         this.movie = await getMovie(this.queryString);
         break;
     }
   };
 
-  getType = () => ResponseType.message;
+  getType = (): ResponseType => ResponseType.message;
 
-  addMovie = () => {
+  addMovie = (): void => {
     const movieTitle = this.movie.Title;
     const movieRating = getMovieRatings(this.movie);
     if (movieTitle) {
@@ -63,7 +65,7 @@ export class SetMovieResponse extends AsyncResponse {
       }
     }
   };
-  compileResponse = () => {
+  compileResponse = (): string => {
     if (this.setMovies.length === 1) {
       return `${this.setMovies[0]} added to the film selection`;
     } else if (this.setMovies.length > 1) {
@@ -86,8 +88,8 @@ export class SetMovieResponse extends AsyncResponse {
       ? "Couldn't find those films"
       : "Couldn't find that film";
   };
-  
-  generateResponse = async () => {
+
+  generateResponse = async (): Promise<string> => {
     if (this.multiMovie) {
       for (let index = 0; index < this.moviesToSearchFor.length; index++) {
         const movieToSearchFor = this.moviesToSearchFor[index].trim();

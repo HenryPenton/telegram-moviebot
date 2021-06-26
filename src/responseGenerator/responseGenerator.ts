@@ -36,7 +36,7 @@ export const generate = async (
   let type: ResponseType = ResponseType.none;
 
   switch (command) {
-    case "movie":
+    case "movie": {
       const movieResponse = new MovieResponse(
         restOfString,
         SearchType.WITH_SEARCH_TERM
@@ -45,7 +45,8 @@ export const generate = async (
       type = movieResponse.getType();
 
       break;
-    case "movieyear":
+    }
+    case "movieyear": {
       const movieYearResponse = new MovieResponse(
         restOfString,
         SearchType.WITH_YEAR
@@ -54,8 +55,9 @@ export const generate = async (
 
       type = movieYearResponse.getType();
       break;
+    }
 
-    case "movieid":
+    case "movieid": {
       const movieIdResponse = new MovieResponse(
         restOfString,
         SearchType.WITH_ID
@@ -64,7 +66,8 @@ export const generate = async (
 
       type = movieIdResponse.getType();
       break;
-    case "setmovie":
+    }
+    case "setmovie": {
       const setMovieResponse = new SetMovieResponse(
         restOfString,
         state,
@@ -74,8 +77,9 @@ export const generate = async (
       type = setMovieResponse.getType();
 
       break;
+    }
 
-    case "setmovieyear":
+    case "setmovieyear": {
       const setMovieYearResponse = new SetMovieResponse(
         restOfString,
         state,
@@ -85,7 +89,8 @@ export const generate = async (
       type = setMovieYearResponse.getType();
 
       break;
-    case "setmovieid":
+    }
+    case "setmovieid": {
       const setMovieIdResponse = new SetMovieResponse(
         restOfString,
         state,
@@ -95,42 +100,49 @@ export const generate = async (
       type = setMovieIdResponse.getType();
 
       break;
-    case "getmovies":
+    }
+    case "getmovies": {
       const getMovieResponse = new GetMovieResponse(state);
       response = getMovieResponse.generateResponse();
       type = getMovieResponse.getType();
 
       break;
-    case "moviepoll":
+    }
+    case "moviepoll": {
       const getMoviePollResponse = new GetMoviePollResponse(state);
       response = getMoviePollResponse.generateResponse();
       type = getMoviePollResponse.getType();
 
       break;
-    case "removie":
+    }
+    case "removie": {
       const removieResponse = new RemovieResponse(state, restOfString);
       response = removieResponse.generateResponse();
       type = removieResponse.getType();
 
       break;
-    case "reset":
+    }
+    case "reset": {
       const removiesResponse = new RemoviesResponse(state);
       response = removiesResponse.generateResponse();
       type = removiesResponse.getType();
 
       break;
-    case "cleanup":
+    }
+    case "cleanup": {
       const cleanupResponse = new CleanupResponse(state);
       response = cleanupResponse.generateResponse();
       type = cleanupResponse.getType();
 
       break;
-    case "votes":
+    }
+    case "votes": {
       const voteResponse = new GetVotesResponse(state);
       response = voteResponse.generateResponse();
       type = voteResponse.getType();
 
       break;
+    }
   }
 
   return { response, type };
