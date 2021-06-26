@@ -24,18 +24,18 @@ export class State {
   updateVotesForPollId = (
     userVotes: optionsSelected,
     pollId: string,
-    username: string
+    voterIdentifier: string
   ): void => {
     const poll = this.polls.find((poll) => poll.id === pollId);
 
     if (poll) {
       if (userVotes.length === 0) {
         poll.movieVotes.forEach((movieVote) => {
-          removeFromArray<string>(movieVote.votes, username);
+          removeFromArray<string>(movieVote.votes, voterIdentifier);
         });
       } else {
         userVotes.forEach((userVote) => {
-          poll.movieVotes[userVote].votes.push(username);
+          poll.movieVotes[userVote].votes.push(voterIdentifier);
         });
       }
     }
