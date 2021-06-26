@@ -1,8 +1,4 @@
-import {
-  runMessageHandler,
-  mockMovieWithInfo,
-  mockSendMessage,
-} from "../../__mocks__/movies";
+import { runMessageHandler, mockSendMessage } from "../../__mocks__/movies";
 import { loadFeature, defineFeature } from "jest-cucumber";
 import { State } from "../../State/State";
 
