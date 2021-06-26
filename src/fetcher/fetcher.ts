@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-type UnknownObject = { [key: string]: number | string | [] };
+export type UnknownObject = { [key: string]: number | string | [] };
 
 export const fetcher = async (url: string): Promise<UnknownObject> => {
   return fetch(url)

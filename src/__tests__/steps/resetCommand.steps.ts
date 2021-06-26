@@ -12,7 +12,9 @@ const feature = loadFeature("./src/__tests__/features/resetCommand.feature");
 
 defineFeature(feature, (test) => {
   const movieWithInfo = () => {
-    jest.spyOn(fetcher, "fetcher").mockResolvedValueOnce(filmWithInfo);
+    jest
+      .spyOn(fetcher, "fetcher")
+      .mockResolvedValueOnce(filmWithInfo as unknown as fetcher.UnknownObject);
   };
 
   const setFilm = async (state: State) => {
