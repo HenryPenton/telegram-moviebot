@@ -5,13 +5,15 @@ import {
   mockOmdbUnavailable,
   mockMovieWithDifferentRatings,
   mockMovieWithNoRatings,
+  mockMovieWithoutTitle,
+  mockMovieWithBlankRatings,
 } from "../../__mocks__/movies";
 import { loadFeature, defineFeature } from "jest-cucumber";
 import { State } from "../../State/State";
 
 import { MessageType } from "../../__mocks__/messages";
 
-const feature = loadFeature("./src/__tests__/features/getAndSetMovie.feature");
+const feature = loadFeature("./src/__tests__/features/setMovie.feature");
 
 defineFeature(feature, (test) => {
   let state: State;
@@ -221,6 +223,84 @@ defineFeature(feature, (test) => {
 
     and("no ratings are displayed", () => {
       //verified above (no brackets with rating)
+    });
+  });
+
+  test("Movie without title returns unknown movie", ({
+    given,
+    when,
+    but,
+    then,
+  }) => {
+    given("A setmovie command", () => {
+      mockMovieWithoutTitle();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    but("the response has no title", () => {
+      //dealt with in mockMovieWithoutTitle();
+    });
+
+    then(/^the message reads "(.*)"$/, (text: string) => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text,
+      });
+    });
+  });
+
+  test("Movie that doesnt exist in the database isnt set", ({
+    given,
+    when,
+    but,
+    then,
+  }) => {
+    given("A setmovie command", () => {
+      mockMovieWithoutTitle();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    but("the movie doesnt exist in the database", () => {
+      //dealt with in mockMovieWithoutTitle();
+    });
+
+    then(/^the message reads "(.*)"$/, (text: string) => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text,
+      });
+    });
+  });
+
+  test("Movie with blank ratings array returns no ratings", ({
+    given,
+    when,
+    but,
+    then,
+  }) => {
+    given("A setmovie command", () => {
+      mockMovieWithBlankRatings();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    but("the movie has a blank ratings array", () => {
+      //dealt with in the mock
+    });
+
+    then("the set movie has no ratings associated with it", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken added to the film selection",
+      });
     });
   });
 });

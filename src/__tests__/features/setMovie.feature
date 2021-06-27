@@ -1,4 +1,4 @@
-Feature: Get and Set movies
+Feature: Set movies
 
     Scenario: Set a movie using the setmovie command
         Given A setmovie command
@@ -50,3 +50,21 @@ Feature: Get and Set movies
         When the command is executed
         But all of the movie fetches fail
         Then the message reads "Couldn't find those films"
+
+    Scenario: Movie without title returns unknown movie
+        Given A setmovie command
+        When the command is executed
+        But the response has no title
+        Then the message reads "Couldn't find that film"
+
+    Scenario: Movie that doesnt exist in the database isnt set
+        Given A setmovie command
+        When the command is executed
+        But the movie doesnt exist in the database
+        Then the message reads "Couldn't find that film"
+
+    Scenario: Movie with blank ratings array returns no ratings
+        Given A setmovie command
+        When the command is executed
+        But the movie has a blank ratings array
+        Then the set movie has no ratings associated with it

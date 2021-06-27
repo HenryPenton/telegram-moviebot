@@ -25,6 +25,14 @@ const mockMovieMessage: IncomingMessage = {
   },
 };
 
+const getMoviesMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/getmovies",
+  },
+};
+
 const mockMoviePollMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
@@ -198,6 +206,7 @@ export enum MessageType {
   VOTES,
   RETRACT_VOTES,
   HELP,
+  GET_MOVIES,
 }
 
 export const getMessage = (
@@ -248,5 +257,7 @@ export const getMessage = (
       return moviePollRetractVotes;
     case MessageType.HELP:
       return helpMessage;
+    case MessageType.GET_MOVIES:
+      return getMoviesMessage;
   }
 };

@@ -1,9 +1,12 @@
 import takenNotImdbFirst from "../__tests__/testData/takenNotImdbFirst.json";
+import takenBlankRatingsArray from "../__tests__/testData/takenBlankRatingsArray.json";
 import filmWithInfo from "../__tests__/testData/taken.json";
-import * as fetcher from "../fetcher/fetcher";
 import submarineUnrated from "../__tests__/testData/submarineUnrated.json";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
+import movieWithoutTitle from "../__tests__/testData/movieWithoutTitle.json";
+import nonExistingMovie from "../__tests__/testData/nonExiststentFilm.json";
 import { getMessage, MessageType } from "./messages";
+import * as fetcher from "../fetcher/fetcher";
 import { State } from "../State/State";
 import {
   generateResponse,
@@ -61,11 +64,35 @@ export const mockMovieWithDifferentRatings = (): void => {
     );
 };
 
+export const mockMovieWithoutTitle = (): void => {
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(
+      movieWithoutTitle as unknown as fetcher.UnknownObject
+    );
+};
+
 export const mockMovieWithNoRatings = (): void => {
   jest
     .spyOn(fetcher, "fetcher")
     .mockResolvedValueOnce(
       submarineUnrated as unknown as fetcher.UnknownObject
+    );
+};
+
+export const mockMovieWithBlankRatings = (): void => {
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(
+      takenBlankRatingsArray as unknown as fetcher.UnknownObject
+    );
+};
+
+export const mockNonExistentMovie = (): void => {
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(
+      nonExistingMovie as unknown as fetcher.UnknownObject
     );
 };
 
