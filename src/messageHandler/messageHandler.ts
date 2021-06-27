@@ -1,4 +1,4 @@
-import { MoviePollId, Poll, State } from "../State/State";
+import { MoviePollId, State } from "../State/State";
 import { open } from "object_opener";
 import { voteHandler } from "./movieVoteHandler";
 import {
@@ -7,8 +7,10 @@ import {
   PollResponse,
   Response,
 } from "../responseGenerator/responseGenerator";
+import { respondWithPoll } from "./response/pollResponse";
+import { respondWithMessage } from "./response/messageResponse";
 
-type Option = { text: string };
+export type Option = { text: string };
 
 export type IncomingMessage = {
   message?: {
@@ -27,7 +29,7 @@ export type IncomingMessage = {
   };
 };
 
-type ChatId = string | number;
+export type ChatId = string | number;
 
 export enum ResponseType {
   message = "message",
@@ -71,49 +73,6 @@ export interface TelegramApi {
     is_anonymous,
   }: SendPoll) => Promise<MoviePollResponse>;
 }
-
-const respondWithMessage = (
-  chatId: ChatId,
-  api: TelegramApi,
-  response?: MessageResponse
-): void => {
-  api.sendMessage({ chat_id: chatId, text: response });
-};
-
-const respondWithPoll = async (
-  chatId: ChatId,
-  api: TelegramApi,
-  state: State,
-  pollResponses: PollResponse
-): Promise<void> => {
-  state.resetPolls();
-  for (let index = 0; index < pollResponses.length; index++) {
-    const poll = pollResponses[index];
-    try {
-      const pollResponse: MoviePollResponse = await api.sendPoll({
-        chat_id: chatId,
-        question: "New week new movies",
-        options: poll,
-        allows_multiple_answers: "true",
-        is_anonymous: "false",
-      });
-      const pollResponseId: MoviePollId = open(pollResponse, "poll.id");
-      const pollOptions: Option[] = open(pollResponse, "poll.options");
-      if (pollOptions && pollResponseId) {
-        const pollToSet: Poll = {
-          id: pollResponseId,
-          movieVotes: pollOptions.map((option) => ({
-            movie: option.text,
-            votes: [],
-          })),
-        };
-        state.setPoll(pollToSet);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-};
 
 export const respond = async (
   chatId: ChatId,
