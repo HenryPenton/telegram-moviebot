@@ -1,5 +1,24 @@
 Feature: Get and Set movies
 
+    Scenario: Set a movie using the setmovie command
+        Given A setmovie command
+        When the command is executed
+        Then the movie is set
+
+    Scenario: Set a movie with ratings from a different source using the setmovie command
+        Given A setmovie command
+        And the movie has ratings from a source other than the most common
+        When the command is executed
+        Then the movie is set
+        And the ratings are displayed correctly
+
+    Scenario: Set a movie with no ratings
+        Given A setmovie command
+        And the movie has no ratings
+        When the command is executed
+        Then the movie is set
+        And no ratings are displayed
+
     Scenario: Set a movie using the setmovieyear command
         Given A setmovieyear command
         When the command is executed

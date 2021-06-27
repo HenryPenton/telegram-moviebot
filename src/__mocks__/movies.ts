@@ -1,5 +1,7 @@
+import takenNotImdbFirst from "../__tests__/testData/takenNotImdbFirst.json";
 import filmWithInfo from "../__tests__/testData/taken.json";
 import * as fetcher from "../fetcher/fetcher";
+import submarineUnrated from "../__tests__/testData/submarineUnrated.json";
 import movieTrailer from "../__tests__/testData/ytResponse.json";
 import { getMessage, MessageType } from "./messages";
 import { State } from "../State/State";
@@ -49,6 +51,22 @@ export const mockMovieWithInfo = (): void => {
   jest
     .spyOn(fetcher, "fetcher")
     .mockResolvedValueOnce(filmWithInfo as unknown as fetcher.UnknownObject);
+};
+
+export const mockMovieWithDifferentRatings = (): void => {
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(
+      takenNotImdbFirst as unknown as fetcher.UnknownObject
+    );
+};
+
+export const mockMovieWithNoRatings = (): void => {
+  jest
+    .spyOn(fetcher, "fetcher")
+    .mockResolvedValueOnce(
+      submarineUnrated as unknown as fetcher.UnknownObject
+    );
 };
 
 export const mockOmdbUnavailable = (): void => {

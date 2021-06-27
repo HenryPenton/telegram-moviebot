@@ -3,6 +3,8 @@ import {
   mockMovieWithInfo,
   mockSendMessage,
   mockOmdbUnavailable,
+  mockMovieWithDifferentRatings,
+  mockMovieWithNoRatings,
 } from "../../__mocks__/movies";
 import { loadFeature, defineFeature } from "jest-cucumber";
 import { State } from "../../State/State";
@@ -144,6 +146,81 @@ defineFeature(feature, (test) => {
         chat_id: "some_chat_id",
         text: errorMessage,
       });
+    });
+  });
+
+  test("Set a movie using the setmovie command", ({ given, when, then }) => {
+    given("A setmovie command", () => {
+      mockMovieWithInfo();
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    then("the movie is set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10) added to the film selection",
+      });
+    });
+  });
+
+  test("Set a movie with ratings from a different source using the setmovie command", ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    given("A setmovie command", () => {
+      mockMovieWithDifferentRatings();
+    });
+
+    and(
+      "the movie has ratings from a source other than the most common",
+      () => {
+        //set above
+      }
+    );
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    then("the movie is set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (Rotten Tomatoes Rating: 58%) added to the film selection",
+      });
+    });
+
+    and("the ratings are displayed correctly", () => {
+      //set in expectation above (rotten tomatoes instead of imdb)
+    });
+  });
+
+  test("Set a movie with no ratings", ({ given, and, when, then }) => {
+    given("A setmovie command", () => {
+      mockMovieWithNoRatings();
+    });
+
+    and("the movie has no ratings", () => {
+      //set above
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(MessageType.SET_MOVIE, state);
+    });
+
+    then("the movie is set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Submarine added to the film selection",
+      });
+    });
+
+    and("no ratings are displayed", () => {
+      //verified above (no brackets with rating)
     });
   });
 });

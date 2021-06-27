@@ -2,7 +2,6 @@ import * as messageHandler from "../messageHandler/messageHandler";
 import * as movieFetcher from "../fetcher/movie/movieFetcher";
 import { State } from "../State/State";
 import taken from "./testData/taken.json";
-import takenNotImdbFirst from "./testData/takenNotImdbFirst.json";
 import nemo from "./testData/findingnemo.json";
 import submarineUnrated from "./testData/submarineUnrated.json";
 import nonExistingMovie from "./testData/nonExiststentFilm.json";
@@ -22,81 +21,7 @@ describe("The get and set movie commands", () => {
   });
 
   describe("The setmovie command", () => {
-    test("should fire a message with the film name with imdb rating, if the film is available (returned from the database) when someone sets a movie", async () => {
-      jest.spyOn(movieFetcher, "getMovie").mockResolvedValueOnce(nemo);
-      state = new State();
 
-      const mockIncomingMessageOne: IncomingMessage = {
-        message: {
-          from: { first_name: "Joe" },
-          chat: { id: "some_chat_id" },
-          text: "/setmovie finding nemo",
-        },
-      };
-
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-
-      expect(mockSendMessage).toHaveBeenCalledWith({
-        chat_id: "some_chat_id",
-        text: "Finding Nemo (IMDb Rating: 8.1/10) added to the film selection",
-      });
-    });
-
-    test("should fire a message with the film name with other rating that is available first (returned from the database) when someone sets a movie", async () => {
-      jest
-        .spyOn(movieFetcher, "getMovie")
-        .mockResolvedValueOnce(takenNotImdbFirst);
-      state = new State();
-
-      const mockIncomingMessageOne: IncomingMessage = {
-        message: {
-          from: { first_name: "Joe" },
-          chat: { id: "some_chat_id" },
-          text: "/setmovie finding nemo",
-        },
-      };
-
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-
-      expect(mockSendMessage).toHaveBeenCalledWith({
-        chat_id: "some_chat_id",
-        text: "Taken (Rotten Tomatoes Rating: 58%) added to the film selection",
-      });
-    });
-
-    test("should fire a message with the film name and no rating if not available (returned from the database) when someone sets a movie", async () => {
-      jest
-        .spyOn(movieFetcher, "getMovie")
-        .mockResolvedValueOnce(submarineUnrated);
-      state = new State();
-
-      const mockIncomingMessageOne: IncomingMessage = {
-        message: {
-          from: { first_name: "Joe" },
-          chat: { id: "some_chat_id" },
-          text: "/setmovie submarine",
-        },
-      };
-
-      await messageHandler.generateResponse(
-        mockIncomingMessageOne,
-        mockApi,
-        state
-      );
-
-      expect(mockSendMessage).toHaveBeenCalledWith({
-        chat_id: "some_chat_id",
-        text: "Submarine added to the film selection",
-      });
-    });
     test("should say movie is unknown if it has no title", async () => {
       jest
         .spyOn(movieFetcher, "getMovie")
