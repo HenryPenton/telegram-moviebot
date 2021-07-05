@@ -85,8 +85,8 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # 5.3.1
 - Dependency updates
-  
-  # 5.2.1
+
+# 5.2.1
 - Improved separation of concerns
 
 # 5.2.0
