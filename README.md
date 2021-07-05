@@ -83,7 +83,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
-# 5.2.1
+# 5.2.2
+- Dependency updates
+  
+  # 5.2.1
 - Improved separation of concerns
 
 # 5.2.0
