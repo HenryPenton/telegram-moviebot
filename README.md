@@ -83,6 +83,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 5.4.0
+- Duplicates are removed from movie selections before a poll is sent
+
 # 5.3.1
 - Dependency updates
 
