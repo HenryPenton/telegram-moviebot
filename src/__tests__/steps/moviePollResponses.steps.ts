@@ -32,10 +32,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
 
@@ -73,11 +71,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockSendMessage.mockReset(); //dont care about the mock calls from adding movies to state
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
 
@@ -112,10 +107,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
     and("I have previously sent a moviepoll command", async () => {
@@ -163,10 +156,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
 
@@ -205,10 +196,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
 
@@ -242,10 +231,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
     and("I have generated a moviepoll to vote on", async () => {
@@ -287,10 +274,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
     and("I have generated a moviepoll to vote on", async () => {
@@ -335,10 +320,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
     and("I have generated a moviepoll to vote on", async () => {
@@ -381,10 +364,8 @@ defineFeature(feature, (test) => {
       "I have selected a number movies greater than the minimum",
       async () => {
         state = new State();
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
-        mockMovieWithInfo();
-        await runMessageHandler(MessageType.SET_MOVIE, state);
+        state.setMovie({ Title: "option one", imdbID: "some-id" });
+        state.setMovie({ Title: "option two", imdbID: "some-id-two" });
       }
     );
 

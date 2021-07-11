@@ -85,15 +85,14 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
-    const state = new State();
+    let state: State;
 
     given("a film selection", async () => {
-      await setFilm(state);
+      state = new State();
     });
 
     and("the film selection has one film in it", async () => {
-      command = getMovieCommand;
-      await response(command, mockApi, state);
+      state.movies = [{}];
     });
 
     when("the reset command is sent", async () => {
@@ -101,9 +100,7 @@ defineFeature(feature, (test) => {
     });
 
     then("the film selection is reset", async () => {
-      await filmSelectionWasCorrect(2, "1. Taken (IMDb Rating: 7.8/10)");
-
-      await filmSelectionReset(4, state);
+      expect(state.movies).toHaveLength(0);
     });
   });
 
@@ -116,8 +113,7 @@ defineFeature(feature, (test) => {
     const state = new State();
 
     given("a film selection", async () => {
-      await setFilm(state);
-      await setFilm(state);
+      state.movies = [{}, {}];
     });
 
     and("the film selection has multiple films in it", async () => {
@@ -129,12 +125,8 @@ defineFeature(feature, (test) => {
       await reset(state);
     });
 
-    then("the film selection is reset", async () => {
-      await filmSelectionWasCorrect(
-        3,
-        "1. Taken (IMDb Rating: 7.8/10)\n2. Taken (IMDb Rating: 7.8/10)"
-      );
-      await filmSelectionReset(5, state);
+    then("the film selection is reset", () => {
+      expect(state.movies).toHaveLength(0);
     });
   });
 

@@ -66,8 +66,10 @@ defineFeature(feature, (test) => {
         let counter = numberOfMovies;
         while (counter > 0) {
           options.push("Taken (IMDb Rating: 7.8/10)");
-          mockMovieWithInfo();
-          await runMessageHandler(MessageType.SET_MOVIE, state);
+          state.movies.push({
+            imdbID: `${counter}-id`,
+            Title: "Taken (IMDb Rating: 7.8/10)",
+          });
           counter--;
         }
       }
@@ -114,6 +116,39 @@ defineFeature(feature, (test) => {
 
     then("I receive as many polls as needed", () => {
       expect(mockSendPoll).toHaveBeenCalledTimes(numberOfPolls);
+    });
+  });
+
+  test("Only unique movies are sent", ({ given, but, when, then }) => {
+    let state: State;
+    given("I have selected three movies", () => {
+      state = new State();
+      state.setMovie({ Title: "option one", imdbID: "some-id-one" });
+      //other two movies set below
+    });
+
+    but("two of them are duplicates", () => {
+      state.setMovie({ Title: "option two", imdbID: "some-id-two" });
+      state.setMovie({ Title: "option two", imdbID: "some-id-two" });
+    });
+
+    when("I send the moviepoll command", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL,
+        state,
+        mockPollResponse,
+        false
+      );
+    });
+
+    then("I receive a poll with the two unique movies", () => {
+      expect(mockSendPoll).toHaveBeenLastCalledWith({
+        allows_multiple_answers: "true",
+        chat_id: "some_chat_id",
+        is_anonymous: "false",
+        options: ["option one", "option two"],
+        question: "New week new movies",
+      });
     });
   });
 });

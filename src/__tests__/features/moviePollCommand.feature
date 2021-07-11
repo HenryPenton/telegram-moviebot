@@ -29,7 +29,13 @@ Feature: Movie poll command
         Then I receive as many polls as needed
 
         Examples:
-            | number |            
+            | number |
             | 11     |
             | 21     |
             | 31     |
+
+    Scenario: Only unique movies are sent
+        Given I have selected three movies
+        But two of them are duplicates
+        When I send the moviepoll command
+        Then I receive a poll with the two unique movies

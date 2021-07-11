@@ -8,6 +8,7 @@ export class GetMoviePollResponse extends LocalResponse {
 
   constructor(state: State) {
     super(state);
+    state.makeUnique();
     this.movies = state.getMovies();
     this.pollReady = this.isPollReady();
   }
