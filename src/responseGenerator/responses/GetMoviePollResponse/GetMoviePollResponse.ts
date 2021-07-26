@@ -5,12 +5,16 @@ import { LocalResponse } from "../LocalResponse";
 export class GetMoviePollResponse extends LocalResponse {
   movies: string[];
   pollReady: boolean;
+  maxPollLength: number;
+  minPollLength: number;
 
   constructor(state: State) {
     super(state);
     state.makeUnique();
     this.movies = state.getMovies();
     this.pollReady = this.isPollReady();
+    this.maxPollLength = 10;
+    this.minPollLength = 9;
   }
   isPollReady = (): boolean => this.movies.length >= 2;
 
@@ -21,9 +25,14 @@ export class GetMoviePollResponse extends LocalResponse {
       response = this.movies;
 
       const options = [];
+      
+      const remainder = this.movies.length % 10;
+      const remainderIsOne = remainder === 1;
 
-      for (let index = 0; index < this.movies.length; index += 10) {
-        options.push(this.movies.slice(index, index + 10));
+      const pollSize = remainderIsOne ? this.minPollLength : this.maxPollLength;
+
+      for (let index = 0; index < this.movies.length; index += pollSize) {
+        options.push(this.movies.slice(index, index + pollSize));
       }
 
       return options;

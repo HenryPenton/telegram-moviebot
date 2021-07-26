@@ -39,3 +39,14 @@ Feature: Movie poll command
         But two of them are duplicates
         When I send the moviepoll command
         Then I receive a poll with the two unique movies
+
+    Scenario Outline: Sending one movie over the limit doesn't trigger minimum poll size error for the second poll
+        Given I have selected <selected> movies
+        But the telegram limit is one less than that
+        When I send the moviepoll command
+        Then I receive two polls
+        And they have lengths <firstPollLength> and <secondPollLength>
+
+        Examples:
+            | selected | firstPollLength | secondPollLength |
+            | 11       | 9               | 2                |

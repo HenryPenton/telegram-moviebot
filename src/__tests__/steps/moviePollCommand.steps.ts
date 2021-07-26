@@ -151,4 +151,57 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Sending one movie over the limit doesn't trigger minimum poll size error for the second poll", ({
+    given,
+    but,
+    when,
+    then,
+    and,
+  }) => {
+    let state: State;
+    given(/^I have selected (.*) movies$/, (numberOfMovies: number) => {
+      state = new State();
+      
+      let counter = numberOfMovies;
+      while (counter > 0) {
+        state.setMovie({
+          Title: `option ${counter}`,
+          imdbID: `some-id-${counter}`,
+        });
+
+        counter--;
+      }
+    });
+
+    but("the telegram limit is one less than that", () => {
+      //defined by telegram
+    });
+
+    when("I send the moviepoll command", async () => {
+      await runMessageHandler(
+        MessageType.MOVIEPOLL,
+        state,
+        mockPollResponse,
+        false
+      );
+    });
+
+    then("I receive two polls", () => {
+      expect(mockSendPoll).toHaveBeenCalledTimes(2);
+    });
+
+    and(
+      /^they have lengths (.*) and (.*)$/,
+      (firstPollLength: string, secondPollLength: string) => {
+        expect(mockSendPoll.mock.calls[0][0].options).toHaveLength(
+          parseInt(firstPollLength, 10)
+        );
+
+        expect(mockSendPoll.mock.calls[1][0].options).toHaveLength(
+          parseInt(secondPollLength, 10)
+        );
+      }
+    );
+  });
 });
