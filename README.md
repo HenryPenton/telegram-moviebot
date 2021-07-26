@@ -83,6 +83,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 5.4.1
+- Fixed bug whereby movie selections with a length 1 greater than telegram's limit would only send a single poll.
+
 # 5.4.0
 - Duplicates are removed from movie selections before a poll is sent
 
