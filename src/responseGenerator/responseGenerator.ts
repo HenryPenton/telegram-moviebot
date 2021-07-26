@@ -146,7 +146,11 @@ export const generate = async (
       break;
     }
     case Commands.help: {
-      const helpResponse = new HelpResponse(state, helpDefinitions, Object.keys(Commands));
+      const helpResponse = new HelpResponse(
+        state,
+        helpDefinitions,
+        Object.keys(Commands)
+      );
       response = helpResponse.generateResponse();
       type = helpResponse.getType();
 
