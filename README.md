@@ -19,6 +19,7 @@ TELEGRAM_BOT_TOKEN is a bot token received by talking to the BotFather on Telegr
 ## Commands
 
 ## help
+
 Running /help will get you all of the following commands
 
 ## movie
@@ -37,10 +38,10 @@ Running /movieid _imdbID_ will return information about the film relating to tha
 
 If you supplied a Youtube API key in the first stage, you should also get trailers in the message.
 
-
 **Setting movies**
 
 _The selection mentioned in the following setmovie commands will be wiped if the bot is ever restarted_
+
 ## setmovie
 
 Running /setmovie _movieName_ will add _movieName_ to the movie selection.
@@ -50,6 +51,7 @@ Running /setmovie _movieName%%otherMovieName_ will add _movieName_ and _otherMov
 ## setmovieyear
 
 Running /setmovieyear _movieName_ _movieYear_ will add _movieName_, if it exist for the given year, to the selection.
+
 ## setmovieid
 
 Running /setmovieid _imdbID_ will add the movie relating to that imdb id to the selection.
@@ -80,34 +82,43 @@ Running /cleanup will remove any duplicates from the movie selection based on im
 
 Running /votes will tell you the state of votes in the latest moviepoll
 
-
 # Changelog (better late than never)
 
 # 5.5.0
+
 - movie command followed by an imdb id will now reroute to movieid command
 - setmovie command followed by an imdb id will now reroute to setmovieid command
 
 # 5.4.2
+
 - Dependency updates
+
 # 5.4.1
+
 - Fixed bug whereby movie selections with a length 1 greater than telegram's limit would only send a single poll.
 
 # 5.4.0
+
 - Duplicates are removed from movie selections before a poll is sent
 
 # 5.3.1
+
 - Dependency updates
 
 # 5.2.1
+
 - Improved separation of concerns
 
 # 5.2.0
+
 - Added /help command
 
 # 5.1.2
+
 - Moved types to more appropriate places
 
 # 5.1.1
+
 - Fixed linting issue that stopped deployment of 5.1.0
 
 # 5.1.0
