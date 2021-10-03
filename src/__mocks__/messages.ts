@@ -17,6 +17,14 @@ const mockSetMovieWithIdMessage: IncomingMessage = {
   },
 };
 
+const mockSetMovieButIdMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/setmovie tt0103644",
+  },
+};
+
 const mockMovieMessage: IncomingMessage = {
   message: {
     from: { first_name: "Joe" },
@@ -62,6 +70,14 @@ const mockMovieWithIdMessage: IncomingMessage = {
     from: { first_name: "Joe" },
     chat: { id: "some_chat_id" },
     text: "/movieid ttsomeid",
+  },
+};
+
+const mockMovieButIdMessage: IncomingMessage = {
+  message: {
+    from: { first_name: "Joe" },
+    chat: { id: "some_chat_id" },
+    text: "/movie ttsomeid",
   },
 };
 
@@ -185,6 +201,7 @@ const moviePollIdMismatch: RecursivePartial<IncomingMessage> = {
 export enum MessageType {
   CLEANUP,
   MOVIE_WITH_ID,
+  MOVIE_BUT_ID,
   MOVIE_WITH_YEAR,
   MOVIE,
   MOVIEPOLL_VOTE_ID_MISMATCH,
@@ -199,6 +216,7 @@ export enum MessageType {
   SET_MOVIE_WITH_ID,
   SET_MOVIE_WITH_YEAR,
   SET_MOVIE,
+  SET_MOVIE_BUT_ID,
   SET_MULTI_MOVIE,
   SET_THREE_MULTI_MOVIE,
   SET_TWO_MULTI_MOVIE_ONE_FAILURE,
@@ -259,5 +277,9 @@ export const getMessage = (
       return helpMessage;
     case MessageType.GET_MOVIES:
       return getMoviesMessage;
+    case MessageType.MOVIE_BUT_ID:
+      return mockMovieButIdMessage;
+    case MessageType.SET_MOVIE_BUT_ID:
+      return mockSetMovieButIdMessage;
   }
 };

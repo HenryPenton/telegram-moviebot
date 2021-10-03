@@ -6,7 +6,6 @@ Feature: Get movies
         When the command is executed
         Then The user sees the message "No movies have been set yet"
 
-
     Scenario: User shown a single film if one film is set
         Given A getmovies command
         And the selection has a single film in it

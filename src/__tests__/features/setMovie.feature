@@ -68,3 +68,10 @@ Feature: Set movies
         When the command is executed
         But the movie has a blank ratings array
         Then the set movie has no ratings associated with it
+
+    Scenario: Set a movie using the setmovie command but the message is an id
+        Given an incoming message prefixed with setmovie
+        But the message starts with tt
+        When the command is executed
+        Then the movie is set
+

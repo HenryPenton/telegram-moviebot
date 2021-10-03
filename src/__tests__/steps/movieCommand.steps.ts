@@ -320,4 +320,32 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Responding to a movie with an id search", ({
+    given,
+    but,
+    when,
+    then,
+  }) => {
+    given("an incoming message prefixed with movie", () => {
+      mockMovieWithInfo();
+
+      command = MessageType.MOVIE;
+    });
+
+    but("the message starts with tt", () => {
+      command = MessageType.MOVIE_BUT_ID;
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then("the response should contain the title and information", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: movieWithInfoNoTrailerResponse,
+      });
+    });
+  });
 });

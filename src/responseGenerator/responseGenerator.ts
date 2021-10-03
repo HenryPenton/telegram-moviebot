@@ -1,6 +1,7 @@
 import { commandParser } from "../commandParser/commandParser";
 import { ResponseType } from "../messageHandler/messageHandler";
 import { State } from "../State/State";
+import { checkMessageForAlternatives } from "../utils/alternativeMessages";
 import { CleanupResponse } from "./responses/CleanupResponse/CleanupResponse";
 import { GetMoviePollResponse } from "./responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responses/GetMovieResponse/GetMovieResponse";
@@ -34,10 +35,13 @@ export const generate = async (
   state: State
 ): Promise<ResponseAndType> => {
   const { command, restOfString } = commandParser(messageText);
+
+  const alternativeCommand = checkMessageForAlternatives(command, restOfString);
+
   let response: Response = "";
   let type: ResponseType = ResponseType.none;
 
-  switch (command) {
+  switch (alternativeCommand) {
     case Commands.movie: {
       const movieResponse = new MovieResponse(
         restOfString,

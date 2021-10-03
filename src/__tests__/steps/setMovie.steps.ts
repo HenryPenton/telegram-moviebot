@@ -303,4 +303,32 @@ defineFeature(feature, (test) => {
       });
     });
   });
+
+  test("Set a movie using the setmovie command but the message is an id", ({
+    given,
+    but,
+    when,
+    then,
+  }) => {
+    let command: MessageType;
+    given("an incoming message prefixed with setmovie", () => {
+      mockMovieWithInfo();
+      command = MessageType.SET_MOVIE;
+    });
+
+    but("the message starts with tt", () => {
+      command = MessageType.SET_MOVIE_BUT_ID;
+    });
+
+    when("the command is executed", async () => {
+      await runMessageHandler(command, state);
+    });
+
+    then("the movie is set", () => {
+      expect(mockSendMessage).toHaveBeenCalledWith({
+        chat_id: "some_chat_id",
+        text: "Taken (IMDb Rating: 7.8/10) added to the film selection",
+      });
+    });
+  });
 });

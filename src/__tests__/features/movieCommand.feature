@@ -68,3 +68,9 @@ Feature: Movie command
         And there is no title available for the film
         When the command is executed
         Then the response should say "Unknown movie"
+
+    Scenario: Responding to a movie with an id search
+        Given an incoming message prefixed with movie
+        But the message starts with tt
+        When the command is executed
+        Then the response should contain the title and information
