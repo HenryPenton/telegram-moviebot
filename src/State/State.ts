@@ -1,5 +1,5 @@
 import { Movie } from "../fetcher/movie/movieFetcher";
-import { optionsSelected } from "../messageHandler/messageHandler";
+import { OptionsSelected } from "../messageHandler/messageHandler";
 import { getMovieRatings } from "../utils/getMovieRatings";
 import { removeFromArray } from "../utils/removeFromArray";
 
@@ -22,7 +22,7 @@ export class State {
     this.polls = [];
   }
   updateVotesForPollId = (
-    userVotes: optionsSelected,
+    userVotes: OptionsSelected,
     pollId: string,
     voterIdentifier: string
   ): void => {

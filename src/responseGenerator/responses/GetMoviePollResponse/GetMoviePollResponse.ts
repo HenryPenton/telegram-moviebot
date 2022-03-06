@@ -1,6 +1,7 @@
-import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
 import { LocalResponse } from "../LocalResponse";
+
+export class PollNotReadyError extends Error {}
 
 export class GetMoviePollResponse extends LocalResponse {
   movies: string[];
@@ -18,14 +19,10 @@ export class GetMoviePollResponse extends LocalResponse {
   }
   isPollReady = (): boolean => this.movies.length >= 2;
 
-  generateResponse = (): string[][] | string => {
-    let response;
-
+  generateResponse = (): string[][] => {
     if (this.pollReady) {
-      response = this.movies;
-
       const options = [];
-      
+
       const remainder = this.movies.length % 10;
       const remainderIsOne = remainder === 1;
 
@@ -34,16 +31,9 @@ export class GetMoviePollResponse extends LocalResponse {
       for (let index = 0; index < this.movies.length; index += pollSize) {
         options.push(this.movies.slice(index, index + pollSize));
       }
-
       return options;
     } else {
-      response =
-        "You must set at least two movies to be able to send out a poll";
+      throw new PollNotReadyError();
     }
-
-    return response;
   };
-
-  getType = (): ResponseType =>
-    this.pollReady ? ResponseType.moviePoll : ResponseType.message;
 }

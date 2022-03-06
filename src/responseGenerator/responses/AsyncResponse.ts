@@ -9,6 +9,4 @@ export abstract class AsyncResponse extends Response {
     this.movie = {};
     this.queryString = queryString;
   }
-
-  abstract getMovie: () => void;
 }

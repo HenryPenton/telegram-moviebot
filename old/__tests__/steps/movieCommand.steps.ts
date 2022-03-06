@@ -1,4 +1,4 @@
-import * as fetcher from "../../fetcher/fetcher";
+import * as fetcher from "../../../src/fetcher/fetcher";
 import {
   runMessageHandler,
   mockMovieWithInfo,
@@ -7,14 +7,14 @@ import {
   mockOmdbUnavailable,
   mockSendMessage,
   mockYoutubeUnavailable,
-} from "../../__mocks__/movies";
+} from "../../../src/__mocks__/movies";
 
 import movieNoTitle from "../testData/movieWithoutTitle.json";
 import filmNoInfo from "../testData/findingnemoNoInfo.json";
-import { State } from "../../State/State";
+import { State } from "../../../src/State/State";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { MessageType } from "../../__mocks__/messages";
+import { MessageType } from "../../../src/__mocks__/messages";
 
 const feature = loadFeature("./src/__tests__/features/movieCommand.feature");
 

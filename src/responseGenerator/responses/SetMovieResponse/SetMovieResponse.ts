@@ -4,9 +4,9 @@ import {
   getMovieWithYear,
 } from "../../../fetcher/movie/movieFetcher";
 import { ResponseType } from "../../../messageHandler/messageHandler";
+import { SearchType } from "../../../commands";
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
-import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
 export class SetMovieResponse extends AsyncResponse {
@@ -29,7 +29,8 @@ export class SetMovieResponse extends AsyncResponse {
     this.multiMovie = this.moviesToSearchFor.length > 1;
     this.setMovies = [];
   }
-  getMovie = async (): Promise<void> => {
+
+  private getMovie = async (): Promise<void> => {
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
         const querySplit = this.queryString.split(" ");

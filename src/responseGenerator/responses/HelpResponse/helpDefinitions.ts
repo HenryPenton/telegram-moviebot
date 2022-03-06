@@ -2,7 +2,7 @@ import { HelpDefinitions } from "./HelpResponse";
 
 const yearFormat = `, where the format is /movieyear moviename YYYY`;
 const setsAMovie = `Sets a movie in the selection `;
-const getsAMovie = `Get information about a movie by  `;
+const getsAMovie = `Get information about a movie by `;
 
 export const helpDefinitions: HelpDefinitions = {
   cleanup: `Removes any duplicate movies from the selection`,

@@ -1,19 +1,14 @@
-import { ResponseType } from "../../../messageHandler/messageHandler";
-import { State } from "../../../State/State";
-import { LocalResponse } from "../LocalResponse";
+
+import { StatelessLocalResponse } from "../StatelessLocalResponse";
 
 export type HelpDefinitions = { [key: string]: string };
 
-export class HelpResponse extends LocalResponse {
+export class HelpResponse extends StatelessLocalResponse {
   helpDefinitions: HelpDefinitions;
   commands: string[];
 
-  constructor(
-    state: State,
-    helpDefinitions: HelpDefinitions,
-    commands: string[]
-  ) {
-    super(state);
+  constructor(helpDefinitions: HelpDefinitions, commands: string[]) {
+    super();
     this.helpDefinitions = helpDefinitions;
     this.commands = commands;
   }
@@ -27,6 +22,4 @@ export class HelpResponse extends LocalResponse {
     }
     return response;
   };
-
-  getType = (): ResponseType => ResponseType.message;
 }
