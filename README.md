@@ -84,6 +84,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 5.5.1
+
+- general updates to packages
+
 # 5.5.0
 
 - movie command followed by an imdb id will now reroute to movieid command
