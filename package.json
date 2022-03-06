@@ -43,7 +43,7 @@
     "typescript": "4.6.2"
   },
   "dependencies": {
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.7",
     "object_opener": "2.1.0",
     "telegram-bot-api": "2.0.1"
   }
