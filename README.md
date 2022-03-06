@@ -84,7 +84,12 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
-# 5.5.1
+# 5.5.2
+
+- resolve node-fetch security issue
+- change compatibility to node 14 or later
+
+- # 5.5.1
 
 - general updates to packages
 
