@@ -21,11 +21,6 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 
 const state = new State();
 
-export enum Barry {
-  x = "y",
-  a = "b",
-}
-
 bot.command(Commands.movie, async (ctx) => {
   const { restOfString } = commandParser(ctx.message.text);
 
