@@ -1,10 +1,9 @@
-import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
 import { LocalResponse } from "../LocalResponse";
 
 export class RemovieResponse extends LocalResponse {
-  movieToRemove: string;
-  unfoundResponse: string;
+  private movieToRemove: string;
+  private unfoundResponse: string;
 
   constructor(state: State, movieToRemove: string) {
     super(state);
@@ -12,7 +11,7 @@ export class RemovieResponse extends LocalResponse {
     this.unfoundResponse = "Couldn't find that film in the selection";
   }
 
-  removeMovie = (movieId: number): string => {
+  private removeMovie = (movieId: number): string => {
     const removedMovie = this.state.removie(movieId);
     if (removedMovie) {
       return `${removedMovie} removed from the selection`;
@@ -21,7 +20,7 @@ export class RemovieResponse extends LocalResponse {
     return this.unfoundResponse;
   };
 
-  matchToNameToId = (): string => {
+  private matchToNameToId = (): string => {
     const currentMovies = this.state.getMovies();
 
     let idToRemove;
@@ -45,6 +44,4 @@ export class RemovieResponse extends LocalResponse {
       return this.matchToNameToId();
     }
   };
-
-  getType = (): ResponseType => ResponseType.message;
 }

@@ -41,9 +41,9 @@ export class State {
 
   // getPolls = (): Poll[] => this.polls;
 
-  // resetPolls = (): void => {
-  //   this.polls = [];
-  // };
+  resetPolls = (): void => {
+    this.polls = [];
+  };
 
   // setPoll = (poll: Poll): void => {
   //   this.polls.push(poll);

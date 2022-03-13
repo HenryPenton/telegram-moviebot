@@ -3,7 +3,6 @@ import {
   getMovieWithID,
   getMovieWithYear,
 } from "../../../fetcher/movie/movieFetcher";
-import { ResponseType } from "../../../messageHandler/messageHandler";
 import { SearchType } from "../../../commands";
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
@@ -50,8 +49,6 @@ export class SetMovieResponse extends AsyncResponse {
         break;
     }
   };
-
-  getType = (): ResponseType => ResponseType.message;
 
   addMovie = (): void => {
     const movieTitle = this.movie.Title;
