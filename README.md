@@ -84,6 +84,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.0.0
+
+- Move to telegraf library as it is still currently maintained
+- Update dependencies
 # 5.5.2
 
 - resolve node-fetch security issue

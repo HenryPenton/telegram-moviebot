@@ -1,4 +1,3 @@
-import { ResponseType } from "../../../messageHandler/messageHandler";
 import { State } from "../../../State/State";
 import { LocalResponse } from "../LocalResponse";
 
@@ -24,6 +23,4 @@ export class GetMovieResponse extends LocalResponse {
       return movies;
     }
   };
-
-  getType = (): ResponseType => ResponseType.message;
 }

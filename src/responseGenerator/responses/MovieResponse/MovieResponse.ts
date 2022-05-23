@@ -1,3 +1,4 @@
+import { SearchType } from "../../../commands";
 import {
   getMovie,
   getMovieWithID,
@@ -5,9 +6,6 @@ import {
   Rating,
 } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
-import { ResponseType } from "../../../messageHandler/messageHandler";
-
-import { SearchType } from "../../responseGenerator";
 import { AsyncResponse } from "../AsyncResponse";
 
 export class MovieResponse extends AsyncResponse {
@@ -19,7 +17,7 @@ export class MovieResponse extends AsyncResponse {
     this.searchType = searchType;
   }
 
-  getMovie = async (): Promise<void> => {
+  private getMovie = async (): Promise<void> => {
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
         const querySplit = this.queryString.split(" ");
@@ -39,17 +37,15 @@ export class MovieResponse extends AsyncResponse {
     }
   };
 
-  getType = (): ResponseType => ResponseType.message;
+  private getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
 
-  getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
-
-  getDirector = (director?: string): string =>
+  private getDirector = (director?: string): string =>
     director ? `Director: ${director}` : "";
 
-  getRuntime = (runtime?: string): string =>
+  private getRuntime = (runtime?: string): string =>
     runtime ? `Runtime: ${runtime}` : "";
 
-  getTitleAndYear = (title?: string, year?: string): string => {
+  private getTitleAndYear = (title?: string, year?: string): string => {
     const movieYear = year;
     const movieTitle = movieYear
       ? `Movie: ${title} (${year})`
@@ -58,7 +54,7 @@ export class MovieResponse extends AsyncResponse {
     return movieTitle;
   };
 
-  getRatings = (ratings?: Rating[]): string => {
+  private getRatings = (ratings?: Rating[]): string => {
     let allRatings = "";
     if (ratings) {
       ratings.forEach((rating, index) => {
@@ -70,7 +66,7 @@ export class MovieResponse extends AsyncResponse {
     return allRatings;
   };
 
-  infoAmalgamate = (infoArray: string[]): string => {
+  private combineKnownInformation = (infoArray: string[]): string => {
     let info = "";
     infoArray.forEach((element, index) => {
       if (index === 0) {
@@ -103,6 +99,6 @@ export class MovieResponse extends AsyncResponse {
       await getTrailer(titleAndYear),
     ];
 
-    return this.infoAmalgamate(movieDetails);
+    return this.combineKnownInformation(movieDetails);
   };
 }

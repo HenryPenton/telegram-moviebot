@@ -1,5 +1,4 @@
-import { ResponseType } from "../../../messageHandler/messageHandler";
-import { MovieVotes, State } from "../../../State/State";
+import { State } from "../../../State/State";
 import { LocalResponse } from "../LocalResponse";
 
 export class GetVotesResponse extends LocalResponse {
@@ -13,29 +12,15 @@ export class GetVotesResponse extends LocalResponse {
 
   getVotes = (): string => {
     let allVotes = "";
-    let movieVotes: MovieVotes = [];
-    const polls = this.state.getPolls();
-    for (let index = 0; index < polls.length; index++) {
-      const poll = polls[index];
 
-      for (
-        let movieIndex = 0;
-        movieIndex < poll.movieVotes.length;
-        movieIndex++
-      ) {
-        const movie = poll.movieVotes[movieIndex];
-        if (movie.votes.length > 0) {
-          movieVotes.push(movie);
-        }
-      }
-    }
+    let movieVotes = this.state.getPolls();
 
-    movieVotes = movieVotes.sort((a, b) => b.votes.length - a.votes.length);
+    movieVotes = movieVotes.sort((a, b) => b.voter_count - a.voter_count);
 
     for (let index = 0; index < movieVotes.length; index++) {
       const movieVote = movieVotes[index];
-      const movieName = movieVote.movie;
-      const numberOfVotes = movieVote.votes.length;
+      const movieName = movieVote.text;
+      const numberOfVotes = movieVote.voter_count;
       const pluralised = numberOfVotes > 1 ? "votes" : "vote";
 
       allVotes += `${movieName} has ${numberOfVotes} ${pluralised} \n`;
@@ -45,6 +30,4 @@ export class GetVotesResponse extends LocalResponse {
     }
     return allVotes;
   };
-
-  getType = (): ResponseType => ResponseType.message;
 }
