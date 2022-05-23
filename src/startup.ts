@@ -123,23 +123,12 @@ bot.command(Commands.moviepoll, (ctx) => {
 });
 
 bot.on("poll", (ctx) => {
-  console.log(ctx.update.poll.options);
-  const polls = state.getPolls();
-  ctx.poll.polls.forEach((poll) => {
-    if (poll.id === ctx.update.poll.id) {
-      state.updateVotesForPollId(
-        ctx.update.poll.options,
-        ctx.update.poll.id,
-        "baz"
-      );
-    } else {
-      state.setPoll(ctx.op);
-    }
-  });
+  state.updateVotesForPoll(ctx.poll.options);
 });
 
 bot.command(Commands.votes, (ctx) => {
   const builder = new GetVotesResponse(state);
+
   const response = builder.generateResponse();
   ctx.reply(response);
 });
