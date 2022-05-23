@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { Telegraf } from "telegraf";
 import { commandParser } from "./commandParser/commandParser";
+import { Commands, SearchType } from "./commands";
 import { CleanupResponse } from "./responseGenerator/responses/CleanupResponse/CleanupResponse";
 import {
   GetMoviePollResponse,
@@ -15,7 +16,6 @@ import { RemovieResponse } from "./responseGenerator/responses/RemovieResponse/R
 import { RemoviesResponse } from "./responseGenerator/responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responseGenerator/responses/SetMovieResponse/SetMovieResponse";
 import { State } from "./State/State";
-import { Commands, SearchType } from "./commands";
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 
@@ -124,6 +124,18 @@ bot.command(Commands.moviepoll, (ctx) => {
 
 bot.on("poll", (ctx) => {
   console.log(ctx.update.poll.options);
+  const polls = state.getPolls();
+  ctx.poll.polls.forEach((poll) => {
+    if (poll.id === ctx.update.poll.id) {
+      state.updateVotesForPollId(
+        ctx.update.poll.options,
+        ctx.update.poll.id,
+        "baz"
+      );
+    } else {
+      state.setPoll(ctx.op);
+    }
+  });
 });
 
 bot.command(Commands.votes, (ctx) => {

@@ -1,9 +1,9 @@
+import { SearchType } from "../../../commands";
 import {
   getMovie,
   getMovieWithID,
   getMovieWithYear,
 } from "../../../fetcher/movie/movieFetcher";
-import { SearchType } from "../../../commands";
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
 import { AsyncResponse } from "../AsyncResponse";

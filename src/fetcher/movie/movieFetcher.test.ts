@@ -1,5 +1,5 @@
-import { getMovie, getMovieWithID, getMovieWithYear } from "./movieFetcher";
 import * as FETCH from "../fetcher";
+import { getMovie, getMovieWithID, getMovieWithYear } from "./movieFetcher";
 describe("movie fetcher", () => {
   test("get movie successful", async () => {
     jest.spyOn(FETCH, "fetcher").mockResolvedValue({ Title: "xyz" });

@@ -1,4 +1,3 @@
-
 import { StatelessLocalResponse } from "../StatelessLocalResponse";
 
 export type HelpDefinitions = { [key: string]: string };

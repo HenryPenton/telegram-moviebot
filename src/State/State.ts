@@ -1,5 +1,7 @@
+import { PollOption } from "telegraf/typings/core/types/typegram";
 import { Movie } from "../fetcher/movie/movieFetcher";
 import { getMovieRatings } from "../utils/getMovieRatings";
+import { removeFromArray } from "../utils/removeFromArray";
 
 export type MovieVote = { movie: string; votes: string[] };
 export type MovieVotes = MovieVote[];
@@ -19,35 +21,35 @@ export class State {
     this.movies = [];
     this.polls = [];
   }
-  // updateVotesForPollId = (
-  //   userVotes: OptionsSelected,
-  //   pollId: string,
-  //   voterIdentifier: string
-  // ): void => {
-  //   const poll = this.polls.find((poll) => poll.id === pollId);
+  updateVotesForPollId = (
+    userVotes: PollOption[],
+    pollId: string,
+    voterIdentifier: string
+  ): void => {
+    const poll = this.polls.find((poll) => poll.id === pollId);
 
-  //   if (poll) {
-  //     if (userVotes.length === 0) {
-  //       poll.movieVotes.forEach((movieVote) => {
-  //         removeFromArray<string>(movieVote.votes, voterIdentifier);
-  //       });
-  //     } else {
-  //       userVotes.forEach((userVote) => {
-  //         poll.movieVotes[userVote].votes.push(voterIdentifier);
-  //       });
-  //     }
-  //   }
-  // };
+    if (poll) {
+      if (userVotes.length === 0) {
+        poll.movieVotes.forEach((movieVote) => {
+          removeFromArray<string>(movieVote.votes, voterIdentifier);
+        });
+      } else {
+        userVotes.forEach((userVote) => {
+          poll.movieVotes[userVote].votes.push(voterIdentifier);
+        });
+      }
+    }
+  };
 
-  // getPolls = (): Poll[] => this.polls;
+  getPolls = (): Poll[] => this.polls;
 
   resetPolls = (): void => {
     this.polls = [];
   };
 
-  // setPoll = (poll: Poll): void => {
-  //   this.polls.push(poll);
-  // };
+  setPoll = (poll: Poll): void => {
+    this.polls.push(poll);
+  };
 
   setMovie = (movie: Movie): void => {
     this.movies.push(movie);

@@ -1,6 +1,6 @@
 import { SearchType } from "../../../commands";
-import { MovieResponse } from "./MovieResponse";
 import * as MF from "../../../fetcher/movie/movieFetcher";
+import { MovieResponse } from "./MovieResponse";
 describe("movie responses with just title", () => {
   test("get a movie by imdb id", async () => {
     const mR = new MovieResponse("tt12345457", SearchType.WITH_ID);

@@ -1,5 +1,4 @@
 import { State } from "../../../State/State";
-
 import {
   GetMoviePollResponse,
   PollNotReadyError,

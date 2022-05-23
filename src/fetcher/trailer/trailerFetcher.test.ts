@@ -1,5 +1,6 @@
 import * as FETCH from "../fetcher";
 import { getTrailer, YoutubeResponse } from "./trailerFetcher";
+
 describe("movie fetcher", () => {
   test("get trailer successful", async () => {
     const youtubeResponse: YoutubeResponse = {
