@@ -130,7 +130,7 @@ bot.command(Commands.votes, (ctx) => {
   const builder = new GetVotesResponse(state);
 
   const response = builder.generateResponse();
-  ctx.reply(response);
+  ctx.reply(response, { parse_mode: "HTML" });
 });
 
 bot.command(Commands.help, (ctx) => {
