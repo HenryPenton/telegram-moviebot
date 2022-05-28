@@ -84,16 +84,21 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.0.1
+
+- Don't print films with no votes when running the /votes command
+
 # 6.0.0
 
 - Move to telegraf library as it is still currently maintained
 - Update dependencies
+
 # 5.5.2
 
 - resolve node-fetch security issue
 - change compatibility to node 14 or later
 
-- # 5.5.1
+# 5.5.1
 
 - general updates to packages
 
