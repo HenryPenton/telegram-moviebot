@@ -84,6 +84,11 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.1.0
+
+- Format votes with HTML parser to allow bold and underlined titles for vote headings
+- Remove undefined movie ratings from returned strings
+
 # 6.0.3
 
 - Typo in changelog
