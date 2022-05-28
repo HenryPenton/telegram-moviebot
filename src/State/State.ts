@@ -39,14 +39,10 @@ export class State {
   };
 
   getMovies = (): string[] => {
-    return this.movies.map(
-      (movie) =>
-        `${
-          movie.Ratings
-            ? `${movie.Title} ${getMovieRatings(movie)}`
-            : movie.Title
-        }`
-    );
+    return this.movies.map((movie) => {
+      const movieRating = getMovieRatings(movie);
+      return `${movieRating ? `${movie.Title} ${movieRating}` : movie.Title}`;
+    });
   };
 
   removies = (): void => {
