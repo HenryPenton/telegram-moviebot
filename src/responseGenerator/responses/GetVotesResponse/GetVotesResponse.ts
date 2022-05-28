@@ -21,6 +21,7 @@ export class GetVotesResponse extends LocalResponse {
       const movieVote = movieVotes[index];
       const movieName = movieVote.text;
       const numberOfVotes = movieVote.voter_count;
+      if (numberOfVotes === 0) continue;
       const pluralised = numberOfVotes > 1 ? "votes" : "vote";
 
       allVotes += `${movieName} has ${numberOfVotes} ${pluralised} \n`;
