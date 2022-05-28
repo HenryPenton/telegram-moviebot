@@ -86,6 +86,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # 6.0.1
 
+- Update modules
+
+# 6.0.1
+
 - Don't print films with no votes when running the /votes command
 
 # 6.0.0
