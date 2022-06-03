@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Telegraf } from "telegraf";
-import { commandParser } from "./commandParser/commandParser";
+import { stripCommand } from "./commandParser/commandParser";
 import { Commands, SearchType } from "./commands";
 import { CleanupResponse } from "./responseGenerator/responses/CleanupResponse/CleanupResponse";
 import {
@@ -22,7 +22,7 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 const state = new State();
 
 bot.command(Commands.movie, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_SEARCH_TERM);
   const response = await builder.generateResponse();
@@ -30,7 +30,7 @@ bot.command(Commands.movie, async (ctx) => {
 });
 
 bot.command(Commands.movieyear, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_YEAR);
   const response = await builder.generateResponse();
@@ -38,7 +38,7 @@ bot.command(Commands.movieyear, async (ctx) => {
 });
 
 bot.command(Commands.movieid, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_ID);
   const response = await builder.generateResponse();
@@ -46,7 +46,7 @@ bot.command(Commands.movieid, async (ctx) => {
 });
 
 bot.command(Commands.setmovie, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new SetMovieResponse(
     restOfString,
@@ -58,7 +58,7 @@ bot.command(Commands.setmovie, async (ctx) => {
 });
 
 bot.command(Commands.setmovieyear, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new SetMovieResponse(
     restOfString,
@@ -70,7 +70,7 @@ bot.command(Commands.setmovieyear, async (ctx) => {
 });
 
 bot.command(Commands.setmovieid, async (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new SetMovieResponse(restOfString, state, SearchType.WITH_ID);
   const response = await builder.generateResponse();
@@ -84,7 +84,7 @@ bot.command(Commands.getmovies, (ctx) => {
 });
 
 bot.command(Commands.removie, (ctx) => {
-  const { restOfString } = commandParser(ctx.message.text);
+  const restOfString = stripCommand(ctx.message.text);
 
   const builder = new RemovieResponse(state, restOfString);
   const response = builder.generateResponse();
