@@ -21,6 +21,8 @@ export class GetMoviePollResponse extends LocalResponse {
 
   generateResponse = (): string[][] => {
     if (this.pollReady) {
+      this.state.resetPolls();
+
       const options = [];
 
       const remainder = this.movies.length % 10;

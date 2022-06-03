@@ -16,6 +16,16 @@ describe("GetMoviePollResponse", () => {
     expect(responseGenerate).toThrowError(PollNotReadyError);
   });
 
+  test("resets previous moviepoll votes", () => {
+    const state = new State();
+    state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
+    state.setMovie({ Title: "edcba", imdbID: "tt7654321" });
+    state.updateVotesForPoll([{ voter_count: 1, text: "some film" }]);
+
+    new GetMoviePollResponse(state).generateResponse();
+    expect(state.getPolls()).toEqual([]);
+  });
+
   test("returns a list of lists of strings when there are enough movies", () => {
     const state = new State();
     state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
