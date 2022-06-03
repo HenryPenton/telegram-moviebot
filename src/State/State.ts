@@ -21,7 +21,7 @@ export class State {
       );
 
       if (potentialVote > -1) {
-        removeFromArray(this.polls, this.polls[potentialVote]);
+        this.polls = removeFromArray(this.polls, this.polls[potentialVote]);
       }
 
       this.polls.push(userVote);

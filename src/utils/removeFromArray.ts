@@ -1,7 +1,2 @@
-export const removeFromArray = <T>(array: T[], itemToRemove: T):void => {
-  const index = array.indexOf(itemToRemove);
-
-  if (index > -1) {
-    array.splice(index, 1);
-  }
-};
+export const removeFromArray = <T>(array: T[], itemToRemove: T): T[] =>
+  array.filter((x) => x !== itemToRemove);

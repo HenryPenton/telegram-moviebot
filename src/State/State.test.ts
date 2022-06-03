@@ -50,4 +50,14 @@ describe("state", () => {
 
     expect(state.getMovies()).toEqual(["movie three"]);
   });
+
+  test("updating poll votes", () => {
+    const state = new State();
+    state.setMovie({ Title: "movie two" });
+    state.setMovie({ Title: "movie three" });
+    state.updateVotesForPoll([{ text: "movie two", voter_count: 1 }]);
+    state.updateVotesForPoll([{ text: "movie two", voter_count: 2 }]);
+
+    expect(state.getPolls()).toEqual([{ text: "movie two", voter_count: 2 }]);
+  });
 });

@@ -11,18 +11,22 @@ export class GetVotesResponse extends LocalResponse {
   generateResponse = (): string => this.response;
 
   getVotes = (): string => {
+    const movieVotes = this.state
+      .getPolls()
+      .sort((a, b) => b.voter_count - a.voter_count);
+
+    if (movieVotes.length === 0) return "Could not find any votes";
+
+    let currentMaxVote = 0;
     let allVotes = "";
 
-    let movieVotes = this.state.getPolls();
-
-    movieVotes = movieVotes.sort((a, b) => b.voter_count - a.voter_count);
-    let currentMaxVote = 0;
     for (let index = 0; index < movieVotes.length; index++) {
       const { text, voter_count } = movieVotes[index];
+      const numberOfVotes = voter_count;
+
+      if (numberOfVotes === 0) continue;
 
       const movieName = text;
-      const numberOfVotes = voter_count;
-      if (numberOfVotes === 0) continue;
       const pluralised = numberOfVotes > 1 ? "votes" : "vote";
 
       if (currentMaxVote !== voter_count) {
@@ -32,9 +36,7 @@ export class GetVotesResponse extends LocalResponse {
 
       allVotes += `${movieName} \n`;
     }
-    if (allVotes === "") {
-      allVotes = "Could not find any votes";
-    }
+
     return allVotes;
   };
 }
