@@ -88,6 +88,7 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 - Requesting a moviepoll will reset any running poll
 - Error handling for movie/movieid/movieyear commands that are sent without any other information
+- Package updates
 
 # 6.1.0
 
