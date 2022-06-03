@@ -1,6 +1,43 @@
 import { SearchType } from "../../../commands";
 import * as MF from "../../../fetcher/movie/movieFetcher";
 import { MovieResponse } from "./MovieResponse";
+describe("only command given", () => {
+  test("only movie command given", async () => {
+    const mR = new MovieResponse("", SearchType.WITH_SEARCH_TERM);
+
+    expect(await mR.generateResponse()).toBe("Please specify a movie!");
+  });
+
+  test("only movieyear command given", async () => {
+    const mR = new MovieResponse("", SearchType.WITH_YEAR);
+
+    expect(await mR.generateResponse()).toBe(
+      "Please specify a movie and year!"
+    );
+  });
+
+  test("only movieid command given", async () => {
+    const mR = new MovieResponse("", SearchType.WITH_ID);
+
+    expect(await mR.generateResponse()).toBe("Please specify an IMDB ID!");
+  });
+
+  test("only movieid command given", async () => {
+    const mR = new MovieResponse("", SearchType.WITH_ID);
+
+    expect(await mR.generateResponse()).toBe("Please specify an IMDB ID!");
+  });
+
+  test("non existent state", async () => {
+    const mR = new MovieResponse(
+      "",
+      "some non existent search type" as unknown as SearchType
+    );
+
+    expect(await mR.generateResponse()).toBe("Something went wrong!");
+  });
+});
+
 describe("movie responses with just title", () => {
   test("get a movie by imdb id", async () => {
     const mR = new MovieResponse("tt12345457", SearchType.WITH_ID);

@@ -8,6 +8,10 @@ import {
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import { AsyncResponse } from "../AsyncResponse";
 
+class MovieNotProvidedError extends Error {}
+class MovieAndYearNotProvidedError extends Error {}
+class MovieIDNotProvided extends Error {}
+
 export class MovieResponse extends AsyncResponse {
   searchType: SearchType;
 
@@ -17,23 +21,24 @@ export class MovieResponse extends AsyncResponse {
     this.searchType = searchType;
   }
 
-  private getMovie = async (): Promise<void> => {
+  private getMovie = async () => {
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
+        if (this.queryString === "") throw new MovieAndYearNotProvidedError();
         const querySplit = this.queryString.split(" ");
         const movieYear = querySplit[querySplit.length - 1];
 
         querySplit.pop();
         const queryStringWithoutYear = querySplit.join(" ");
-        this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
-        break;
+        return getMovieWithYear(queryStringWithoutYear, movieYear);
       }
       case SearchType.WITH_ID:
-        this.movie = await getMovieWithID(this.queryString);
-        break;
+        if (this.queryString === "") throw new MovieIDNotProvided();
+        return getMovieWithID(this.queryString);
+
       case SearchType.WITH_SEARCH_TERM:
-        this.movie = await getMovie(this.queryString);
-        break;
+        if (this.queryString === "") throw new MovieNotProvidedError();
+        return getMovie(this.queryString);
     }
   };
 
@@ -80,25 +85,34 @@ export class MovieResponse extends AsyncResponse {
   };
 
   generateResponse = async (): Promise<string> => {
-    await this.getMovie();
+    try {
+      const movie = await this.getMovie();
 
-    if (this.movie.Response === "False" || this.movie.Title === undefined)
-      return "Unknown movie";
+      if (movie.Response === "False" || movie.Title === undefined)
+        return "Unknown movie";
 
-    const titleAndYear = this.getTitleAndYear(
-      this.movie.Title,
-      this.movie.Year
-    );
+      const titleAndYear = this.getTitleAndYear(movie.Title, movie.Year);
 
-    const movieDetails: string[] = [
-      titleAndYear,
-      this.getRuntime(this.movie.Runtime),
-      this.getRatings(this.movie.Ratings),
-      this.getDirector(this.movie.Director),
-      this.getPlot(this.movie.Plot),
-      await getTrailer(titleAndYear),
-    ];
+      const movieDetails: string[] = [
+        titleAndYear,
+        this.getRuntime(movie.Runtime),
+        this.getRatings(movie.Ratings),
+        this.getDirector(movie.Director),
+        this.getPlot(movie.Plot),
+        await getTrailer(titleAndYear),
+      ];
 
-    return this.combineKnownInformation(movieDetails);
+      return this.combineKnownInformation(movieDetails);
+    } catch (e) {
+      switch (true) {
+        case e instanceof MovieNotProvidedError:
+          return "Please specify a movie!";
+        case e instanceof MovieIDNotProvided:
+          return "Please specify an IMDB ID!";
+        case e instanceof MovieAndYearNotProvidedError:
+          return "Please specify a movie and year!";
+      }
+      return "Something went wrong!";
+    }
   };
 }
