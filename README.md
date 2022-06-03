@@ -84,6 +84,11 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.2.0
+
+- Requesting a moviepoll will reset any running poll
+- Error handling for movie/movieid/movieyear commands that are sent without any other information
+
 # 6.1.0
 
 - Format votes with HTML parser to allow bold and underlined titles for vote headings
