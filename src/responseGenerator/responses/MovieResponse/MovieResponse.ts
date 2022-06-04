@@ -6,11 +6,12 @@ import {
   Rating,
 } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
-import { AsyncResponse } from "../AsyncResponse";
-
-class MovieNotProvidedError extends Error {}
-class MovieAndYearNotProvidedError extends Error {}
-class MovieIDNotProvided extends Error {}
+import {
+  AsyncResponse,
+  MovieAndYearNotProvidedError,
+  MovieIDNotProvided,
+  MovieNotProvidedError,
+} from "../AsyncResponse";
 
 export class MovieResponse extends AsyncResponse {
   searchType: SearchType;
@@ -25,6 +26,7 @@ export class MovieResponse extends AsyncResponse {
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
         if (this.queryString === "") throw new MovieAndYearNotProvidedError();
+
         const querySplit = this.queryString.split(" ");
         const movieYear = querySplit[querySplit.length - 1];
 
@@ -104,15 +106,20 @@ export class MovieResponse extends AsyncResponse {
 
       return this.combineKnownInformation(movieDetails);
     } catch (e) {
-      switch (true) {
-        case e instanceof MovieNotProvidedError:
-          return "Please specify a movie!";
-        case e instanceof MovieIDNotProvided:
-          return "Please specify an IMDB ID!";
-        case e instanceof MovieAndYearNotProvidedError:
-          return "Please specify a movie and year!";
-      }
-      return "Something went wrong!";
+      return this.generateErrorReponse(e);
+    }
+  };
+
+  private generateErrorReponse = (e: unknown) => {
+    switch (true) {
+      case e instanceof MovieNotProvidedError:
+        return "Please specify a movie!";
+      case e instanceof MovieIDNotProvided:
+        return "Please specify an IMDB ID!";
+      case e instanceof MovieAndYearNotProvidedError:
+        return "Please specify a movie and year!";
+      default:
+        return "Something went wrong!";
     }
   };
 }

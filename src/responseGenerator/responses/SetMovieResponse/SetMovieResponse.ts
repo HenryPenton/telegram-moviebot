@@ -6,7 +6,12 @@ import {
 } from "../../../fetcher/movie/movieFetcher";
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
-import { AsyncResponse } from "../AsyncResponse";
+import {
+  AsyncResponse,
+  MovieAndYearNotProvidedError,
+  MovieIDNotProvided,
+  MovieNotProvidedError,
+} from "../AsyncResponse";
 
 export class SetMovieResponse extends AsyncResponse {
   movieName: string;
@@ -29,24 +34,25 @@ export class SetMovieResponse extends AsyncResponse {
     this.setMovies = [];
   }
 
-  private getMovie = async (): Promise<void> => {
+  private getMovie = async () => {
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
+        if (this.queryString === "") throw new MovieAndYearNotProvidedError();
+
         const querySplit = this.queryString.split(" ");
         const movieYear = querySplit[querySplit.length - 1];
 
         querySplit.pop();
         const queryStringWithoutYear = querySplit.join(" ");
-        this.movie = await getMovieWithYear(queryStringWithoutYear, movieYear);
-        break;
+        return getMovieWithYear(queryStringWithoutYear, movieYear);
       }
       case SearchType.WITH_ID:
-        this.movie = await getMovieWithID(this.queryString);
-        break;
+        if (this.queryString === "") throw new MovieIDNotProvided();
+        return getMovieWithID(this.queryString);
 
       case SearchType.WITH_SEARCH_TERM:
-        this.movie = await getMovie(this.queryString);
-        break;
+        if (this.queryString === "") throw new MovieNotProvidedError();
+        return getMovie(this.queryString);
     }
   };
 
@@ -63,6 +69,7 @@ export class SetMovieResponse extends AsyncResponse {
       }
     }
   };
+
   compileResponse = (): string => {
     if (this.setMovies.length === 1) {
       return `${this.setMovies[0]} added to the film selection`;
@@ -88,21 +95,39 @@ export class SetMovieResponse extends AsyncResponse {
   };
 
   generateResponse = async (): Promise<string> => {
-    if (this.multiMovie) {
-      for (let index = 0; index < this.moviesToSearchFor.length; index++) {
-        const movieToSearchFor = this.moviesToSearchFor[index].trim();
-        this.queryString = movieToSearchFor;
-        await this.getMovie();
+    try {
+      if (this.multiMovie) {
+        for (let index = 0; index < this.moviesToSearchFor.length; index++) {
+          const movieToSearchFor = this.moviesToSearchFor[index].trim();
+          this.queryString = movieToSearchFor;
+          this.movie = await this.getMovie();
+          this.addMovie();
+
+          this.completeResponse = this.compileResponse();
+        }
+      } else {
+        this.movie = await this.getMovie();
+
         this.addMovie();
 
         this.completeResponse = this.compileResponse();
       }
-    } else {
-      await this.getMovie();
-      this.addMovie();
-
-      this.completeResponse = this.compileResponse();
+      return this.completeResponse;
+    } catch (e) {
+      return this.generateErrorReponse(e);
     }
-    return this.completeResponse;
+  };
+
+  private generateErrorReponse = (e: unknown) => {
+    switch (true) {
+      case e instanceof MovieNotProvidedError:
+        return "Please specify a movie!";
+      case e instanceof MovieIDNotProvided:
+        return "Please specify an IMDB ID!";
+      case e instanceof MovieAndYearNotProvidedError:
+        return "Please specify a movie and year!";
+      default:
+        return "Something went wrong!";
+    }
   };
 }
