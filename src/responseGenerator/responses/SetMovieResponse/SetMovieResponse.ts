@@ -19,7 +19,7 @@ export class SetMovieResponse extends AsyncResponse {
   completeResponse: string;
   searchType: SearchType;
   multiMovie: boolean;
-  setMovies: string[];
+  processedMovies: string[];
   moviesToSearchFor: string[];
 
   constructor(queryString: string, state: State, searchType: SearchType) {
@@ -31,7 +31,7 @@ export class SetMovieResponse extends AsyncResponse {
     this.searchType = searchType;
     this.moviesToSearchFor = this.queryString.split("%%");
     this.multiMovie = this.moviesToSearchFor.length > 1;
-    this.setMovies = [];
+    this.processedMovies = [];
   }
 
   private getMovie = async () => {
@@ -56,28 +56,28 @@ export class SetMovieResponse extends AsyncResponse {
     }
   };
 
-  addMovie = (): void => {
+  addMovieToState = (): void => {
     const movieTitle = this.movie.Title;
     const movieRating = getMovieRatings(this.movie);
     if (movieTitle) {
       this.state.setMovie(this.movie);
       if (movieRating) {
         const titleWithRating = `${movieTitle} ${movieRating}`;
-        this.setMovies.push(titleWithRating);
+        this.processedMovies.push(titleWithRating);
       } else {
-        this.setMovies.push(movieTitle);
+        this.processedMovies.push(movieTitle);
       }
     }
   };
 
   compileResponse = (): string => {
-    if (this.setMovies.length === 1) {
-      return `${this.setMovies[0]} added to the film selection`;
-    } else if (this.setMovies.length > 1) {
+    if (this.processedMovies.length === 1) {
+      return `${this.processedMovies[0]} added to the film selection`;
+    } else if (this.processedMovies.length > 1) {
       let response = "";
-      for (let index = 0; index < this.setMovies.length; index++) {
-        const setMovie = this.setMovies[index];
-        if (index === this.setMovies.length - 1) {
+      for (let index = 0; index < this.processedMovies.length; index++) {
+        const setMovie = this.processedMovies[index];
+        if (index === this.processedMovies.length - 1) {
           response = `${response} and ${setMovie}`;
         } else if (index === 0) {
           response = setMovie;
@@ -101,14 +101,14 @@ export class SetMovieResponse extends AsyncResponse {
           const movieToSearchFor = this.moviesToSearchFor[index].trim();
           this.queryString = movieToSearchFor;
           this.movie = await this.getMovie();
-          this.addMovie();
+          this.addMovieToState();
 
           this.completeResponse = this.compileResponse();
         }
       } else {
         this.movie = await this.getMovie();
 
-        this.addMovie();
+        this.addMovieToState();
 
         this.completeResponse = this.compileResponse();
       }
