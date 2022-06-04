@@ -11,8 +11,8 @@ export class GetMoviePollResponse extends LocalResponse {
 
   constructor(state: State) {
     super(state);
-    state.makeUnique();
-    this.movies = state.getMovies();
+    this.state.makeUnique();
+    this.movies = this.state.getMovies();
     this.pollReady = this.isPollReady();
     this.maxPollLength = 10;
     this.minPollLength = 9;
