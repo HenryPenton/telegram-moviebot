@@ -1,6 +1,7 @@
 import { SearchType } from "../../../commands";
 import * as MF from "../../../fetcher/movie/movieFetcher";
 import { MovieResponse } from "./MovieResponse";
+
 describe("only command given", () => {
   test("only movie command given", async () => {
     const mR = new MovieResponse("", SearchType.WITH_SEARCH_TERM);

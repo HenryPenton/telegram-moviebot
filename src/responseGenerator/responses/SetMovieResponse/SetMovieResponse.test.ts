@@ -2,6 +2,7 @@ import { SearchType } from "../../../commands";
 import * as MF from "../../../fetcher/movie/movieFetcher";
 import { State } from "../../../State/State";
 import { SetMovieResponse } from "./SetMovieResponse";
+
 describe("only command given", () => {
   test("only movie command given", async () => {
     const state = new State();

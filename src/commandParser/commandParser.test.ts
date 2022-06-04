@@ -1,4 +1,5 @@
 import { stripCommand } from "./commandParser";
+
 describe("strip command", () => {
   test("it strips the command from an otherwise empty string", () => {
     const x = stripCommand("/abc");
