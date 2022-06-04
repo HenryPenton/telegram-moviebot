@@ -84,6 +84,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.2.2
+
+- General tidy up
+
 # 6.2.1
 
 - General code improvements, improved coverage and tidiness
