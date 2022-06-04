@@ -22,7 +22,7 @@ export class SetMovieResponse extends AsyncMovieResponse {
     this.processedMovies = [];
   }
 
-  addMovieToState = (): void => {
+  private addMovieToState = (): void => {
     const movieTitle = this.movie.Title;
     const movieRating = getMovieRatings(this.movie);
     if (movieTitle) {
@@ -36,7 +36,7 @@ export class SetMovieResponse extends AsyncMovieResponse {
     }
   };
 
-  compileResponse = (): string => {
+  private compileResponse = (): string => {
     if (this.processedMovies.length === 1) {
       return `${this.processedMovies[0]} added to the film selection`;
     } else if (this.processedMovies.length > 1) {

@@ -1,17 +1,7 @@
 import { SearchType } from "../../../commands";
-import {
-  getMovie,
-  getMovieWithID,
-  getMovieWithYear,
-  Rating,
-} from "../../../fetcher/movie/movieFetcher";
+import { Rating } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
-import {
-  AsyncMovieResponse,
-  MovieAndYearNotProvidedError,
-  MovieIDNotProvided,
-  MovieNotProvidedError,
-} from "../AsyncMovieResponse";
+import { AsyncMovieResponse } from "../AsyncMovieResponse";
 
 export class MovieResponse extends AsyncMovieResponse {
   constructor(queryString: string, searchType: SearchType) {
