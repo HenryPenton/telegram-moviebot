@@ -1,60 +1,26 @@
 import { SearchType } from "../../../commands";
-import {
-  getMovie,
-  getMovieWithID,
-  getMovieWithYear,
-} from "../../../fetcher/movie/movieFetcher";
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
-import {
-  AsyncMovieResponse,
-  MovieAndYearNotProvidedError,
-  MovieIDNotProvided,
-  MovieNotProvidedError,
-} from "../AsyncMovieResponse";
+import { AsyncMovieResponse } from "../AsyncMovieResponse";
 
 export class SetMovieResponse extends AsyncMovieResponse {
   movieName: string;
   state: State;
   completeResponse: string;
-  searchType: SearchType;
   multiMovie: boolean;
   processedMovies: string[];
   moviesToSearchFor: string[];
 
   constructor(queryString: string, state: State, searchType: SearchType) {
-    super(queryString);
+    super(queryString, searchType);
 
     this.state = state;
     this.completeResponse = "";
     this.movieName = queryString;
-    this.searchType = searchType;
     this.moviesToSearchFor = this.queryString.split("%%");
     this.multiMovie = this.moviesToSearchFor.length > 1;
     this.processedMovies = [];
   }
-
-  private getMovie = async () => {
-    switch (this.searchType) {
-      case SearchType.WITH_YEAR: {
-        if (this.queryString === "") throw new MovieAndYearNotProvidedError();
-
-        const querySplit = this.queryString.split(" ");
-        const movieYear = querySplit[querySplit.length - 1];
-
-        querySplit.pop();
-        const queryStringWithoutYear = querySplit.join(" ");
-        return getMovieWithYear(queryStringWithoutYear, movieYear);
-      }
-      case SearchType.WITH_ID:
-        if (this.queryString === "") throw new MovieIDNotProvided();
-        return getMovieWithID(this.queryString);
-
-      case SearchType.WITH_SEARCH_TERM:
-        if (this.queryString === "") throw new MovieNotProvidedError();
-        return getMovie(this.queryString);
-    }
-  };
 
   addMovieToState = (): void => {
     const movieTitle = this.movie.Title;

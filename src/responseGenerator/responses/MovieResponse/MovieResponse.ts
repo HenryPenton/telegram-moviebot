@@ -14,35 +14,10 @@ import {
 } from "../AsyncMovieResponse";
 
 export class MovieResponse extends AsyncMovieResponse {
-  searchType: SearchType;
-
   constructor(queryString: string, searchType: SearchType) {
-    super(queryString);
+    super(queryString, searchType);
     this.queryString = queryString;
-    this.searchType = searchType;
   }
-
-  private getMovie = async () => {
-    switch (this.searchType) {
-      case SearchType.WITH_YEAR: {
-        if (this.queryString === "") throw new MovieAndYearNotProvidedError();
-
-        const querySplit = this.queryString.split(" ");
-        const movieYear = querySplit[querySplit.length - 1];
-
-        querySplit.pop();
-        const queryStringWithoutYear = querySplit.join(" ");
-        return getMovieWithYear(queryStringWithoutYear, movieYear);
-      }
-      case SearchType.WITH_ID:
-        if (this.queryString === "") throw new MovieIDNotProvided();
-        return getMovieWithID(this.queryString);
-
-      case SearchType.WITH_SEARCH_TERM:
-        if (this.queryString === "") throw new MovieNotProvidedError();
-        return getMovie(this.queryString);
-    }
-  };
 
   private getPlot = (plot?: string): string => (plot ? `Plot: ${plot}` : "");
 
