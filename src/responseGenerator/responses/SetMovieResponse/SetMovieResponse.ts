@@ -7,13 +7,13 @@ import {
 import { State } from "../../../State/State";
 import { getMovieRatings } from "../../../utils/getMovieRatings";
 import {
-  AsyncResponse,
+  AsyncMovieResponse,
   MovieAndYearNotProvidedError,
   MovieIDNotProvided,
   MovieNotProvidedError,
-} from "../AsyncResponse";
+} from "../AsyncMovieResponse";
 
-export class SetMovieResponse extends AsyncResponse {
+export class SetMovieResponse extends AsyncMovieResponse {
   movieName: string;
   state: State;
   completeResponse: string;
@@ -115,19 +115,6 @@ export class SetMovieResponse extends AsyncResponse {
       return this.completeResponse;
     } catch (e) {
       return this.generateErrorReponse(e);
-    }
-  };
-
-  private generateErrorReponse = (e: unknown) => {
-    switch (true) {
-      case e instanceof MovieNotProvidedError:
-        return "Please specify a movie!";
-      case e instanceof MovieIDNotProvided:
-        return "Please specify an IMDB ID!";
-      case e instanceof MovieAndYearNotProvidedError:
-        return "Please specify a movie and year!";
-      default:
-        return "Something went wrong!";
     }
   };
 }

@@ -7,13 +7,13 @@ import {
 } from "../../../fetcher/movie/movieFetcher";
 import { getTrailer } from "../../../fetcher/trailer/trailerFetcher";
 import {
-  AsyncResponse,
+  AsyncMovieResponse,
   MovieAndYearNotProvidedError,
   MovieIDNotProvided,
   MovieNotProvidedError,
-} from "../AsyncResponse";
+} from "../AsyncMovieResponse";
 
-export class MovieResponse extends AsyncResponse {
+export class MovieResponse extends AsyncMovieResponse {
   searchType: SearchType;
 
   constructor(queryString: string, searchType: SearchType) {
@@ -107,19 +107,6 @@ export class MovieResponse extends AsyncResponse {
       return this.combineKnownInformation(movieDetails);
     } catch (e) {
       return this.generateErrorReponse(e);
-    }
-  };
-
-  private generateErrorReponse = (e: unknown) => {
-    switch (true) {
-      case e instanceof MovieNotProvidedError:
-        return "Please specify a movie!";
-      case e instanceof MovieIDNotProvided:
-        return "Please specify an IMDB ID!";
-      case e instanceof MovieAndYearNotProvidedError:
-        return "Please specify a movie and year!";
-      default:
-        return "Something went wrong!";
     }
   };
 }
