@@ -82,7 +82,7 @@ Running /cleanup will remove any duplicates from the movie selection based on im
 
 Running /votes will tell you the state of votes in the latest moviepoll
 
-# Changelog (better late than never)
+# Changelog
 
 # 6.2.3
 
