@@ -84,6 +84,12 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog (better late than never)
 
+# 6.2.3
+
+- Write tests for vote response
+- Respond with no votes found if all vote counts are 0
+- Fix state references
+
 # 6.2.2
 
 - General tidy up
