@@ -11,7 +11,7 @@ export class RemovieResponse extends LocalResponse {
     this.unfoundResponse = "Couldn't find that film in the selection";
   }
 
-  private removeMovie = (movieId: number): string => {
+  private removeById = (movieId: number): string => {
     const removedMovie = this.state.removie(movieId);
     if (removedMovie) {
       return `${removedMovie} removed from the selection`;
@@ -20,28 +20,24 @@ export class RemovieResponse extends LocalResponse {
     return this.unfoundResponse;
   };
 
-  private matchToNameToId = (): string => {
-    const currentMovies = this.state.getMovies();
+  private removeByName = (): string => {
+    const indexToRemove = this.state
+      .getMovies()
+      .findIndex((movie) => movie.toLowerCase().startsWith(this.movieToRemove));
 
-    let idToRemove;
+    if (indexToRemove === undefined) return this.unfoundResponse;
 
-    currentMovies.forEach((movie, id) => {
-      if (movie.toLowerCase().startsWith(this.movieToRemove)) {
-        idToRemove = id + 1;
-      }
-    });
-
-    if (!idToRemove) return this.unfoundResponse;
-    return this.removeMovie(idToRemove);
+    const idToRemove = indexToRemove + 1;
+    return this.removeById(idToRemove);
   };
 
   generateResponse = (): string => {
     const movieId = parseInt(this.movieToRemove, 10);
 
     if (Number.isInteger(movieId)) {
-      return this.removeMovie(movieId);
+      return this.removeById(movieId);
     } else {
-      return this.matchToNameToId();
+      return this.removeByName();
     }
   };
 }
