@@ -7,7 +7,7 @@ describe("RemovieResponse", () => {
   test("responds that it cannot remove a movie that is not in the selection", () => {
     const state = new State();
     expect(
-      new RemovieResponse(state, "barry goes to hollywood").generateResponse()
+      new RemovieResponse(state, "barry goes to hollywood").fire()
     ).toEqual(`Couldn't find that film in the selection`);
   });
 
@@ -16,7 +16,7 @@ describe("RemovieResponse", () => {
     state.setMovie({ Title: "barry goes to hollywood" });
 
     expect(
-      new RemovieResponse(state, "barry goes to hollywood").generateResponse()
+      new RemovieResponse(state, "barry goes to hollywood").fire()
     ).toEqual(`barry goes to hollywood removed from the selection`);
   });
 
@@ -24,7 +24,7 @@ describe("RemovieResponse", () => {
     const state = new State();
     state.setMovie({ Title: "barry goes to hollywood" });
 
-    expect(new RemovieResponse(state, "1").generateResponse()).toEqual(
+    expect(new RemovieResponse(state, "1").fire()).toEqual(
       `barry goes to hollywood removed from the selection`
     );
   });
@@ -39,7 +39,7 @@ describe("RemovieResponse", () => {
     state.removie = x;
 
     expect(
-      new RemovieResponse(state, "barry goes to hollywood").generateResponse()
+      new RemovieResponse(state, "barry goes to hollywood").fire()
     ).toEqual(`Couldn't find that film in the selection`);
   });
 
@@ -53,7 +53,7 @@ describe("RemovieResponse", () => {
   //   state.removie = x;
 
   //   expect(
-  //     new RemovieResponse(state, "barry goes to hollywood").generateResponse()
+  //     new RemovieResponse(state, "barry goes to hollywood").fire()
   //   ).toEqual(`Couldn't find that film in the selection`);
   // });
 });

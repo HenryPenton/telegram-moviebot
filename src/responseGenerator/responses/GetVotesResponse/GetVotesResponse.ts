@@ -8,7 +8,7 @@ export class GetVotesResponse extends LocalResponse {
     this.noVotesResponse = "Could not find any votes";
   }
 
-  generateResponse = (): string => {
+  fire = (): string => {
     const movieVotes = this.state
       .getPolls()
       .sort((a, b) => b.voter_count - a.voter_count);

@@ -19,7 +19,7 @@ export class GetMoviePollResponse extends LocalResponse {
   }
   isPollReady = (): boolean => this.movies.length >= 2;
 
-  generateResponse = (): string[][] => {
+  fire = (): string[][] => {
     if (this.pollReady) {
       this.state.resetPolls();
 

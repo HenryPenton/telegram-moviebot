@@ -1,3 +1,3 @@
 export abstract class Response {
-  abstract generateResponse: () => void;
+  abstract fire: () => void;
 }

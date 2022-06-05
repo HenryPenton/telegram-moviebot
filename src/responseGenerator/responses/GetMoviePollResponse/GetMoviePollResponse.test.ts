@@ -8,7 +8,7 @@ describe("GetMoviePollResponse", () => {
   test("Throws a pollnotreadyerror when there are not enough movies", () => {
     const state = new State();
     const responseGenerate = () => {
-      new GetMoviePollResponse(state).generateResponse();
+      new GetMoviePollResponse(state).fire();
     };
     expect(responseGenerate).toThrowError(PollNotReadyError);
 
@@ -22,7 +22,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "edcba", imdbID: "tt7654321" });
     state.updateVotesForPoll([{ voter_count: 1, text: "some film" }]);
 
-    new GetMoviePollResponse(state).generateResponse();
+    new GetMoviePollResponse(state).fire();
     expect(state.getPolls()).toEqual([]);
   });
 
@@ -31,7 +31,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
     state.setMovie({ Title: "edcba", imdbID: "tt7654321" });
 
-    expect(new GetMoviePollResponse(state).generateResponse()).toEqual([
+    expect(new GetMoviePollResponse(state).fire()).toEqual([
       ["abcde", "edcba"],
     ]);
   });
@@ -49,7 +49,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "edcba" });
     state.setMovie({ Title: "edcba" });
 
-    expect(new GetMoviePollResponse(state).generateResponse()).toEqual([
+    expect(new GetMoviePollResponse(state).fire()).toEqual([
       [
         "abcde",
         "edcba",
@@ -80,7 +80,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "11" });
     state.setMovie({ Title: "12" });
 
-    expect(new GetMoviePollResponse(state).generateResponse()).toEqual([
+    expect(new GetMoviePollResponse(state).fire()).toEqual([
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       ["11", "12"],
     ]);
@@ -100,7 +100,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "10" });
     state.setMovie({ Title: "11" });
 
-    expect(new GetMoviePollResponse(state).generateResponse()).toEqual([
+    expect(new GetMoviePollResponse(state).fire()).toEqual([
       ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
       ["10", "11"],
     ]);
@@ -111,7 +111,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "1", imdbID: "same" });
     state.setMovie({ Title: "1", imdbID: "same" });
 
-    expect(new GetMoviePollResponse(state).generateResponse).toThrowError(
+    expect(new GetMoviePollResponse(state).fire).toThrowError(
       PollNotReadyError
     );
   });
@@ -122,8 +122,6 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "1", imdbID: "same" });
     state.setMovie({ Title: "2", imdbID: "different" });
 
-    expect(new GetMoviePollResponse(state).generateResponse()).toEqual([
-      ["1", "2"],
-    ]);
+    expect(new GetMoviePollResponse(state).fire()).toEqual([["1", "2"]]);
   });
 });

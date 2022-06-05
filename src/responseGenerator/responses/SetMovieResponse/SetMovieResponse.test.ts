@@ -12,9 +12,7 @@ describe("only command given", () => {
       SearchType.WITH_SEARCH_TERM
     );
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      "Please specify a movie!"
-    );
+    expect(await setMovieResponse.fire()).toBe("Please specify a movie!");
   });
 
   test("only movieyear command given", async () => {
@@ -25,7 +23,7 @@ describe("only command given", () => {
       SearchType.WITH_YEAR
     );
 
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       "Please specify a movie and year!"
     );
   });
@@ -38,9 +36,7 @@ describe("only command given", () => {
       SearchType.WITH_ID
     );
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      "Please specify an IMDB ID!"
-    );
+    expect(await setMovieResponse.fire()).toBe("Please specify an IMDB ID!");
   });
 
   test("only movieid command given", async () => {
@@ -51,9 +47,7 @@ describe("only command given", () => {
       SearchType.WITH_ID
     );
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      "Please specify an IMDB ID!"
-    );
+    expect(await setMovieResponse.fire()).toBe("Please specify an IMDB ID!");
   });
 
   test("non existent state", async () => {
@@ -64,9 +58,7 @@ describe("only command given", () => {
       "some non existent search type" as unknown as SearchType
     );
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      "Something went wrong!"
-    );
+    expect(await setMovieResponse.fire()).toBe("Something went wrong!");
   });
 });
 
@@ -81,7 +73,7 @@ describe("movie responses with just title", () => {
     jest
       .spyOn(MF, "getMovieWithID")
       .mockResolvedValueOnce({ Title: "thingy movie", imdbID: "tt12345457" });
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       "thingy movie added to the film selection"
     );
     expect(state.getMovies()).toEqual(["thingy movie"]);
@@ -95,7 +87,7 @@ describe("movie responses with just title", () => {
       SearchType.WITH_SEARCH_TERM
     );
     jest.spyOn(MF, "getMovie").mockResolvedValueOnce({ Title: "Finding nemo" });
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       "Finding nemo added to the film selection"
     );
     expect(state.getMovies()).toEqual(["Finding nemo"]);
@@ -111,7 +103,7 @@ describe("movie responses with just title", () => {
     jest
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Title: "thingy movie" });
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       "thingy movie added to the film selection"
     );
     expect(state.getMovies()).toEqual(["thingy movie"]);
@@ -131,9 +123,7 @@ describe("unknown movie", () => {
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Response: "False" });
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      `Couldn't find that film`
-    );
+    expect(await setMovieResponse.fire()).toBe(`Couldn't find that film`);
   });
 
   test("no title movie", async () => {
@@ -148,9 +138,7 @@ describe("unknown movie", () => {
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Title: undefined });
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      `Couldn't find that film`
-    );
+    expect(await setMovieResponse.fire()).toBe(`Couldn't find that film`);
   });
 });
 
@@ -174,7 +162,7 @@ describe("movie responses with other information", () => {
       imdbID: "tt12345457",
       ...genericMovieInfo,
     });
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       `thingy movie (sriracha Rating: tasty) added to the film selection`
     );
   });
@@ -212,7 +200,7 @@ describe("multi movie", () => {
         imdbID: "tt9876543",
         ...genericMovieInfo,
       });
-    expect(await setMovieResponse.generateResponse()).toBe(
+    expect(await setMovieResponse.fire()).toBe(
       `abcde (sriracha Rating: tasty), edcba (sriracha Rating: tasty) and vwxyz (sriracha Rating: tasty) added to the film selection`
     );
   });
@@ -226,8 +214,6 @@ describe("multi movie", () => {
     );
     jest.spyOn(MF, "getMovie");
 
-    expect(await setMovieResponse.generateResponse()).toBe(
-      `Couldn't find those films`
-    );
+    expect(await setMovieResponse.fire()).toBe(`Couldn't find those films`);
   });
 });

@@ -6,27 +6,25 @@ describe("only command given", () => {
   test("only movie command given", async () => {
     const mR = new MovieResponse("", SearchType.WITH_SEARCH_TERM);
 
-    expect(await mR.generateResponse()).toBe("Please specify a movie!");
+    expect(await mR.fire()).toBe("Please specify a movie!");
   });
 
   test("only movieyear command given", async () => {
     const mR = new MovieResponse("", SearchType.WITH_YEAR);
 
-    expect(await mR.generateResponse()).toBe(
-      "Please specify a movie and year!"
-    );
+    expect(await mR.fire()).toBe("Please specify a movie and year!");
   });
 
   test("only movieid command given", async () => {
     const mR = new MovieResponse("", SearchType.WITH_ID);
 
-    expect(await mR.generateResponse()).toBe("Please specify an IMDB ID!");
+    expect(await mR.fire()).toBe("Please specify an IMDB ID!");
   });
 
   test("only movieid command given", async () => {
     const mR = new MovieResponse("", SearchType.WITH_ID);
 
-    expect(await mR.generateResponse()).toBe("Please specify an IMDB ID!");
+    expect(await mR.fire()).toBe("Please specify an IMDB ID!");
   });
 
   test("non existent state", async () => {
@@ -35,7 +33,7 @@ describe("only command given", () => {
       "some non existent search type" as unknown as SearchType
     );
 
-    expect(await mR.generateResponse()).toBe("Something went wrong!");
+    expect(await mR.fire()).toBe("Something went wrong!");
   });
 });
 
@@ -45,13 +43,13 @@ describe("movie responses with just title", () => {
     jest
       .spyOn(MF, "getMovieWithID")
       .mockResolvedValueOnce({ Title: "thingy movie", imdbID: "tt12345457" });
-    expect(await mR.generateResponse()).toBe("Movie: thingy movie");
+    expect(await mR.fire()).toBe("Movie: thingy movie");
   });
 
   test("get a movie by title", async () => {
     const mR = new MovieResponse("Finding nemo", SearchType.WITH_SEARCH_TERM);
     jest.spyOn(MF, "getMovie").mockResolvedValueOnce({ Title: "Finding nemo" });
-    expect(await mR.generateResponse()).toBe("Movie: Finding nemo");
+    expect(await mR.fire()).toBe("Movie: Finding nemo");
   });
 
   test("get a movie by with year", async () => {
@@ -59,7 +57,7 @@ describe("movie responses with just title", () => {
     jest
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Title: "thingy movie" });
-    expect(await mR.generateResponse()).toBe("Movie: thingy movie");
+    expect(await mR.fire()).toBe("Movie: thingy movie");
   });
 });
 
@@ -78,7 +76,7 @@ describe("movie responses with other information", () => {
       imdbID: "tt12345457",
       ...genericMovieInfo,
     });
-    expect(await mR.generateResponse()).toBe(
+    expect(await mR.fire()).toBe(
       `Movie: thingy movie (1995)\n\nRuntime: runtime\n\nsource: value\n\nDirector: director\n\nPlot: dude where is my automobile`
     );
   });
@@ -88,7 +86,7 @@ describe("movie responses with other information", () => {
     jest
       .spyOn(MF, "getMovie")
       .mockResolvedValueOnce({ Title: "Finding Nemo", ...genericMovieInfo });
-    expect(await mR.generateResponse()).toBe(
+    expect(await mR.fire()).toBe(
       `Movie: Finding Nemo (1995)\n\nRuntime: runtime\n\nsource: value\n\nDirector: director\n\nPlot: dude where is my automobile`
     );
   });
@@ -98,7 +96,7 @@ describe("movie responses with other information", () => {
     jest
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Title: "thingy movie", ...genericMovieInfo });
-    expect(await mR.generateResponse()).toBe(
+    expect(await mR.fire()).toBe(
       `Movie: thingy movie (1995)\n\nRuntime: runtime\n\nsource: value\n\nDirector: director\n\nPlot: dude where is my automobile`
     );
   });
@@ -122,7 +120,7 @@ describe("movie responses with other information", () => {
       imdbID: "tt12345457",
       ...genericMovieInfo,
     });
-    expect(await mR.generateResponse()).toBe(
+    expect(await mR.fire()).toBe(
       `Movie: thingy movie (1995)\n\nRuntime: runtime\n\nsource: value\nsriracha: tasty\n\nDirector: director\n\nPlot: dude where is my automobile`
     );
   });
@@ -136,7 +134,7 @@ describe("unknown movie", () => {
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Response: "False" });
 
-    expect(await mR.generateResponse()).toBe(`Unknown movie`);
+    expect(await mR.fire()).toBe(`Unknown movie`);
   });
 
   test("no title movie", async () => {
@@ -146,6 +144,6 @@ describe("unknown movie", () => {
       .spyOn(MF, "getMovieWithYear")
       .mockResolvedValueOnce({ Title: undefined });
 
-    expect(await mR.generateResponse()).toBe(`Unknown movie`);
+    expect(await mR.fire()).toBe(`Unknown movie`);
   });
 });

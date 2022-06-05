@@ -51,7 +51,7 @@ export class MovieResponse extends AsyncMovieResponse {
     return info;
   };
 
-  generateResponse = async (): Promise<string> => {
+  fire = async (): Promise<string> => {
     try {
       const movie = await this.getMovie();
 

@@ -25,7 +25,7 @@ bot.command(Commands.movie, async (ctx) => {
   const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_SEARCH_TERM);
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
@@ -33,7 +33,7 @@ bot.command(Commands.movieyear, async (ctx) => {
   const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_YEAR);
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
@@ -41,7 +41,7 @@ bot.command(Commands.movieid, async (ctx) => {
   const restOfString = stripCommand(ctx.message.text);
 
   const builder = new MovieResponse(restOfString, SearchType.WITH_ID);
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
@@ -53,7 +53,7 @@ bot.command(Commands.setmovie, async (ctx) => {
     state,
     SearchType.WITH_SEARCH_TERM
   );
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
@@ -65,7 +65,7 @@ bot.command(Commands.setmovieyear, async (ctx) => {
     state,
     SearchType.WITH_YEAR
   );
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
@@ -73,13 +73,13 @@ bot.command(Commands.setmovieid, async (ctx) => {
   const restOfString = stripCommand(ctx.message.text);
 
   const builder = new SetMovieResponse(restOfString, state, SearchType.WITH_ID);
-  const response = await builder.generateResponse();
+  const response = await builder.fire();
   ctx.reply(response);
 });
 
 bot.command(Commands.getmovies, (ctx) => {
   const builder = new GetMovieResponse(state);
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response);
 });
 
@@ -87,26 +87,26 @@ bot.command(Commands.removie, (ctx) => {
   const restOfString = stripCommand(ctx.message.text);
 
   const builder = new RemovieResponse(state, restOfString);
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response);
 });
 
 bot.command(Commands.reset, (ctx) => {
   const builder = new RemoviesResponse(state);
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response);
 });
 
 bot.command(Commands.cleanup, (ctx) => {
   const builder = new CleanupResponse(state);
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response);
 });
 
 bot.command(Commands.moviepoll, (ctx) => {
   const builder = new GetMoviePollResponse(state);
   try {
-    const optionsSets = builder.generateResponse();
+    const optionsSets = builder.fire();
 
     optionsSets.forEach((options) => {
       ctx.replyWithPoll("New week new movies", options, {
@@ -129,13 +129,13 @@ bot.on("poll", (ctx) => {
 bot.command(Commands.votes, (ctx) => {
   const builder = new GetVotesResponse(state);
 
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response, { parse_mode: "HTML" });
 });
 
 bot.command(Commands.help, (ctx) => {
   const builder = new HelpResponse(helpDefinitions, Object.keys(Commands));
-  const response = builder.generateResponse();
+  const response = builder.fire();
   ctx.reply(response);
 });
 

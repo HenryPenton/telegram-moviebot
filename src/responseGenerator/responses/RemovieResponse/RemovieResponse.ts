@@ -31,7 +31,7 @@ export class RemovieResponse extends LocalResponse {
     return this.removeById(idToRemove);
   };
 
-  generateResponse = (): string => {
+  fire = (): string => {
     const movieId = parseInt(this.movieToRemove, 10);
 
     if (Number.isInteger(movieId)) {

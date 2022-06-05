@@ -5,7 +5,7 @@ describe("GetMovieResponse", () => {
   test("response says no movies have been set if no movies have been set", () => {
     const state = new State();
 
-    expect(new GetMovieResponse(state).generateResponse()).toEqual(
+    expect(new GetMovieResponse(state).fire()).toEqual(
       "No movies have been set yet"
     );
   });
@@ -13,14 +13,14 @@ describe("GetMovieResponse", () => {
   test("response is one movie if one movie has been set", () => {
     const state = new State();
     state.setMovie({ Title: "thingy" });
-    expect(new GetMovieResponse(state).generateResponse()).toEqual("1. thingy");
+    expect(new GetMovieResponse(state).fire()).toEqual("1. thingy");
   });
 
   test("response is multiple movies if multiple movies have been set", () => {
     const state = new State();
     state.setMovie({ Title: "thingy" });
     state.setMovie({ Title: "other thingy" });
-    expect(new GetMovieResponse(state).generateResponse()).toEqual(
+    expect(new GetMovieResponse(state).fire()).toEqual(
       "1. thingy\n2. other thingy"
     );
   });

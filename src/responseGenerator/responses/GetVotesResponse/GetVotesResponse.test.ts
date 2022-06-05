@@ -6,7 +6,7 @@ describe("GetVotesResponse", () => {
     const state = new State();
 
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
     expect(response).toBe("Could not find any votes");
   });
 
@@ -16,7 +16,7 @@ describe("GetVotesResponse", () => {
     state.setMovie({ Title: "abc" });
     state.updateVotesForPoll([{ text: "abc", voter_count: 0 }]);
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
 
     expect(response).toBe("Could not find any votes");
   });
@@ -27,7 +27,7 @@ describe("GetVotesResponse", () => {
     state.setMovie({ Title: "abc" });
     state.updateVotesForPoll([{ text: "abc", voter_count: 1 }]);
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
     expect(response).toBe("<b><u>1 vote:</u></b>\nabc\n");
   });
 
@@ -37,7 +37,7 @@ describe("GetVotesResponse", () => {
     state.setMovie({ Title: "abc" });
     state.updateVotesForPoll([{ text: "abc", voter_count: 2 }]);
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
     expect(response).toBe("<b><u>2 votes:</u></b>\nabc\n");
   });
 
@@ -49,7 +49,7 @@ describe("GetVotesResponse", () => {
     state.updateVotesForPoll([{ text: "abc", voter_count: 1 }]);
     state.updateVotesForPoll([{ text: "xyz", voter_count: 1 }]);
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
     expect(response).toBe("<b><u>1 vote:</u></b>\nabc\nxyz\n");
   });
 
@@ -61,7 +61,7 @@ describe("GetVotesResponse", () => {
     state.updateVotesForPoll([{ text: "abc", voter_count: 1 }]);
     state.updateVotesForPoll([{ text: "xyz", voter_count: 2 }]);
     const votesResponse = new GetVotesResponse(state);
-    const response = votesResponse.generateResponse();
+    const response = votesResponse.fire();
     expect(response).toBe(
       "<b><u>2 votes:</u></b>\nxyz\n<b><u>1 vote:</u></b>\nabc\n"
     );

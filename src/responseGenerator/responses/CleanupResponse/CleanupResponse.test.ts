@@ -3,7 +3,7 @@ import { CleanupResponse } from "./CleanupResponse";
 
 describe("CleanupResponse", () => {
   test("response", () => {
-    expect(new CleanupResponse(new State()).generateResponse()).toBe(
+    expect(new CleanupResponse(new State()).fire()).toBe(
       "Duplicates in the movie selection have been removed"
     );
   });
@@ -12,7 +12,7 @@ describe("CleanupResponse", () => {
     const state = new State();
     state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
     state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
-    new CleanupResponse(state).generateResponse();
+    new CleanupResponse(state).fire();
     expect(state.getMovies()).toHaveLength(1);
   });
 
@@ -20,7 +20,7 @@ describe("CleanupResponse", () => {
     const state = new State();
     state.setMovie({ Title: "abcde", imdbID: "tt7654321" });
     state.setMovie({ Title: "abcde", imdbID: "tt1234567" });
-    new CleanupResponse(state).generateResponse();
+    new CleanupResponse(state).fire();
     expect(state.getMovies()).toHaveLength(2);
   });
 
@@ -28,7 +28,7 @@ describe("CleanupResponse", () => {
     const state = new State();
     state.setMovie({ Title: "abcde" });
     state.setMovie({ Title: "abcde" });
-    new CleanupResponse(state).generateResponse();
+    new CleanupResponse(state).fire();
     expect(state.getMovies()).toHaveLength(2);
   });
 });

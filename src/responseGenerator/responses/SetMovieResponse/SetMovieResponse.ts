@@ -60,7 +60,7 @@ export class SetMovieResponse extends AsyncMovieResponse {
       : "Couldn't find that film";
   };
 
-  generateResponse = async (): Promise<string> => {
+  fire = async (): Promise<string> => {
     try {
       if (this.multiMovie) {
         for (let index = 0; index < this.moviesToSearchFor.length; index++) {

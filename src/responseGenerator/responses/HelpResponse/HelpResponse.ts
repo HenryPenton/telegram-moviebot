@@ -12,7 +12,7 @@ export class HelpResponse extends StatelessLocalResponse {
     this.commands = commands;
   }
 
-  generateResponse = (): string => {
+  fire = (): string => {
     let response = "";
 
     for (let index = 0; index < this.commands.length; index++) {

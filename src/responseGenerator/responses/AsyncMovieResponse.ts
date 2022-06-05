@@ -43,6 +43,7 @@ export abstract class AsyncMovieResponse extends Response {
         return getMovie(this.queryString);
     }
   };
+
   protected generateErrorReponse = (e: unknown) => {
     switch (true) {
       case e instanceof MovieNotProvidedError:

@@ -6,7 +6,7 @@ export class CleanupResponse extends LocalResponse {
     super(state);
   }
 
-  generateResponse = (): string => {
+  fire = (): string => {
     this.state.makeUnique();
     return "Duplicates in the movie selection have been removed";
   };
