@@ -50,13 +50,15 @@ export class State {
   };
 
   removie = (id: number): string | undefined => {
-    const zeroizedId = id - 1;
-    const movie = this.movies[zeroizedId];
+    const zeroizedIndex = id - 1;
+    const movie = this.movies[zeroizedIndex];
 
     const newMovieArray = this.movies.filter(
-      (_, index) => index !== zeroizedId
+      (_, index) => index !== zeroizedIndex
     );
+
     this.movies = newMovieArray;
+
     if (movie) {
       return movie.Title;
     }
