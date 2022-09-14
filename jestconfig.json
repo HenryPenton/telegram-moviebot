@@ -2,18 +2,11 @@
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
-  "testPathIgnorePatterns" : [
+  "testPathIgnorePatterns": [
     "<rootDir>/__tests__/mockingFunctions/mocks.ts",
     "<rootDir>/old"
   ],
-  "coveragePathIgnorePatterns" : [
-    "<rootDir>/src/fetcher/fetcher.ts" 
-  ],
+  "coveragePathIgnorePatterns": ["<rootDir>/src/fetcher/fetcher.ts"],
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec|steps))\\.(jsx?|tsx?)$",
-  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "globals": {
-    "ts-jest": {
-      "babelConfig": true
-    }
-  }
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
 }
