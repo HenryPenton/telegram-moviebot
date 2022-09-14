@@ -84,6 +84,9 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
+## 6.2.6
+
+- Switch to pnpm
 ## 6.2.5
 
 - Update packages
