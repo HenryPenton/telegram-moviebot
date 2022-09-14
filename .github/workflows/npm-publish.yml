@@ -24,9 +24,10 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
+
       - run: git fetch
       - run: git checkout main
       - run: pnpm i
-      - run: pnpm publish --publish-branch main
+      - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
