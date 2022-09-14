@@ -84,6 +84,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
+## 6.2.8
+
+- None
+
 ## 6.2.7
 
 - Remove old package lock
