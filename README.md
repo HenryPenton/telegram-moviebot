@@ -84,7 +84,11 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
-## 6.2.11
+## 6.2.12
+
+- Update dev dependencies
+
+- ## 6.2.11
 
 - None
 
