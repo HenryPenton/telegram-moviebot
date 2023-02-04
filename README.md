@@ -9,7 +9,10 @@ init();
 ```
 
 ```bash
-MOVIE_DATABASE_KEY=somekey TELEGRAM_BOT_TOKEN=sometoken YOUTUBE_API_KEY=somekey node index.js
+MOVIE_DATABASE_KEY=somekey
+TELEGRAM_BOT_TOKEN=sometoken
+YOUTUBE_API_KEY=somekey node index.js
+ANONYMOUS_POLLS=<true||false>
 ```
 
 MOVIE_DATABASE_KEY is an API key for the [Open Movie Database](http://www.omdbapi.com/).
@@ -83,6 +86,10 @@ Running /cleanup will remove any duplicates from the movie selection based on im
 Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
+
+## 6.3.0
+
+- Polls can be made anonymous or non-anonymous by providing the boolean environment variable ANONYMOUS_POLLS. Defaults to true.
 
 ## 6.2.12
 

@@ -104,13 +104,18 @@ bot.command(Commands.cleanup, (ctx) => {
 
 bot.command(Commands.moviepoll, (ctx) => {
   const builder = new GetMoviePollResponse(state);
+
+  const pollsAreAnonymous =
+    process.env.ANONYMOUS_POLLS === undefined ||
+    process.env.ANONYMOUS_POLLS.toLowerCase() === "true";
+
   try {
     const optionsSets = builder.fire();
 
     optionsSets.forEach((options) => {
       ctx.replyWithPoll("New week new movies", options, {
         allows_multiple_answers: true,
-        is_anonymous: !!process.env.ANONYMOUS_POLLS,
+        is_anonymous: pollsAreAnonymous,
       });
     });
   } catch (e) {
