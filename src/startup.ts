@@ -18,7 +18,6 @@ import { SetMovieResponse } from "./responseGenerator/responses/SetMovieResponse
 import { State } from "./State/State";
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
-
 const state = new State();
 
 bot.command(Commands.movie, async (ctx) => {
@@ -111,6 +110,7 @@ bot.command(Commands.moviepoll, (ctx) => {
     optionsSets.forEach((options) => {
       ctx.replyWithPoll("New week new movies", options, {
         allows_multiple_answers: true,
+        is_anonymous: !!process.env.ANONYMOUS_POLLS,
       });
     });
   } catch (e) {
