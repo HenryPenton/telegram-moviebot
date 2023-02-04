@@ -87,6 +87,10 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
+## 6.3.1
+
+- Update dependencies
+
 ## 6.3.0
 
 - Polls can be made anonymous or non-anonymous by providing the boolean environment variable ANONYMOUS_POLLS. Defaults to true.
