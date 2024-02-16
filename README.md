@@ -87,6 +87,14 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
+## 6.3.6
+
+- Update dependencies
+
+## 6.3.5
+
+- Update dependencies
+
 ## 6.3.4
 
 - Update dependencies
