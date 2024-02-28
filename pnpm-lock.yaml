@@ -9,11 +9,11 @@ dependencies:
     specifier: 1.6.7
     version: 1.6.7
   dotenv:
-    specifier: 16.4.4
-    version: 16.4.4
+    specifier: 16.4.5
+    version: 16.4.5
   telegraf:
-    specifier: 4.15.3
-    version: 4.15.3
+    specifier: 4.16.2
+    version: 4.16.2
 
 devDependencies:
   '@types/jest':
@@ -824,8 +824,8 @@ packages:
       '@sinonjs/commons': 2.0.0
     dev: true
 
-  /@telegraf/types@6.9.1:
-    resolution: {integrity: sha512-bzqwhicZq401T0e09tu8b1KvGfJObPmzKU/iKCT5V466AsAZZWQrBYQ5edbmD1VZuHLEwopoOVY5wPP4HaLtug==}
+  /@telegraf/types@7.1.0:
+    resolution: {integrity: sha512-kGevOIbpMcIlCDeorKGpwZmdH7kHbqlk/Yj6dEpJMKEQw5lk0KVQY0OLXaCswy8GqlIVLd5625OB+rAntP9xVw==}
     dev: false
 
   /@types/babel__core@7.1.19:
@@ -1479,8 +1479,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dotenv@16.4.4:
-    resolution: {integrity: sha512-XvPXc8XAQThSjAbY6cQ/9PcBXmFoWuw1sQ3b8HqUCR6ziGXjkTi//kB9SWa2UwqlgdAIuRqAa/9hVljzPehbYg==}
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
     dev: false
 
@@ -2601,8 +2601,8 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /node-fetch@2.6.11:
-    resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
+  /node-fetch@2.7.0:
+    resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
@@ -3002,16 +3002,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /telegraf@4.15.3:
-    resolution: {integrity: sha512-pm2ZQAisd0YlUvnq6xdymDfoQR++8wTalw0nfw7Tjy0va+V/0HaBLzM8kMNid8pbbt7GHTU29lEyA5CAAr8AqA==}
+  /telegraf@4.16.2:
+    resolution: {integrity: sha512-d+/XMTBMW8DfQFhYkpyU2f58HMIPygkzClEE03c0LPoEKPGlY9da+9pOVSO7jq9Ar8RRT4OrfwW38sgF/o/x0w==}
     engines: {node: ^12.20.0 || >=14.13.1}
     hasBin: true
     dependencies:
-      '@telegraf/types': 6.9.1
+      '@telegraf/types': 7.1.0
       abort-controller: 3.0.0
       debug: 4.3.4
       mri: 1.2.0
-      node-fetch: 2.6.11
+      node-fetch: 2.7.0
       p-timeout: 4.1.0
       safe-compare: 1.1.4
       sandwich-stream: 2.0.2
