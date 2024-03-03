@@ -12,8 +12,8 @@ dependencies:
     specifier: 16.4.5
     version: 16.4.5
   telegraf:
-    specifier: 4.16.2
-    version: 4.16.2
+    specifier: 4.16.3
+    version: 4.16.3
 
 devDependencies:
   '@types/jest':
@@ -3002,8 +3002,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /telegraf@4.16.2:
-    resolution: {integrity: sha512-d+/XMTBMW8DfQFhYkpyU2f58HMIPygkzClEE03c0LPoEKPGlY9da+9pOVSO7jq9Ar8RRT4OrfwW38sgF/o/x0w==}
+  /telegraf@4.16.3:
+    resolution: {integrity: sha512-yjEu2NwkHlXu0OARWoNhJlIjX09dRktiMQFsM678BAH/PEPVwctzL67+tvXqLCRQQvm3SDtki2saGO9hLlz68w==}
     engines: {node: ^12.20.0 || >=14.13.1}
     hasBin: true
     dependencies:
